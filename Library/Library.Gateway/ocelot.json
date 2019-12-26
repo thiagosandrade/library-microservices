@@ -1,0 +1,68 @@
+{
+  "ReRoutes": [
+    //AUTHORS
+    {
+      //Internal Redirect
+      "DownstreamPathTemplate": "/api/author",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44343
+        }
+      ],
+      //Ocelot Exposure EntryPoint
+      "UpstreamPathTemplate": "/Author/",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/author/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44343
+        }
+      ],
+      "UpstreamPathTemplate": "/Author/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    //BOOKS
+    {
+      "DownstreamPathTemplate": "/api/book",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44343
+        }
+      ],
+      "UpstreamPathTemplate": "/book/",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/book/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44343
+        }
+      ],
+      "UpstreamPathTemplate": "/book/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
+    }
+  ]
+}
