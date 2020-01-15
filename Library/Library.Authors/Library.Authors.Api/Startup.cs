@@ -1,5 +1,9 @@
+using Library.Authors.Business.Events;
+using Library.Authors.Business.Handlers;
 using Library.Authors.Database;
 using Library.Authors.Injection;
+using Library.Authors.Rabbit;
+using Library.Authors.Rabbit.RabbitMq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -42,10 +46,13 @@ namespace Library.Authors.Api
         {
             if (env.IsDevelopment())
             {
-                ProjectConfig.SeedInMemory(app);
+                InjectionConfig.SeedInMemory(app);
 
                 app.UseDeveloperExceptionPage();
             }
+
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<BookCreatedEvent, BookCreatedEventHandler>();
 
             app.UseHttpsRedirection();
 
@@ -71,14 +78,19 @@ namespace Library.Authors.Api
         private static void AddInjections(IServiceCollection services)
         {
             services.AddInjections();  
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
+            services.AddRabbit();
+
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library.Authors", Version = "v1" });
             });
 
-            services.AddCors(x => x.AddPolicy("MVRCors", y => y.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+            services.AddCors(x => x.AddPolicy("MVRCors", y => 
+                y.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin()));
         }
     }
 }

@@ -38,17 +38,15 @@ namespace Library.Gateway
 
             app.UseCors("CorsPolicy");
 
-            app.UseOcelot().Wait();
 
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
+
+            app.UseOcelot().Wait();
         }
     }
 }

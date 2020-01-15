@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Authors.Database", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Authors.Injection", "Library.Authors.Injection\Library.Authors.Injection.csproj", "{006680F1-7377-48D5-B185-F0FBDB8EE5D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Authors.Rabbit", "Library.Authors.Rabbit\Library.Authors.Rabbit.csproj", "{5389D34C-CEFF-445A-B34B-B3129C67D2F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{006680F1-7377-48D5-B185-F0FBDB8EE5D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{006680F1-7377-48D5-B185-F0FBDB8EE5D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{006680F1-7377-48D5-B185-F0FBDB8EE5D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5389D34C-CEFF-445A-B34B-B3129C67D2F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5389D34C-CEFF-445A-B34B-B3129C67D2F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5389D34C-CEFF-445A-B34B-B3129C67D2F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5389D34C-CEFF-445A-B34B-B3129C67D2F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{DF8DF971-2419-405D-B5DB-0AE80CD9A6AE} = {BDC7CDA2-6890-4645-AF1E-18E7708921C0}
 		{5C6F3796-97FC-4285-8802-B43B3C420B76} = {A3ADE242-01AB-4A30-8754-BD0AD3554B13}
 		{006680F1-7377-48D5-B185-F0FBDB8EE5D3} = {74F9A460-9F31-4CB5-BBF0-40D3257BE4FE}
+		{5389D34C-CEFF-445A-B34B-B3129C67D2F6} = {74F9A460-9F31-4CB5-BBF0-40D3257BE4FE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3C51EF3-7E57-4320-8474-55A068D3BAA7}

@@ -4,11 +4,11 @@
     {
       //Internal Redirect
       "DownstreamPathTemplate": "/api/author",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44343
+          "Host": "library-authors",
+          "Port": 59581
         }
       ],
       //Ocelot Exposure EntryPoint
@@ -20,11 +20,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/author/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44343
+          "Host": "library-authors",
+          "Port": 59581
         }
       ],
       "UpstreamPathTemplate": "/Author/{everything}",
@@ -36,11 +36,11 @@
     //BOOKS
     {
       "DownstreamPathTemplate": "/api/book",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44343
+          "Host": "library-books",
+          "Port": 59582
         }
       ],
       "UpstreamPathTemplate": "/book/",
@@ -51,11 +51,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/book/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44343
+          "Host": "library-books",
+          "Port": 59582
         }
       ],
       "UpstreamPathTemplate": "/book/{everything}",

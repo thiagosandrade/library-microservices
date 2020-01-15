@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Library.Authors.Database\Library.Authors.Database.csproj" />
     <ProjectReference Include="..\Library.Authors.Domain\Library.Authors.Domain.csproj" />
+    <ProjectReference Include="..\Library.Authors.Rabbit\Library.Authors.Rabbit.csproj" />
   </ItemGroup>
 
 </Project>

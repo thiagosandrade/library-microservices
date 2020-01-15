@@ -1,0 +1,67 @@
+version: '3.3'
+
+services:
+  library-gateway:
+    image: library-gateway
+    build:
+      context: Library.Gateway
+      dockerfile: Dockerfile
+    ports:
+      - "59580:59580"
+    expose:
+       - 59580
+    networks:
+      - library-network
+    depends_on:
+      - rabbitmq
+      - library-books
+      - library-authors
+      
+  library-books:
+    image: library-books
+    build:
+      context: Library.Books
+      dockerfile: Dockerfile
+    ports:
+      - "59582:59582"
+    expose:
+        - 59582
+    networks:
+      - library-network
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      
+  library-authors:
+    image: library-authors
+    build:
+      context: Library.Authors
+      dockerfile: Dockerfile
+    ports:
+      - "59581:59581"
+    expose:
+        - 59581
+    networks:
+      - library-network
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+   
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    volumes:
+        - ./.docker/rabbitmq/etc/:/etc/rabbitmq/mnesia
+        - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/mnesia
+        - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/mnesia
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+    expose:
+        - 5672
+        - 15672
+    networks:
+      - library-network
+  
+networks: 
+  library-network:
+    #driver: nat 
+    #network-mode: host 
