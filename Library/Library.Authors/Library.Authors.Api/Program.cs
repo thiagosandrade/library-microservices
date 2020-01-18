@@ -23,7 +23,8 @@ namespace Library.Authors.Api
         private static void ConfigConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder config)
         {
             config.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile($"config.{ctx.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                .AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{ctx.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
         }
     }
 }

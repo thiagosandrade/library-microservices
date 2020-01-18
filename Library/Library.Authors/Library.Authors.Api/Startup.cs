@@ -23,7 +23,7 @@ namespace Library.Authors.Api
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureDevelopmentServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(opt =>
                  opt.UseLazyLoadingProxies()
@@ -32,22 +32,13 @@ namespace Library.Authors.Api
             AddInjections(services);
         }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseLazyLoadingProxies()
-                       .UseSqlServer(Configuration.GetConnectionString("Context")));
-
-            AddInjections(services);
-        }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            InjectionConfig.SeedInMemory(app);
+
             if (env.IsDevelopment())
             {
-                InjectionConfig.SeedInMemory(app);
-
                 app.UseDeveloperExceptionPage();
             }
 

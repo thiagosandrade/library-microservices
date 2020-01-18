@@ -16,7 +16,7 @@ namespace Library.Gateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddOcelot().AddCacheManager(x => x.WithDictionaryHandle());
+            services.AddOcelot();
 
             services.AddCors(options =>
             {

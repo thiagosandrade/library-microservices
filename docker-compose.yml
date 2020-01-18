@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        container_name: rabbitmq
+        volumes:
+            - ./.docker/rabbitmq/etc/:/etc/rabbitmq/mnesia
+            - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/mnesia
+            - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/mnesia
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        expose:
+            - 5672
+            - 15672
+        networks:
+          - library-network
+
+networks: 
+    library-network:
+        name: library-network
+    

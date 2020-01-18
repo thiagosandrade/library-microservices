@@ -22,7 +22,7 @@ namespace Library.Authors.Rabbit.RabbitMq
         private readonly ILogger<EventBusRabbit> _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration;
-        private readonly IModel _channel;
+        private IModel _channel;
         private IConnection _connection;
 
         private const string Exchange = "exchange.author";
@@ -35,19 +35,19 @@ namespace Library.Authors.Rabbit.RabbitMq
             _logger = logger;
             _serviceProvider = serviceProvider;
             _configuration = configuration.GetSection("RabbitMqConfig");
-            _channel = CreateChannel();
+            CreateChannel();
         }
 
         public Task PublishMessage<T>(MessageEvent @event)
         {
             return Task.Run(() =>
             {
-                if (_channel.IsClosed)
+                if (_channel == null || _channel.IsClosed)
                     CreateChannel();
 
                 _channel.BasicPublish(
                     Exchange,
-                    Queue,
+                    RoutingKey,
                     null,
                     Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(@event)));
                 _logger.LogInformation("Published {0}", typeof(T).Name);
@@ -59,17 +59,12 @@ namespace Library.Authors.Rabbit.RabbitMq
             where T : MessageEvent
             where TH : IMessageEventHandler<T>
         {
+            _logger.LogInformation("Subscribing..{0}-{1}", typeof(T).Name, typeof(TH).Name);
+
             return Task.Run(() =>
             {
-                if (_channel.IsClosed)
-                    CreateChannel();
-
-                _channel.QueueBind(
-                    Queue,
-                    Exchange,
-                    RoutingKey, null);
-
-                _channel.BasicQos(0, 1, false);
+                if (_channel == null || _channel.IsClosed)
+                   CreateChannel();
 
                 var consumer = new AsyncEventingBasicConsumer(_channel);
                 consumer.Received += Consumer_Received<T,TH>;
@@ -78,21 +73,24 @@ namespace Library.Authors.Rabbit.RabbitMq
                 _logger.LogInformation("Subscribed {0}", typeof(T).Name);
 
             });
-
         }
 
-        private IModel CreateChannel()
+        private void CreateChannel()
         {
             if(_connection == null || !_connection.IsOpen)
                 _connection = GetConnectionFactory().CreateConnection();
 
-            var channel = _connection.CreateModel();
-            channel.ExchangeDeclare(Exchange, "topic");
-            channel.QueueDeclare(Queue, true, false, false, null);
-            
-            _logger.LogInformation("Channel created");
+            _channel = _connection.CreateModel();
+            _channel.ExchangeDeclare(Exchange, "topic");
+            _channel.QueueDeclare(Queue, false, false, false, null);
+            _channel.BasicQos(0, 1, false);
 
-            return channel;
+            _channel.QueueBind(
+                    Queue,
+                    Exchange,
+                    RoutingKey, null);
+
+            _logger.LogInformation("Channel created");
         }
 
         private ConnectionFactory GetConnectionFactory()

@@ -14,8 +14,12 @@
       //Ocelot Exposure EntryPoint
       "UpstreamPathTemplate": "/Author/",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
-      "FileCacheOptions": {
-        "TtlSeconds": 60
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 0,
+        "Limit": 999
       }
     },
     {
@@ -29,8 +33,12 @@
       ],
       "UpstreamPathTemplate": "/Author/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
-      "FileCacheOptions": {
-        "TtlSeconds": 60
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 0,
+        "Limit": 999
       }
     },
     //BOOKS
