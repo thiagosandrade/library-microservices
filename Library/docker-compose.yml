@@ -12,6 +12,8 @@ services:
             - "59580:59580"
         expose:
             - 59580
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Release"
         depends_on:
             - library-books
             - library-authors
@@ -27,7 +29,7 @@ services:
         expose:
             - 59582
         environment:
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Release"
       
     library-authors:
         image: library-authors
@@ -40,7 +42,7 @@ services:
         expose:
             - 59581
         environment:
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Release"
 
 networks: 
     default:
