@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Library.Authors.Rabbit.RabbitMq
+namespace Library.Hub.Rabbit.RabbitMq
 {
     public class EventBusRabbit : IEventBus
     {
@@ -26,7 +26,7 @@ namespace Library.Authors.Rabbit.RabbitMq
         private IConnection _connection;
 
         private const string Exchange = "exchange.library";
-        private const string Queue = "queue.author";
+        private const string Queue = "queue.hub";
         private const string RoutingKey = "*.author";
 
         public EventBusRabbit(ILogger<EventBusRabbit> logger, IServiceProvider serviceProvider,

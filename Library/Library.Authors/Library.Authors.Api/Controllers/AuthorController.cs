@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Library.Authors.Api.Dto;
+using Library.Authors.Business.CQRS.Contracts.Commands;
 using Library.Authors.Business.CQRS.Contracts.Queries;
-using Library.Authors.Business.Events;
-using Library.Authors.Rabbit.RabbitMq;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,13 +13,11 @@ namespace Library.Authors.Api.Controllers
     {
         private readonly ILogger<AuthorController> _logger;
         private readonly IMediator _mediator;
-        private readonly IEventBus _eventBus;
 
-        public AuthorController(ILogger<AuthorController> logger, IMediator mediator, IEventBus eventBus)
+        public AuthorController(ILogger<AuthorController> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;
-            _eventBus = eventBus;
         }
 
         [HttpGet("{id}")]
@@ -42,12 +38,11 @@ namespace Library.Authors.Api.Controllers
         }
 
         [HttpPost]
-        public async Task Post([FromBody] BookCreated book)
+        public async Task Post([FromBody] CreateAuthorCommand command)
         {
-            _logger.LogInformation("Message received");
-            var @event = new BookCreatedEvent(book.Name, book.Pages);
+            _logger.LogInformation("Command received: {0}", command);
 
-            await _eventBus.PublishMessage<BookCreatedEvent>(@event);
+            await _mediator.Send(command);
         }
     }
 }

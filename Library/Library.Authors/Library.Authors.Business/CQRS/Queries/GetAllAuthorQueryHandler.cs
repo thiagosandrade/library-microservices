@@ -10,16 +10,14 @@ namespace Library.Authors.Business.CQRS.Queries
 {
     public class GetAllAuthorQueryHandler : BaseHandler, IRequestHandler<GetAllAuthorQuery, GetAllAuthorQueryResult>
     {
-        private readonly IGenericRepository<Author> _authorRepository;
 
-        public GetAllAuthorQueryHandler(IMapper mapper, IGenericRepository<Author> authorRepository) : base(mapper)
+        public GetAllAuthorQueryHandler(IMapper mapper, IGenericRepository<Author> authorRepository) : base(mapper, authorRepository)
         {
-            _authorRepository = authorRepository;
         }
 
         public async Task<GetAllAuthorQueryResult> Handle(GetAllAuthorQuery request, CancellationToken cancellationToken)
         {
-            var result = await _authorRepository.GetAll();
+            var result = await AuthorRepository.GetAll();
 
             return Mapper.Map<GetAllAuthorQueryResult>(result);
         }

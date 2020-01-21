@@ -38,22 +38,8 @@ namespace Library.Authors.Database
             );
 
             modelBuilder.Entity<Author>().HasData(
-                new Author
-                {
-                    Id = 1,
-                    Name = "Jack",
-                    Surname = "Daniels",
-                    PlaceOfBirthId = 1,
-                    Birth = new DateTime(1953, 10,20)
-                },
-                new Author
-                {
-                    Id = 2,
-                    Name = "Old",
-                    Surname = "Parr",
-                    PlaceOfBirthId = 2,
-                    Birth = new DateTime(1962, 4, 12)
-                }
+                new Author(1, "Jack", "Daniels", new DateTime(1953, 10, 20), 1),
+                new Author(2, "Jack", "Daniels", new DateTime(1962, 4, 12), 2)
             );
         }
     }

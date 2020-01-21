@@ -2,19 +2,25 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Library.Authors.Business.CQRS.Contracts.Commands;
+using Library.Authors.Database.Interfaces;
+using Library.Authors.Domain.Models;
 using MediatR;
 
 namespace Library.Authors.Business.CQRS.Commands
 {
-    public class UpdateAuthorCommandHandler : BaseHandler, IRequestHandler<UpdateAuthorCommand, Task>
+    public class UpdateAuthorCommandHandler : BaseHandler, IRequestHandler<UpdateAuthorCommand>
     {
-        public UpdateAuthorCommandHandler(IMapper mapper) : base(mapper)
+        public UpdateAuthorCommandHandler(IMapper mapper, IGenericRepository<Author> authorRepository) : base(mapper, authorRepository)
         {
         }
 
-        public Task<Task> Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            Author author = new Author(request.AuthorId, request.Name, request.Surname, request.Birth, request.PlaceOfBirthId);
+
+            await AuthorRepository.Update(request.AuthorId, author);
+
+            return await Task.FromResult(Unit.Value);
         }
     }
 }

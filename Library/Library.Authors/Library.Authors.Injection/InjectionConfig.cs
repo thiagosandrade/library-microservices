@@ -18,6 +18,7 @@ namespace Library.Authors.Injection
         {
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient(typeof(IMessageEventHandler<BookCreatedEvent>), typeof(BookCreatedEventHandler));
+            services.AddTransient(typeof(IMessageEventHandler<AuthorCreatedEvent>), typeof(AuthorCreatedEventHandler));
 
 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);

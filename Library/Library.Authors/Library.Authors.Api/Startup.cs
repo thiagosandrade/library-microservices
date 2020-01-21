@@ -44,6 +44,7 @@ namespace Library.Authors.Api
 
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe<BookCreatedEvent, BookCreatedEventHandler>();
+            eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
 
             app.UseHttpsRedirection();
 

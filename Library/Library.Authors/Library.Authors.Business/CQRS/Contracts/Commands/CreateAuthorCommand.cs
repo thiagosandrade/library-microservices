@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Threading.Tasks;
-using MediatR;
 
 namespace Library.Authors.Business.CQRS.Contracts.Commands
 {
-    public class UpdateAuthorCommand : IRequest
+    public class CreateAuthorCommand : IRequest
     {
         public int AuthorId { get; set; }
         public string Name { get; set; }

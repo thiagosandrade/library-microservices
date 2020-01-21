@@ -15,9 +15,23 @@ services:
         environment:
             ASPNETCORE_ENVIRONMENT: "Release"
         depends_on:
+            - library-hub
             - library-books
             - library-authors
     
+    library-authors:
+        image: library-authors
+        container_name: library-authors
+        build:
+            context: Library.Authors
+            dockerfile: Dockerfile
+        ports:
+            - "59581:59581"
+        expose:
+            - 59581
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Release"
+            
     library-books:
         image: library-books
         container_name: library-books
@@ -30,17 +44,17 @@ services:
             - 59582
         environment:
             ASPNETCORE_ENVIRONMENT: "Release"
-      
-    library-authors:
-        image: library-authors
-        container_name: library-authors
+            
+    library-hub:
+        image: library-hub
+        container_name: library-hub
         build:
-            context: Library.Authors
+            context: Library.hub
             dockerfile: Dockerfile
         ports:
-            - "59581:59581"
+            - "59583:59583"
         expose:
-            - 59581
+            - 59583
         environment:
             ASPNETCORE_ENVIRONMENT: "Release"
 
