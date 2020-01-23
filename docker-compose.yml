@@ -5,9 +5,9 @@ services:
         image: rabbitmq:3-management-alpine
         container_name: rabbitmq
         volumes:
-            - ./.docker/rabbitmq/etc/:/etc/rabbitmq/mnesia
-            - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/mnesia
-            - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/mnesia
+            - ./.docker/rabbitmq/etc/:/etc/rabbitmq/mnesiab
+            - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/mnesiab
+            - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/mnesiab
         ports:
             - "5672:5672"
             - "15672:15672"

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Library.Authors.Business.Events;
-using Library.Hub.Rabbit.RabbitMq;
+using Library.Hub.Rabbit.Events;
 using Microsoft.Extensions.Logging;
 
 namespace Library.Authors.Business.Handlers
@@ -19,7 +19,7 @@ namespace Library.Authors.Business.Handlers
             _logger.LogInformation("AuthorCreatedEventHandler {0}", @event);
             return Task.Run(() =>
             {
-                _logger.LogInformation($"EventId: {@event.Id} - EventName: {@event.Author}");
+                _logger.LogInformation($"EventMessage: {@event.Message}");
             });
         }
     }

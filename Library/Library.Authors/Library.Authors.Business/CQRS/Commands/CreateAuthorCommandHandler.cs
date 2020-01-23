@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Library.Authors.Business.CQRS.Contracts.Commands;
@@ -27,7 +26,7 @@ namespace Library.Authors.Business.CQRS.Commands
 
             await AuthorRepository.Create(author);
 
-            var @event = new AuthorCreatedEvent(author, DateTime.Now);
+            var @event = new AuthorCreatedEvent(author);
 
             await _eventBus.PublishMessage<AuthorCreatedEvent>(@event);
 

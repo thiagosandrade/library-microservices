@@ -1,8 +1,9 @@
-﻿using Library.Hub.Rabbit.RabbitMq;
+﻿using System.Threading.Tasks;
+using Library.Hub.Events;
+using Library.Hub.Rabbit.Events;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
-namespace Library.Hub.Events
+namespace Library.Hub.Handlers
 {
     public class BookCreatedEventHandler : IMessageEventHandler<BookCreatedEvent>
     {
@@ -18,7 +19,7 @@ namespace Library.Hub.Events
             _logger.LogInformation("BookCreatedEventHandler {0}", @event);
             return Task.Run(() =>
             {
-                _logger.LogInformation($"EventId: {@event.Id} - EventName: {@event.Name}");
+                _logger.LogInformation($"EventMessage: {@event.Message}");
             });
         }
     }

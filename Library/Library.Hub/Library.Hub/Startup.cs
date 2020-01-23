@@ -1,5 +1,6 @@
 using Library.Hub.Controllers;
 using Library.Hub.Events;
+using Library.Hub.Handlers;
 using Library.Hub.Rabbit;
 using Library.Hub.Rabbit.RabbitMq;
 using Microsoft.AspNetCore.Builder;
@@ -37,13 +38,11 @@ namespace Library.Hub
             });
         }
 
-        private IApplicationBuilder AddRabbitSubscribers(IApplicationBuilder app)
+        private void AddRabbitSubscribers(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe<BookCreatedEvent, BookCreatedEventHandler>();
             eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
-
-            return app;
         }
     }
 }

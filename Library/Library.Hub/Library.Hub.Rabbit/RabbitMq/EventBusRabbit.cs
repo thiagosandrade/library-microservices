@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Library.Hub.Rabbit.Events;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,9 +27,9 @@ namespace Library.Hub.Rabbit.RabbitMq
         private IModel _channel;
         private IConnection _connection;
 
-        private readonly string Exchange;
-        private readonly string Queue;
-        private readonly string RoutingKey;
+        private readonly string _exchange;
+        private readonly string _queue;
+        private readonly string _routingKey;
 
         public EventBusRabbit(ILogger<EventBusRabbit> logger, IServiceProvider serviceProvider,
             IConfiguration configuration)
@@ -37,31 +38,33 @@ namespace Library.Hub.Rabbit.RabbitMq
             _serviceProvider = serviceProvider;
             _configuration = configuration.GetSection("RabbitMqConfig");
             
-            Exchange = _configuration.GetValue<string>("Exchange").ToString();
-            Queue = _configuration.GetValue<string>("Queue").ToString();
-            RoutingKey = _configuration.GetValue<string>("RoutingKey").ToString();
+            _exchange = _configuration.GetValue<string>("Exchange");
+            _queue = _configuration.GetValue<string>("Queue");
+            _routingKey = _configuration.GetValue<string>("RoutingKey");
             CreateChannel();
         }
 
-        public Task PublishMessage<T>(MessageEvent @event)
+        public Task PublishMessage<T>(IMessageEvent @event)
         {
             return Task.Run(() =>
             {
                 if (_channel == null || _channel.IsClosed)
                     CreateChannel();
 
+                var encapsulatedEvent = new MessageEvent(@event);
+
                 _channel.BasicPublish(
-                    Exchange,
-                    RoutingKey,
+                    _exchange,
+                    _routingKey,
                     null,
-                    Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(@event)));
+                    Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(encapsulatedEvent)));
                 _logger.LogInformation("Published {0}", typeof(T).Name);
 
             });
         }
 
         public Task Subscribe<T,TH>()
-            where T : MessageEvent
+            where T : IMessageEvent, new()
             where TH : IMessageEventHandler<T>
         {
             _logger.LogInformation("Subscribing..{0}-{1}", typeof(T).Name, typeof(TH).Name);
@@ -74,7 +77,7 @@ namespace Library.Hub.Rabbit.RabbitMq
                 var consumer = new AsyncEventingBasicConsumer(_channel);
                 consumer.Received += Consumer_Received<T,TH>;
 
-                _channel.BasicConsume(Queue, false, consumer);
+                _channel.BasicConsume(_queue, false, consumer);
 
                 Activator.CreateInstance<ServiceCollection>()
                     .AddTransient(typeof(IMessageEventHandler<T>), typeof(TH));
@@ -89,14 +92,14 @@ namespace Library.Hub.Rabbit.RabbitMq
                 _connection = GetConnectionFactory().CreateConnection();
 
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(Exchange, "topic");
-            _channel.QueueDeclare(Queue, false, false, false, null);
+            _channel.ExchangeDeclare(_exchange, "topic");
+            _channel.QueueDeclare(_queue, false, false, false, null);
             _channel.BasicQos(0, 1, false);
 
             _channel.QueueBind(
-                    Queue,
-                    Exchange,
-                    RoutingKey, null);
+                    _queue,
+                    _exchange,
+                    _routingKey, null);
 
             _logger.LogInformation("Channel created");
         }
@@ -115,7 +118,7 @@ namespace Library.Hub.Rabbit.RabbitMq
         }
 
         private Task Consumer_Received<T,TH>(object sender, BasicDeliverEventArgs eventArgs) 
-            where T : MessageEvent
+            where T : IMessageEvent, new()
             where TH : IMessageEventHandler<T>
         {
             return Task.Run(async () =>
@@ -125,14 +128,32 @@ namespace Library.Hub.Rabbit.RabbitMq
                 var message = Encoding.UTF8.GetString(eventArgs.Body);
                 _logger.LogInformation("Consumer Received {0}", message);
 
-                var eventMessage = JsonConvert.DeserializeObject<T>(message);
+                var encapsulatedMessage = JsonConvert.DeserializeObject<MessageEvent>(message);
 
-                var type = ((Type[])((TypeInfo)typeof(TH)).ImplementedInterfaces)
-                            .Where(x => x.Name.Contains(nameof(TH))).FirstOrDefault();
+                if(typeof(TH).GetInterfaces().Any(x => x.IsGenericType &&
+                                                       x.GetGenericTypeDefinition() == typeof(IMessageEventHandler<>)))
+                {
+                    var eventMessage = new T
+                    {
+                        Message = encapsulatedMessage.Message
+                    };
 
-                var handler = (TH)_serviceProvider.GetService(type);
+                    // determine type here
+                    var type = typeof(TH);
 
-                await handler.Handle(eventMessage);
+                    var logger = _serviceProvider.GetRequiredService<ILogger<TH>>();
+                    
+                    // create an object of the type
+                    var handler = (TH)Activator.CreateInstance(type, logger);
+
+                    await handler.Handle(eventMessage);
+                }
+                else
+                {
+                    var handler = (IMessageEventHandler<MessageEvent>)_serviceProvider.GetService(typeof(IMessageEventHandler<MessageEvent>));
+                    await handler.Handle(encapsulatedMessage);
+                }
+
 
                 await Task.Yield();
             });

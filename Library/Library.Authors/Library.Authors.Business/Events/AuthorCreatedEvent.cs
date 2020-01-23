@@ -1,19 +1,15 @@
-﻿using Library.Authors.Domain.Models;
-using Library.Hub.Rabbit.RabbitMq;
-using MediatR;
-using System;
+﻿using MediatR;
+using Library.Hub.Rabbit.Events;
 
 namespace Library.Authors.Business.Events
 {
-    public class AuthorCreatedEvent : MessageEvent, IRequest<Unit>
+    public class AuthorCreatedEvent : IMessageEvent, IRequest<Unit>
     {
-        public Author Author { get; set; }
-        public DateTime MessageDate { get; set; }
+        public dynamic Message { get; set; }
 
-        public AuthorCreatedEvent(Author author, DateTime messageDate)
+        public AuthorCreatedEvent(dynamic message)
         {
-            Author = author;
-            MessageDate = messageDate;
+            Message = message;
         }
     }
 }

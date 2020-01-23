@@ -1,17 +1,15 @@
-﻿using Library.Hub.Rabbit.RabbitMq;
+﻿using Library.Hub.Rabbit.Events;
 using MediatR;
 
 namespace Library.Authors.Business.Events
 {
-    public class BookCreatedEvent : MessageEvent, IRequest<Unit>
+    public class BookCreatedEvent : IMessageEvent, IRequest<Unit>
     {
-        public string Name { get; }
-        public int Pages { get; }
+        public dynamic Message { get; set; }
 
-        public BookCreatedEvent(string name, int pages)
+        public BookCreatedEvent(dynamic message)
         {
-            Name = name;
-            Pages = pages;
+            Message = message;
         }
     }
 }
