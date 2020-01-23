@@ -20,17 +20,20 @@ namespace Library.Authors.Database
 
         private static void Seed(ModelBuilder modelBuilder)
         {
+            Guid first = Guid.NewGuid();
+            Guid second = Guid.NewGuid();
+
             modelBuilder.Entity<PlaceOfBirth>().HasData(
                 new PlaceOfBirth()
                 {
-                    Id = 1,
+                    Id = first,
                     City = "São Paulo",
                     State = "São Paulo",
                     Country = "Brazil",
                 },
                 new PlaceOfBirth()
                 {
-                    Id = 2,
+                    Id = second,
                     City = "Brasilia",
                     State = "Federal District",
                     Country = "Brazil",
@@ -38,8 +41,8 @@ namespace Library.Authors.Database
             );
 
             modelBuilder.Entity<Author>().HasData(
-                new Author(1, "Jack", "Daniels", new DateTime(1953, 10, 20), 1),
-                new Author(2, "Jack", "Daniels", new DateTime(1962, 4, 12), 2)
+                new Author("Jack", "Daniels", new DateTime(1953, 10, 20), first),
+                new Author("Jack", "Daniels", new DateTime(1962, 4, 12), second)
             );
         }
     }

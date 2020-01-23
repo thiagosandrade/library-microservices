@@ -10,16 +10,13 @@ namespace Library.Books.Business.CQRS.Queries
 {
     public class GetAllBookQueryHandler : BaseHandler, IRequestHandler<GetAllBookQuery, GetAllBookQueryResult>
     {
-        private readonly IGenericRepository<Book> _bookRepository;
-
-        public GetAllBookQueryHandler(IMapper mapper, IGenericRepository<Book> bookRepository) : base(mapper)
+        public GetAllBookQueryHandler(IMapper mapper, IGenericRepository<Book> bookRepository) : base(mapper, bookRepository)
         {
-            _bookRepository = bookRepository;
         }
 
         public async Task<GetAllBookQueryResult> Handle(GetAllBookQuery request, CancellationToken cancellationToken)
         {
-            var result = await _bookRepository.GetAll();
+            var result = await BookRepository.GetAll();
 
             return Mapper.Map<GetAllBookQueryResult>(result);
         }

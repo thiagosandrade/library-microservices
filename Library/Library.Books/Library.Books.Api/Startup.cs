@@ -75,7 +75,7 @@ namespace Library.Books.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library.Authors", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library.Books", Version = "v1" });
             });
 
             services.AddCors(x => x.AddPolicy("MVRCors", y => y.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));

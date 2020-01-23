@@ -4,11 +4,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
+using System;
+
 namespace Library.Books.Business.CQRS.Contracts.Queries
 {
     public class GetCategoryResult
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 }

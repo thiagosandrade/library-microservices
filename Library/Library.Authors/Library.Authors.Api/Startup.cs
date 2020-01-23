@@ -2,8 +2,7 @@ using Library.Authors.Business.Events;
 using Library.Authors.Business.Handlers;
 using Library.Authors.Database;
 using Library.Authors.Injection;
-using Library.Authors.Rabbit;
-using Library.Authors.Rabbit.RabbitMq;
+using Library.Hub.Rabbit.RabbitMq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -71,8 +70,6 @@ namespace Library.Authors.Api
         {
             services.AddInjections();  
             services.AddControllers().AddNewtonsoftJson();
-            services.AddRabbit();
-
 
             services.AddSwaggerGen(c =>
             {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Library.Books.Database.Interfaces;
 using Library.Books.Domain.Models;
@@ -19,7 +20,7 @@ namespace Library.Books.Database
             return await _context.Set<TEntity>().ToListAsync();
         }
 
-        public async Task<TEntity> GetById(int id)
+        public async Task<TEntity> GetById(Guid id)
         {
             return await _context.Set<TEntity>()
                 .FirstOrDefaultAsync(e => e.Id == id);
@@ -34,7 +35,7 @@ namespace Library.Books.Database
             });
         }
 
-        public async Task Update(int id, TEntity entity)
+        public async Task Update(Guid id, TEntity entity)
         {
             await Task.Run(async () =>
             {
@@ -44,7 +45,7 @@ namespace Library.Books.Database
             });
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(Guid id)
         {
             await Task.Run(async () =>
             {
@@ -53,7 +54,6 @@ namespace Library.Books.Database
 
                 await _context.SaveChangesAsync();
             });
-
         }
     }
 }

@@ -6,6 +6,7 @@
 
 using Library.Books.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Library.Books.Database
 {
@@ -26,34 +27,25 @@ namespace Library.Books.Database
 
         private static void Seed(ModelBuilder modelBuilder)
         {
+            Guid first = Guid.NewGuid();
+            Guid second = Guid.NewGuid();
+
             modelBuilder.Entity<Category>().HasData(
                 new Category
                 {
-                    Id = 1,
+                    Id = first,
                     Name = "History"
                 },
                 new Category
                 {
-                    Id = 2,
+                    Id = second,
                     Name = "Geography"
                 }
             );
 
             modelBuilder.Entity<Book>().HasData(
-                new Book
-                {
-                    Id = 1,
-                    Name = "History of Test",
-                    NumberOfPages = 152,
-                    CategoryId = 1
-                },
-                new Book
-                {
-                    Id = 2,
-                    Name = "Geography of Development",
-                    NumberOfPages = 233,
-                    CategoryId = 2
-                }
+                new Book("History of Test", 152, first),
+                new Book("Geography of Development", 233, second)
             );
         }
     }

@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using System;
 
 namespace Library.Authors.Business.CQRS.Contracts.Queries
 {
     public class GetAuthorQuery : IRequest<GetAuthorQueryResult>
     {
-        public int AuthorId { get; set; }
+        public Guid AuthorId { get; set; }
     }
 }

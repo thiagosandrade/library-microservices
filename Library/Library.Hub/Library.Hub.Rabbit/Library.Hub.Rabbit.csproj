@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,4 +17,8 @@
     <Reference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageVersion>1.0.1-alpha</PackageVersion>
+  </PropertyGroup>
+  
 </Project>

@@ -16,7 +16,7 @@ namespace Library.Authors.Business.CQRS.Commands
 
         public async Task<Unit> Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
         {
-            Author author = new Author(request.AuthorId, request.Name, request.Surname, request.Birth, request.PlaceOfBirthId);
+            Author author = new Author(request.Name, request.Surname, request.Birth, request.PlaceOfBirthId, request.AuthorId);
 
             await AuthorRepository.Update(request.AuthorId, author);
 

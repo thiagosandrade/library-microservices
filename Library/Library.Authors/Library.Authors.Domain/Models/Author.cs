@@ -8,12 +8,17 @@ namespace Library.Authors.Domain.Models
         public string Surname { get; private set; }
         public DateTime Birth { get; private set; }
         public int Age => DateTime.Now.Year - Birth.Year;
-        public int PlaceOfBirthId { get; private set; }
+        public Guid PlaceOfBirthId { get; private set; }
         public virtual PlaceOfBirth PlaceOfBirth { get; private set; }
 
-        public Author(int id, string name, string surname, DateTime birth, int placeOfBirthId)
+        protected Author()
         {
-            Id = id;
+
+        }
+
+        public Author(string name, string surname, DateTime birth, Guid placeOfBirthId, Guid? id = null)
+        {
+            Id = id ?? Guid.NewGuid();
             Name = name;
             Surname = surname;
             Birth = birth;

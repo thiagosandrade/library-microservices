@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -21,13 +22,13 @@ namespace Library.Hub.Rabbit.RabbitMq
     {
         private readonly ILogger<EventBusRabbit> _logger;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IConfiguration _configuration;
+        private static IConfiguration _configuration;
         private IModel _channel;
         private IConnection _connection;
 
-        private const string Exchange = "exchange.library";
-        private const string Queue = "queue.hub";
-        private const string RoutingKey = "*.author";
+        private readonly string Exchange;
+        private readonly string Queue;
+        private readonly string RoutingKey;
 
         public EventBusRabbit(ILogger<EventBusRabbit> logger, IServiceProvider serviceProvider,
             IConfiguration configuration)
@@ -35,6 +36,10 @@ namespace Library.Hub.Rabbit.RabbitMq
             _logger = logger;
             _serviceProvider = serviceProvider;
             _configuration = configuration.GetSection("RabbitMqConfig");
+            
+            Exchange = _configuration.GetValue<string>("Exchange").ToString();
+            Queue = _configuration.GetValue<string>("Queue").ToString();
+            RoutingKey = _configuration.GetValue<string>("RoutingKey").ToString();
             CreateChannel();
         }
 
@@ -70,8 +75,11 @@ namespace Library.Hub.Rabbit.RabbitMq
                 consumer.Received += Consumer_Received<T,TH>;
 
                 _channel.BasicConsume(Queue, false, consumer);
-                _logger.LogInformation("Subscribed {0}", typeof(T).Name);
 
+                Activator.CreateInstance<ServiceCollection>()
+                    .AddTransient(typeof(IMessageEventHandler<T>), typeof(TH));
+
+                _logger.LogInformation("Subscribed {0}", typeof(T).Name);
             });
         }
 
@@ -93,7 +101,7 @@ namespace Library.Hub.Rabbit.RabbitMq
             _logger.LogInformation("Channel created");
         }
 
-        private ConnectionFactory GetConnectionFactory()
+        private static ConnectionFactory GetConnectionFactory()
         {
             var connectionFactory = new ConnectionFactory
             {
@@ -119,7 +127,8 @@ namespace Library.Hub.Rabbit.RabbitMq
 
                 var eventMessage = JsonConvert.DeserializeObject<T>(message);
 
-                var type = ((Type[])((TypeInfo)typeof(TH)).ImplementedInterfaces).First();
+                var type = ((Type[])((TypeInfo)typeof(TH)).ImplementedInterfaces)
+                            .Where(x => x.Name.Contains(nameof(TH))).FirstOrDefault();
 
                 var handler = (TH)_serviceProvider.GetService(type);
 

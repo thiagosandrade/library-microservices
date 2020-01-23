@@ -6,7 +6,7 @@ using Library.Authors.Business.CQRS.Contracts.Commands;
 using Library.Authors.Business.Events;
 using Library.Authors.Database.Interfaces;
 using Library.Authors.Domain.Models;
-using Library.Authors.Rabbit.RabbitMq;
+using Library.Hub.Rabbit.RabbitMq;
 using MediatR;
 
 namespace Library.Authors.Business.CQRS.Commands
@@ -23,8 +23,7 @@ namespace Library.Authors.Business.CQRS.Commands
 
         public async Task<Unit> Handle(CreateAuthorCommand request, CancellationToken cancellationToken)
         {
-            
-            Author author = new Author(request.AuthorId, request.Name, request.Surname, request.Birth, request.PlaceOfBirthId);
+            Author author = new Author(request.Name, request.Surname, request.Birth, request.PlaceOfBirthId);
 
             await AuthorRepository.Create(author);
 

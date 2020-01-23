@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Library.Authors.Domain.Models
@@ -5,6 +6,6 @@ namespace Library.Authors.Domain.Models
     public class Entity
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

@@ -14,6 +14,5 @@ namespace Library.Authors.Business.CQRS
             Mapper = mapper;
             AuthorRepository = authorRepository;
         }
-
     }
 }

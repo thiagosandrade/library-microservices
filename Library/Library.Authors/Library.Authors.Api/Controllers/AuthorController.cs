@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Library.Authors.Business.CQRS.Contracts.Commands;
 using Library.Authors.Business.CQRS.Contracts.Queries;
 using MediatR;
@@ -21,7 +22,7 @@ namespace Library.Authors.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<GetAuthorQueryResult> Get(int id)
+        public async Task<GetAuthorQueryResult> Get(Guid id)
         {
             var query = new GetAuthorQuery()
             {

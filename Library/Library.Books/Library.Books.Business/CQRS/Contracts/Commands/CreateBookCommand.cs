@@ -1,15 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using Library.Books.Business.CQRS.Contracts.Queries;
 using MediatR;
 
 namespace Library.Books.Business.CQRS.Contracts.Commands
 {
-    public class SetBookCommand : IRequest<Task>
+    public class CreateBookCommand : IRequest<Unit>
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int NumberOfPages { get; set; }
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public virtual GetCategoryResult Category { get; set; }
     }
 }

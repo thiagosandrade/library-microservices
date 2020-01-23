@@ -6,13 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="5.1.1" />
+    <PackageReference Include="Library.Hub.Rabbit" Version="1.0.1-alpha" />
     <PackageReference Include="MediatR" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Library.Authors.Database\Library.Authors.Database.csproj" />
     <ProjectReference Include="..\Library.Authors.Domain\Library.Authors.Domain.csproj" />
-    <ProjectReference Include="..\Library.Authors.Rabbit\Library.Authors.Rabbit.csproj" />
   </ItemGroup>
 
 </Project>

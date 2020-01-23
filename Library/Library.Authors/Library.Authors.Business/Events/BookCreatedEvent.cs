@@ -1,4 +1,4 @@
-﻿using Library.Authors.Rabbit.RabbitMq;
+﻿using Library.Hub.Rabbit.RabbitMq;
 using MediatR;
 
 namespace Library.Authors.Business.Events

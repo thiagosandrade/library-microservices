@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Library.Books.Business.CQRS.Contracts.Commands;
 using Library.Books.Business.CQRS.Contracts.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +22,7 @@ namespace Library.Books.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<GetBookQueryResult> Get(int id)
+        public async Task<GetBookQueryResult> Get(Guid id)
         {
             var query = new GetBookQuery()
             {
@@ -34,6 +36,14 @@ namespace Library.Books.Api.Controllers
         public async Task<GetAllBookQueryResult> Get()
         {
             return await _mediator.Send(new GetAllBookQuery());
+        }
+
+        [HttpPost]
+        public async Task Post([FromBody] CreateBookCommand command)
+        {
+            _logger.LogInformation("Command received: {0}", command);
+
+            await _mediator.Send(command);
         }
     }
 }

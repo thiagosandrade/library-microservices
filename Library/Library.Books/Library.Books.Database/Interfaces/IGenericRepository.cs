@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Library.Books.Database.Interfaces
@@ -7,12 +8,12 @@ namespace Library.Books.Database.Interfaces
     {
         Task<List<TEntity>> GetAll();
 
-        Task<TEntity> GetById(int id);
+        Task<TEntity> GetById(Guid id);
 
         Task Create(TEntity entity);
 
-        Task Update(int id, TEntity entity);
+        Task Update(Guid id, TEntity entity);
 
-        Task Delete(int id);
+        Task Delete(Guid id);
     }
 }

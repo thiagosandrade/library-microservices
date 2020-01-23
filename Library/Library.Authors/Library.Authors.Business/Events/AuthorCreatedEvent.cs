@@ -1,5 +1,5 @@
 ﻿using Library.Authors.Domain.Models;
-using Library.Authors.Rabbit.RabbitMq;
+using Library.Hub.Rabbit.RabbitMq;
 using MediatR;
 using System;
 

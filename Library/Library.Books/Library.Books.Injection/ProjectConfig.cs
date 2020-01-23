@@ -3,6 +3,7 @@ using Library.Books.Business.Automapper;
 using Library.Books.Business.CQRS;
 using Library.Books.Database;
 using Library.Books.Database.Interfaces;
+using Library.Hub.Rabbit;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ namespace Library.Books.Injection
         {
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+            services.AddRabbit();
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddMediatR(typeof(BaseHandler).Assembly);
         }
