@@ -1,15 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------
-// <copyright file="EventBusRabbit.cs" company="NoTie S.à r.l.">
-//     This file is property of NoTie S.à r.l. All right reserved.
-// </copyright>
-// ---------------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Library.Hub.Rabbit.Events;
+using Library.Hub.Rabbit.Events.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,7 +23,6 @@ namespace Library.Hub.Rabbit.RabbitMq
 
         private readonly string _exchange;
         private readonly string _queue;
-        private readonly string _routingKey;
 
         public EventBusRabbit(ILogger<EventBusRabbit> logger, IServiceProvider serviceProvider,
             IConfiguration configuration)
@@ -40,7 +33,6 @@ namespace Library.Hub.Rabbit.RabbitMq
             
             _exchange = _configuration.GetValue<string>("Exchange");
             _queue = _configuration.GetValue<string>("Queue");
-            _routingKey = _configuration.GetValue<string>("RoutingKey");
             CreateChannel();
         }
 
@@ -55,7 +47,7 @@ namespace Library.Hub.Rabbit.RabbitMq
 
                 _channel.BasicPublish(
                     _exchange,
-                    _routingKey,
+                    $"{typeof(T).Name.ToLower()}",
                     null,
                     Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(encapsulatedEvent)));
                 _logger.LogInformation("Published {0}", typeof(T).Name);
@@ -74,10 +66,7 @@ namespace Library.Hub.Rabbit.RabbitMq
                 if (_channel == null || _channel.IsClosed)
                    CreateChannel();
 
-                var consumer = new AsyncEventingBasicConsumer(_channel);
-                consumer.Received += Consumer_Received<T,TH>;
-
-                _channel.BasicConsume(_queue, false, consumer);
+                CreateQueue<T, TH>();
 
                 Activator.CreateInstance<ServiceCollection>()
                     .AddTransient(typeof(IMessageEventHandler<T>), typeof(TH));
@@ -93,15 +82,32 @@ namespace Library.Hub.Rabbit.RabbitMq
 
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(_exchange, "topic");
-            _channel.QueueDeclare(_queue, false, false, false, null);
             _channel.BasicQos(0, 1, false);
 
-            _channel.QueueBind(
-                    _queue,
-                    _exchange,
-                    _routingKey, null);
-
             _logger.LogInformation("Channel created");
+        }
+
+        private void CreateQueue<T, TH>()
+            where T : IMessageEvent, new()
+            where TH : IMessageEventHandler<T>
+        {
+            var key = typeof(T).Name.Equals("MessageEvent") ? "*" : typeof(T).Name.ToLower();
+            
+            var typeQueue = $"{_queue}-{typeof(T).Name}";
+            
+            _channel.QueueDeclare(typeQueue, false, false, false, null);
+            _channel.QueueBind(
+                typeQueue,
+                _exchange,
+                key, 
+                null);
+
+
+            var consumer = new AsyncEventingBasicConsumer(_channel);
+            consumer.Received += Consumer_Received<T, TH>;
+
+            _channel.BasicConsume(typeQueue, false, consumer);
+
         }
 
         private static ConnectionFactory GetConnectionFactory()
@@ -130,33 +136,43 @@ namespace Library.Hub.Rabbit.RabbitMq
 
                 var encapsulatedMessage = JsonConvert.DeserializeObject<MessageEvent>(message);
 
-                if(typeof(TH).GetInterfaces().Any(x => x.IsGenericType &&
-                                                       x.GetGenericTypeDefinition() == typeof(IMessageEventHandler<>)))
+
+                if (ExistsMessageHandlerImplementation<T, TH>())
                 {
                     var eventMessage = new T
                     {
                         Message = encapsulatedMessage.Message
                     };
 
-                    // determine type here
-                    var type = typeof(TH);
-
                     var logger = _serviceProvider.GetRequiredService<ILogger<TH>>();
                     
                     // create an object of the type
-                    var handler = (TH)Activator.CreateInstance(type, logger);
+                    var handler = (TH)Activator.CreateInstance(typeof(TH), logger);
 
                     await handler.Handle(eventMessage);
                 }
                 else
                 {
-                    var handler = (IMessageEventHandler<MessageEvent>)_serviceProvider.GetService(typeof(IMessageEventHandler<MessageEvent>));
+                    var logger = _serviceProvider.GetRequiredService<ILogger<TH>>();
+                    var messageEventStore = _serviceProvider.GetRequiredService<IMessageEventStore>();
+
+                    var handler = (MessageEventHandler)Activator.CreateInstance(typeof(MessageEventHandler), logger, messageEventStore);
+
                     await handler.Handle(encapsulatedMessage);
                 }
 
 
                 await Task.Yield();
             });
+        }
+
+        private static bool ExistsMessageHandlerImplementation<T, TH>() 
+            where T : IMessageEvent, new() 
+            where TH : IMessageEventHandler<T>
+        {
+            return typeof(TH).GetInterfaces().Any(x => x.IsGenericType &&
+                                                       x.GetGenericTypeDefinition() == typeof(IMessageEventHandler<>))
+                && !typeof(TH).Name.Equals("MessageEventHandler");
         }
     }
 }

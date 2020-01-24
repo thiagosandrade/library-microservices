@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Library.Hub.Rabbit" Version="1.0.3-alpha" />
+    <PackageReference Include="Library.Hub.Rabbit" Version="1.0.8-alpha" />
     <PackageReference Include="MediatR" Version="8.0.0" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Library.Hub.Events;
-using Library.Hub.Rabbit.Events;
+using Library.Hub.Rabbit.Events.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace Library.Hub.Handlers

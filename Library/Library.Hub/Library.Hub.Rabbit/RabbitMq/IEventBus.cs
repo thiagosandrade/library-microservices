@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Library.Hub.Rabbit.Events;
+using Library.Hub.Rabbit.Events.Interfaces;
 
 namespace Library.Hub.Rabbit.RabbitMq
 {

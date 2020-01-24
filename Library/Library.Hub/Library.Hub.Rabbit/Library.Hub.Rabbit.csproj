@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <PackageVersion>1.0.3-alpha</PackageVersion>
+    <PackageVersion>1.0.8-alpha</PackageVersion>
   </PropertyGroup>
   
 </Project>

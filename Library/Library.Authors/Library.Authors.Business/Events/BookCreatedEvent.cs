@@ -1,4 +1,4 @@
-﻿using Library.Hub.Rabbit.Events;
+﻿using Library.Hub.Rabbit.Events.Interfaces;
 using MediatR;
 
 namespace Library.Authors.Business.Events
@@ -7,6 +7,10 @@ namespace Library.Authors.Business.Events
     {
         public dynamic Message { get; set; }
 
+        public BookCreatedEvent()
+        {
+
+        }
         public BookCreatedEvent(dynamic message)
         {
             Message = message;

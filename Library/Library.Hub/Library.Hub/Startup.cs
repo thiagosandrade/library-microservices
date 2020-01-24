@@ -2,9 +2,11 @@ using Library.Hub.Controllers;
 using Library.Hub.Events;
 using Library.Hub.Handlers;
 using Library.Hub.Rabbit;
+using Library.Hub.Rabbit.Events;
 using Library.Hub.Rabbit.RabbitMq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,6 +18,8 @@ namespace Library.Hub
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+
             services.AddSignalR();
             services.AddRabbit();
         }
@@ -34,15 +38,18 @@ namespace Library.Hub
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<NotificationHub>("/hub");
+                endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("/NotificationHub");
             });
         }
 
-        private void AddRabbitSubscribers(IApplicationBuilder app)
+        private static void AddRabbitSubscribers(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            eventBus.Subscribe<BookCreatedEvent, BookCreatedEventHandler>();
-            eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
+            //eventBus.Subscribe<BookCreatedEvent, BookCreatedEventHandler>();
+            //eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
+
+            eventBus.Subscribe<MessageEvent, MessageEventHandler>();
         }
     }
 }
