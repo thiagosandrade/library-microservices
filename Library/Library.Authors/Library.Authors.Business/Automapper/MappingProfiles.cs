@@ -17,7 +17,7 @@ namespace Library.Authors.Business.AutoMapper
                     opt => opt.MapFrom(s => s.PlaceOfBirth));
 
             CreateMap<List<Author>, GetAllAuthorQueryResult>()
-                .ForMember(map => map.GetWeatherForecastQueryResult,
+                .ForMember(map => map.Authors,
                     opt => opt.MapFrom(x => x));
         }
     }

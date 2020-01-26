@@ -19,20 +19,11 @@ namespace Library.Books.Api
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureDevelopmentServices(IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationDbContext>(opt =>
-                 opt.UseLazyLoadingProxies()
-                    .UseInMemoryDatabase("Library.Authors"));
-
-            AddInjections(services);
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseLazyLoadingProxies()
-                       .UseSqlServer(Configuration.GetConnectionString("Context")));
+            services.AddDbContext<ApplicationDbContext>(opt =>
+                opt.UseLazyLoadingProxies()
+                   .UseInMemoryDatabase("Library.Authors"));
 
             AddInjections(services);
         }
@@ -40,10 +31,10 @@ namespace Library.Books.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            ProjectConfig.SeedInMemory(app);
+
             if (env.IsDevelopment())
             {
-                ProjectConfig.SeedInMemory(app);
-
                 app.UseDeveloperExceptionPage();
             }
 
@@ -78,7 +69,10 @@ namespace Library.Books.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library.Books", Version = "v1" });
             });
 
-            services.AddCors(x => x.AddPolicy("MVRCors", y => y.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+            services.AddCors(x => x.AddPolicy("MVRCors", 
+                y => y.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin()));
         }
     }
 }

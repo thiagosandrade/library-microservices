@@ -17,7 +17,7 @@ namespace Library.Books.Business.Automapper
                     opt => opt.MapFrom(s => s.Category));
 
             CreateMap<List<Book>, GetAllBookQueryResult>()
-                .ForMember(map => map.GetBookQueryResult,
+                .ForMember(map => map.Books,
                     opt => opt.MapFrom(x => x));
 
         }

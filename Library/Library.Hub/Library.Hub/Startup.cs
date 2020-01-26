@@ -1,12 +1,9 @@
 using Library.Hub.Controllers;
-using Library.Hub.Events;
-using Library.Hub.Handlers;
 using Library.Hub.Rabbit;
 using Library.Hub.Rabbit.Events;
 using Library.Hub.Rabbit.RabbitMq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

@@ -15,6 +15,7 @@ services:
         environment:
             ASPNETCORE_ENVIRONMENT: "Release"
         depends_on:
+            - library-auth
             - library-hub
             - library-books
             - library-authors
@@ -55,6 +56,19 @@ services:
             - "59583:59583"
         expose:
             - 59583
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Release"
+            
+    library-auth:
+        image: library-auth
+        container_name: library-auth
+        build:
+            context: Library.Auth
+            dockerfile: Dockerfile
+        ports:
+            - "59584:59584"
+        expose:
+            - 59584
         environment:
             ASPNETCORE_ENVIRONMENT: "Release"
 

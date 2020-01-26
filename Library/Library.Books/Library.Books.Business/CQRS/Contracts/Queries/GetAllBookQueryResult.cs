@@ -10,6 +10,6 @@ namespace Library.Books.Business.CQRS.Contracts.Queries
 {
     public class GetAllBookQueryResult
     {
-        public List<GetBookQueryResult> GetBookQueryResult { get; set; }
+        public List<GetBookQueryResult> Books { get; set; }
     }
 }
