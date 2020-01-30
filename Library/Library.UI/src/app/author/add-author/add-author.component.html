@@ -1,0 +1,57 @@
+<div class="col-md-6 user-container">
+    <h2 class="text-center">Add Author</h2>
+    <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+      <div class="d-none">
+        <input type="text" formControlName="id" placeholder="id" name="id" class="form-control" id="id">
+      </div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" formControlName="name" placeholder="name" name="name" class="form-control" id="name">
+      </div>
+  
+      <div class="form-group">
+        <label for="surname">Surname:</label>
+        <input formControlName="surname" placeholder="surname" name="surname" class="form-control" id="surname">
+      </div>
+  
+      <div class="form-group">
+        <label for="birth">Birth:</label>
+        <input type="string" formControlName="birth" placeholder="birth" name="birth" class="form-control" id="birth" placeholder="yyyy-mm-dd">
+      </div>
+
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" formControlName="age" placeholder="age" name="age" class="form-control" id="age">
+      </div>
+
+      <div class="d-none">
+        <label for="placeOfBirthId">Place Of Birth Id:</label>
+        <input type="string" formControlName="placeOfBirthId" placeholder="placeOfBirthId" name="placeOfBirthId" class="form-control" id="placeOfBirthId">
+      </div>
+  
+      <div formGroupName="placeOfBirth">
+        <div class="d-none">
+            <label for="id">Id:</label>
+            <input type="string" formControlName="id" placeholder="id" name="id" class="form-control" id="childId">
+        </div>
+
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="string" formControlName="city" placeholder="city" name="city" class="form-control" id="city">
+        </div>
+
+        <div class="form-group">
+            <label for="state">State:</label>
+            <input type="string" formControlName="state" placeholder="state" name="state" class="form-control" id="state">
+        </div>
+    
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="string" formControlName="country" placeholder="country" name="country" class="form-control" id="country">
+        </div>
+      </div>
+      
+  
+      <button class="btn btn-success">Add</button>
+    </form>
+  </div>

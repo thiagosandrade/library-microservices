@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Library.Authors.Business.CQRS.Queries
 {
-    public class GetAuthorQueryHandler : BaseHandler, IRequestHandler<GetAuthorQuery, GetAuthorQueryResult>
+    public class GetAuthorQueryHandler : BaseHandler<Author>, IRequestHandler<GetAuthorQuery, GetAuthorQueryResult>
     {
         public GetAuthorQueryHandler(IMapper mapper, IGenericRepository<Author> authorRepository) : base(mapper, authorRepository)
         {
@@ -16,7 +16,7 @@ namespace Library.Authors.Business.CQRS.Queries
 
         public async Task<GetAuthorQueryResult> Handle(GetAuthorQuery request, CancellationToken cancellationToken)
         {
-            var result = await AuthorRepository.GetById(request.AuthorId);
+            var result = await Repository.GetById(request.AuthorId);
 
             return Mapper.Map<GetAuthorQueryResult>(result);
         }

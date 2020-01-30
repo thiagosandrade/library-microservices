@@ -1,0 +1,30 @@
+<div class="col-md-6 user-container">
+    <h2 style="margin: auto"> Authors</h2>
+    <button class="btn btn-danger" style="width:100px" (click)="addAuthor()"> Add Author</button>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th class="hidden">Id</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Birth</th>
+        <th>Age</th>
+        <th>City</th>
+        <th>Country</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let author of authors">
+        <td class="hidden">{{author.id}}</td>
+        <td>{{author.name}}</td>
+        <td>{{author.surname}}</td>
+        <td>{{author.birth}}</td>
+        <td>{{author.age}}</td>
+        <td>{{author.placeOfBirth.city}}</td>
+        <td>{{author.placeOfBirth.country}}</td>
+        <td><button class="btn btn-success" (click)="deleteAuthor(author)"> Delete</button>
+          <button class="btn btn-success" (click)="editAuthor(author)" style="margin-left: 20px;"> Edit</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>

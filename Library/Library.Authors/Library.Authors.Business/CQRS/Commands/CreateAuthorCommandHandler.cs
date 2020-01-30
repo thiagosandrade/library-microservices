@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Library.Authors.Business.CQRS.Commands
 {
-    public class CreateAuthorCommandHandler : BaseHandler, IRequestHandler<CreateAuthorCommand>
+    public class CreateAuthorCommandHandler : BaseHandler<Author>, IRequestHandler<CreateAuthorCommand>
     {
         private readonly IEventBus _eventBus;
 
@@ -24,7 +24,7 @@ namespace Library.Authors.Business.CQRS.Commands
         {
             Author author = new Author(request.Name, request.Surname, request.Birth, request.PlaceOfBirthId);
 
-            await AuthorRepository.Create(author);
+            await Repository.Create(author);
 
             var @event = new AuthorCreatedEvent(author);
 

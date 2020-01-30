@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Library.Authors.Business.CQRS.Commands
 {
-    public class UpdateAuthorCommandHandler : BaseHandler, IRequestHandler<UpdateAuthorCommand>
+    public class UpdateAuthorCommandHandler : BaseHandler<Author>, IRequestHandler<UpdateAuthorCommand>
     {
         public UpdateAuthorCommandHandler(IMapper mapper, IGenericRepository<Author> authorRepository) : base(mapper, authorRepository)
         {
@@ -18,7 +18,7 @@ namespace Library.Authors.Business.CQRS.Commands
         {
             Author author = new Author(request.Name, request.Surname, request.Birth, request.PlaceOfBirthId, request.AuthorId);
 
-            await AuthorRepository.Update(request.AuthorId, author);
+            await Repository.Update(request.AuthorId, author);
 
             return await Task.FromResult(Unit.Value);
         }

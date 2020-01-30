@@ -4,15 +4,15 @@ using Library.Authors.Domain.Models;
 
 namespace Library.Authors.Business.CQRS
 {
-    public class BaseHandler
+    public class BaseHandler<T> where T : Entity
     {
         protected readonly IMapper Mapper;
-        protected readonly IGenericRepository<Author> AuthorRepository;
+        protected readonly IGenericRepository<T> Repository;
 
-        public BaseHandler(IMapper mapper, IGenericRepository<Author> authorRepository)
+        public BaseHandler(IMapper mapper, IGenericRepository<T> repository)
         {
             Mapper = mapper;
-            AuthorRepository = authorRepository;
+            Repository = repository;
         }
     }
 }

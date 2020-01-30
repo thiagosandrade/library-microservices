@@ -19,6 +19,11 @@ namespace Library.Authors.Business.AutoMapper
             CreateMap<List<Author>, GetAllAuthorQueryResult>()
                 .ForMember(map => map.Authors,
                     opt => opt.MapFrom(x => x));
+
+            CreateMap<List<PlaceOfBirth>, GetAllPlaceOfBirthQueryResult>()
+                .ForMember(map => map.PlaceOfBirths,
+                    opt => opt.MapFrom(x => x));
+
         }
     }
 }

@@ -27,9 +27,13 @@ namespace Library.Auth.Api.Controllers
             var token = _authService.Authenticate(user.Login, user.Password);
 
             if (token.Result == null)
-                return BadRequest(new { message = "Username or password incorrect" });
+                return BadRequest(new {message = "Username or password incorrect"});
 
-            return Ok(new { Token = token.Result });
+            return Ok(new
+            {
+                Token = token.Result
+            });
+
         }
     }
 }
