@@ -22,28 +22,65 @@ namespace Library.Authors.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<GetAuthorQueryResult> Get(Guid id)
+        public async Task<ActionResult<GetAuthorQueryResult>> Get(Guid id)
         {
             var query = new GetAuthorQuery()
             {
                 AuthorId = id
             };
 
-            return await _mediator.Send(query);
+            var result = await _mediator.Send(query);
+
+            return Ok(new OkObjectResult(result));
         }
 
         [HttpGet]
-        public async Task<GetAllAuthorQueryResult> Get()
+        public async Task<ActionResult<GetAllAuthorQueryResult>> Get()
         {
-            return await _mediator.Send(new GetAllAuthorQuery());
+            var result = await _mediator.Send(new GetAllAuthorQuery());
+
+            return Ok(new OkObjectResult(result));
         }
 
         [HttpPost]
-        public async Task Post([FromBody] CreateAuthorCommand command)
+        public async Task<IActionResult> Post([FromBody] CreateAuthorCommand command)
         {
-            _logger.LogInformation("Command received: {0}", command);
+            try
+            {
+                _logger.LogInformation("Command received: {0}", command);
 
-            await _mediator.Send(command);
+                await _mediator.Send(command);
+
+                return Ok(new OkObjectResult("Command Completed"));
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { message = ex.ToString() });
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                _logger.LogInformation("Command received: {0}", id);
+
+                var command = new DeleteAuthorCommand()
+                {
+                    AuthorId = id
+                };
+
+                await _mediator.Send(command);
+
+                return Ok(new OkObjectResult("Command Completed"));
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { message = ex.ToString() });
+            }
         }
     }
 }

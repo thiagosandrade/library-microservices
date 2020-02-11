@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
 import { Router } from '@angular/router';
 import { Author } from 'src/app/_shared/model/author.model';
+import { ApiAuthorListResponse } from 'src/app/_shared/model/api.author.response';
 
 @Component({
   selector: 'app-list-author',
@@ -10,7 +11,7 @@ import { Author } from 'src/app/_shared/model/author.model';
 })
 export class ListAuthorComponent implements OnInit {
 
-  authors: Author[];
+  authors: Author[] = [];
   
   constructor(private router: Router, private apiService: ApiAuthorService) { }
 
@@ -20,15 +21,15 @@ export class ListAuthorComponent implements OnInit {
       return;
     }
     this.apiService.getAuthors()
-      .subscribe( data => {
-        this.authors = data.authors;
+      .subscribe( (data : ApiAuthorListResponse) => {
+        this.authors = data.value.authors;
       });
   }
 
   deleteAuthor(author: Author): void {
     this.apiService.deleteAuthor(author.id)
       .subscribe( data => {
-        this.authors = this.authors.filter(u => u !== author);
+        this.authors = this.authors.filter((u: Author) => u !== author);
       })
   };
 

@@ -40,10 +40,10 @@ export class EditAuthorComponent implements OnInit {
       })
     });
     this.apiService.getAuthorById(userId)
-      .subscribe( (data : ApiAuthorResponse) => {
-        let test = this.datePipe.transform(data.birth, 'yyyy/MM/dd')
-        data.birth = test;
-        this.editForm.setValue(data);
+      .subscribe( (result : ApiAuthorResponse) => {
+        let test = this.datePipe.transform(result.value.birth, 'yyyy/MM/dd')
+        result.value.birth = test;
+        this.editForm.setValue(result.value);
       });
   }
 
@@ -51,12 +51,12 @@ export class EditAuthorComponent implements OnInit {
     this.apiService.updateAuthor(this.editForm.value)
       .pipe(first())
       .subscribe(
-        data => {
-          if(data != null) {
+        result => {
+          if(result.statusCode == 200) {
             alert('User updated successfully.');
             this.router.navigate(['list-author']);
           }else {
-            alert(data.message);
+            alert(result.message);
           }
         },
         error => {
