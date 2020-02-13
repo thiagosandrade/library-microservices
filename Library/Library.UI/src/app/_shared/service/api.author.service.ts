@@ -37,7 +37,7 @@ export class ApiAuthorService {
   }
 
   updateAuthor(user: Author): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(this.baseUrl, user);
+    return this.http.put<ApiResponse>(this.baseUrl, user);
   }
 
   deleteAuthor(id: string): Observable<ApiResponse> {

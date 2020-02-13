@@ -32,8 +32,8 @@ export class AddAuthorComponent implements OnInit {
   }
 
   onSubmit() {
-    this.apiService.createAuthor(this.addForm.value)
-      .subscribe( data => {
+    this.apiService.createAuthor(this.addForm.value).subscribe
+      (async  data => {
         this.router.navigate(['list-author']);
       });
   }

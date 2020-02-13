@@ -3,6 +3,9 @@ import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
 import { Router } from '@angular/router';
 import { Author } from 'src/app/_shared/model/author.model';
 import { ApiAuthorListResponse } from 'src/app/_shared/model/api.author.response';
+import { DatePipe } from '@angular/common';
+import { map, takeUntil, switchMap, filter, tap } from 'rxjs/operators';
+import { Subject, Observable, pipe } from 'rxjs';
 
 @Component({
   selector: 'app-list-author',
@@ -11,25 +14,26 @@ import { ApiAuthorListResponse } from 'src/app/_shared/model/api.author.response
 })
 export class ListAuthorComponent implements OnInit {
 
+  private unsubscribe$ = new Subject<void>();
   authors: Author[] = [];
+
+  authors$ : Observable<Author[]>;
   
-  constructor(private router: Router, private apiService: ApiAuthorService) { }
+  constructor(private router: Router, private apiService: ApiAuthorService, private datePipe : DatePipe) { }
 
   ngOnInit() {
     if(!window.localStorage.getItem('token')) {
       this.router.navigate(['login']);
       return;
     }
-    this.apiService.getAuthors()
-      .subscribe( (data : ApiAuthorListResponse) => {
-        this.authors = data.value.authors;
-      });
+
+    this.authors$ = this.getAuthors();
   }
 
   deleteAuthor(author: Author): void {
     this.apiService.deleteAuthor(author.id)
-      .subscribe( data => {
-        this.authors = this.authors.filter((u: Author) => u !== author);
+      .subscribe( () => {
+        this.authors$ = this.getAuthors();
       })
   };
 
@@ -42,5 +46,26 @@ export class ListAuthorComponent implements OnInit {
   addAuthor(): void {
     this.router.navigate(['add-author']);
   };
+
+  getAuthors(): Observable<Author[]> {
+    return this.apiService.getAuthors().pipe(
+      map((data : ApiAuthorListResponse) => {
+        data.value.authors.map(author => {
+          let dateFormatted = this.datePipe.transform(author.birth, 'yyyy/MM/dd')
+          author.birth = dateFormatted;
+        })
+
+        this.authors = data.value.authors;        
+
+        return data.value.authors;
+      })
+    )
+  }
+
+  ngOnDestroy(){
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
 
 }

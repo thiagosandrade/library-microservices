@@ -60,7 +60,25 @@ namespace Library.Authors.Api.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] UpdateAuthorCommand command)
+        {
+            try
+            {
+                _logger.LogInformation("Command received: {0}", command);
+
+                await _mediator.Send(command);
+
+                return Ok(new OkObjectResult("Command Completed"));
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { message = ex.ToString() });
+            }
+        }
+
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try

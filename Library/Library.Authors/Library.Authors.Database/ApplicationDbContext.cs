@@ -21,23 +21,26 @@ namespace Library.Authors.Database
         private static void Seed(ModelBuilder modelBuilder)
         {
             Guid first = Guid.NewGuid();
+            var firstPlace = new PlaceOfBirth()
+            {
+                Id = first,
+                City = "São Paulo",
+                State = "São Paulo",
+                Country = "Brazil",
+            };
+
             Guid second = Guid.NewGuid();
+            var secondPlace = new PlaceOfBirth()
+            {
+                Id = second,
+                City = "Brasilia",
+                State = "Federal District",
+                Country = "Brazil",
+            };
 
             modelBuilder.Entity<PlaceOfBirth>().HasData(
-                new PlaceOfBirth()
-                {
-                    Id = first,
-                    City = "São Paulo",
-                    State = "São Paulo",
-                    Country = "Brazil",
-                },
-                new PlaceOfBirth()
-                {
-                    Id = second,
-                    City = "Brasilia",
-                    State = "Federal District",
-                    Country = "Brazil",
-                }
+                firstPlace,
+                secondPlace
             );
 
             modelBuilder.Entity<Author>().HasData(

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {first} from "rxjs/operators";
 import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
 import { Author } from 'src/app/_shared/model/author.model';
 import { ApiAuthorResponse } from 'src/app/_shared/model/api.author.response';
 import { DatePipe } from '@angular/common';
+import { ApiResponse } from 'src/app/_shared/model/api.response';
 
 @Component({
   selector: 'app-edit-author',
@@ -39,19 +39,17 @@ export class EditAuthorComponent implements OnInit {
         country: ['', Validators.required]
       })
     });
-    this.apiService.getAuthorById(userId)
-      .subscribe( (result : ApiAuthorResponse) => {
-        let test = this.datePipe.transform(result.value.birth, 'yyyy/MM/dd')
-        result.value.birth = test;
+    this.apiService.getAuthorById(userId).subscribe
+      (async (result : ApiAuthorResponse) => {
+        let dateFormatted = this.datePipe.transform(result.value.birth, 'yyyy/MM/dd')
+        result.value.birth = dateFormatted;
         this.editForm.setValue(result.value);
       });
   }
 
   onSubmit() {
-    this.apiService.updateAuthor(this.editForm.value)
-      .pipe(first())
-      .subscribe(
-        result => {
+    this.apiService.updateAuthor(this.editForm.value).subscribe
+      ( async (result : ApiResponse) => {
           if(result.statusCode == 200) {
             alert('User updated successfully.');
             this.router.navigate(['list-author']);
@@ -59,9 +57,8 @@ export class EditAuthorComponent implements OnInit {
             alert(result.message);
           }
         },
-        error => {
+        (error: any) => {
           alert(error);
         });
   }
-
 }

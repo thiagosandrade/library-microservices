@@ -22,7 +22,7 @@ namespace Library.Authors.Business.CQRS.Commands
 
         public async Task<Unit> Handle(CreateAuthorCommand request, CancellationToken cancellationToken)
         {
-            Author author = new Author(request.Name, request.Surname, request.Birth, request.PlaceOfBirthId);
+            Author author = Mapper.Map<Author>(request);
 
             await Repository.Create(author);
 

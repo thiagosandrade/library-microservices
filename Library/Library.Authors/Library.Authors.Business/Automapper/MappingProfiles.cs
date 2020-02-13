@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using Library.Authors.Business.CQRS.Contracts.Commands;
 using Library.Authors.Business.CQRS.Contracts.Queries;
 using Library.Authors.Domain.Models;
 
@@ -9,7 +10,10 @@ namespace Library.Authors.Business.AutoMapper
     {
         public MappingProfiles()
         {
-            
+
+            CreateMap<CreateAuthorCommand, Author>();
+            CreateMap<UpdateAuthorCommand, Author>();
+
             CreateMap<PlaceOfBirth, GetPlaceOfBirthResult>();
 
             CreateMap<Author, GetAuthorQueryResult>()

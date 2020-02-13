@@ -1,4 +1,7 @@
 <div class="col-md-6 user-container">
+    <span type="button" [routerLink]="['/list-author']">
+      <i class="fa fa-arrow-left fa-2x"></i>
+    </span>  
     <h2 class="text-center">Add Author</h2>
     <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
       <div class="d-none">
@@ -50,7 +53,6 @@
             <input type="string" formControlName="country" placeholder="country" name="country" class="form-control" id="country">
         </div>
       </div>
-      
   
       <button class="btn btn-success">Add</button>
     </form>

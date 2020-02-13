@@ -16,13 +16,13 @@ namespace Library.Authors.Domain.Models
 
         }
 
-        public Author(string name, string surname, DateTime birth, Guid placeOfBirthId, Guid? id = null)
+        public Author(string name, string surname, DateTime birth, Guid? placeOfBirthId = null, Guid? id = null)
         {
             Id = id ?? Guid.NewGuid();
             Name = name;
             Surname = surname;
             Birth = birth;
-            PlaceOfBirthId = placeOfBirthId;
+            PlaceOfBirthId = placeOfBirthId ?? Guid.NewGuid();
         }
     }
 }

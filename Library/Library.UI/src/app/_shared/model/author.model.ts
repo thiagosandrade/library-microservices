@@ -1,3 +1,7 @@
+export class Authors {
+  authors: Author[]
+}
+
 export class Author {
     id: string;
     name: string;
