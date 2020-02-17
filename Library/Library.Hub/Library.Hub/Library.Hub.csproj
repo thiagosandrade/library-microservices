@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Library.Hub.Rabbit\Library.Hub.Rabbit.csproj" />
+    <ProjectReference Include="..\Library.Hub.SignalR\Library.Hub.SignalR.csproj" />
   </ItemGroup>
 
 </Project>

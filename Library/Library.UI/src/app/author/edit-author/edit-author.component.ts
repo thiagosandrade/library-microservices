@@ -19,6 +19,7 @@ export class EditAuthorComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,private router: Router, private apiService: ApiAuthorService, private datePipe : DatePipe) { }
 
   ngOnInit() {
+    
     let userId = window.localStorage.getItem("editAuthorId");
     if(!userId) {
       alert("Invalid action.")
@@ -51,8 +52,7 @@ export class EditAuthorComponent implements OnInit {
     this.apiService.updateAuthor(this.editForm.value).subscribe
       ( async (result : ApiResponse) => {
           if(result.statusCode == 200) {
-            alert('User updated successfully.');
-            this.router.navigate(['list-author']);
+            this.router.navigate(['/list-author']);
           }else {
             alert(result.message);
           }

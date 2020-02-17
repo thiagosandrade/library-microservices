@@ -57,8 +57,6 @@ namespace Library.Authors.Api
                 endpoints.MapControllers();
             });
 
-            app.UseCors("MVRCors");
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -76,11 +74,6 @@ namespace Library.Authors.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library.Authors", Version = "v1" });
             });
-
-            services.AddCors(x => x.AddPolicy("MVRCors", y => 
-                y.AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin()));
         }
     }
 }

@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Hub", "Library.Hub\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Hub.Rabbit", "Library.Hub.Rabbit\Library.Hub.Rabbit.csproj", "{561A2CA1-4BD0-4E7B-B42D-BB925617AC64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Hub.SignalR", "Library.Hub.SignalR\Library.Hub.SignalR.csproj", "{F5F3F1E7-62D3-4D94-8551-749B9F6A6B0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Hub.Core", "Library.Hub.Core\Library.Hub.Core.csproj", "{43150A18-D7A7-4583-BF07-1FCB6E5AB0A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{561A2CA1-4BD0-4E7B-B42D-BB925617AC64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{561A2CA1-4BD0-4E7B-B42D-BB925617AC64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{561A2CA1-4BD0-4E7B-B42D-BB925617AC64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5F3F1E7-62D3-4D94-8551-749B9F6A6B0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F3F1E7-62D3-4D94-8551-749B9F6A6B0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F3F1E7-62D3-4D94-8551-749B9F6A6B0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F3F1E7-62D3-4D94-8551-749B9F6A6B0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43150A18-D7A7-4583-BF07-1FCB6E5AB0A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43150A18-D7A7-4583-BF07-1FCB6E5AB0A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43150A18-D7A7-4583-BF07-1FCB6E5AB0A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43150A18-D7A7-4583-BF07-1FCB6E5AB0A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

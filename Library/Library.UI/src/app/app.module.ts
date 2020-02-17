@@ -11,6 +11,7 @@ import { ListAuthorComponent } from './author/list-author/list-author.component'
 import { AddAuthorComponent } from './author/add-author/add-author.component';
 import { EditAuthorComponent } from './author/edit-author/edit-author.component';
 import { DatePipe } from '@angular/common';
+import { SharedModule } from './_shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DatePipe } from '@angular/common';
     EditAuthorComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

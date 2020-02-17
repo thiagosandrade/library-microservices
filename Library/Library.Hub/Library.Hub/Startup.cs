@@ -1,11 +1,12 @@
-using Library.Hub.Controllers;
 using Library.Hub.Rabbit;
 using Library.Hub.Rabbit.Events;
 using Library.Hub.Rabbit.RabbitMq;
+using Library.Hub.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Library.Hub
 {
@@ -15,10 +16,12 @@ namespace Library.Hub
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddSingleton<INotificationHub, NotificationHub>();
 
-            services.AddSignalR();
             services.AddRabbit();
+            services.AddSignalRInjection();
+
+            services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -31,13 +34,11 @@ namespace Library.Hub
 
             AddRabbitSubscribers(app);
 
-            app.UseRouting();
+            app.WebSocketsConfig();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHub<NotificationHub>("/NotificationHub");
-            });
+            app.ApplicationServices.GetService<INotificationHub>();
+
+            app.UseMvc();
         }
 
         private static void AddRabbitSubscribers(IApplicationBuilder app)

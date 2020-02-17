@@ -1,5 +1,18 @@
 {
   "ReRoutes": [
+    //HUB
+    {
+      "DownstreamPathTemplate": "/{catchAll}",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "library-hub",
+          "Port": 59583
+        }
+      ],
+      "UpstreamPathTemplate": "/{catchAll}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
+    },
     //PLACE OF BIRTH
     {
       //Internal Redirect

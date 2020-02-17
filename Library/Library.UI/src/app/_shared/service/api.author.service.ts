@@ -5,6 +5,7 @@ import {ApiAuthorResponse, ApiAuthorListResponse} from "../model/api.author.resp
 import { Author } from '../model/author.model';
 import { ApiResponse } from '../model/api.response';
 import { map } from 'rxjs/internal/operators/map';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { map } from 'rxjs/internal/operators/map';
 export class ApiAuthorService {
 
   constructor(private http: HttpClient) { }
-  baseUrl: string = 'http://localhost:59580/author/';
+  private baseUrl = `${environment.apiUrl}/author/`;
 
   getAuthors() : Observable<ApiAuthorListResponse> {
     return this.http.get<ApiAuthorListResponse>(this.baseUrl)

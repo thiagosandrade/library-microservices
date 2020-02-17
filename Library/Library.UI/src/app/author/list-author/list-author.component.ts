@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Author } from 'src/app/_shared/model/author.model';
 import { ApiAuthorListResponse } from 'src/app/_shared/model/api.author.response';
 import { DatePipe } from '@angular/common';
-import { map, takeUntil, switchMap, filter, tap } from 'rxjs/operators';
-import { Subject, Observable, pipe } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list-author',
@@ -14,7 +14,6 @@ import { Subject, Observable, pipe } from 'rxjs';
 })
 export class ListAuthorComponent implements OnInit {
 
-  private unsubscribe$ = new Subject<void>();
   authors: Author[] = [];
 
   authors$ : Observable<Author[]>;
@@ -22,6 +21,7 @@ export class ListAuthorComponent implements OnInit {
   constructor(private router: Router, private apiService: ApiAuthorService, private datePipe : DatePipe) { }
 
   ngOnInit() {
+
     if(!window.localStorage.getItem('token')) {
       this.router.navigate(['login']);
       return;
@@ -61,11 +61,4 @@ export class ListAuthorComponent implements OnInit {
       })
     )
   }
-
-  ngOnDestroy(){
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
-
 }
