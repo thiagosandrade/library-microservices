@@ -6,6 +6,8 @@ import { ApiAuthorListResponse } from 'src/app/_shared/model/api.author.response
 import { DatePipe } from '@angular/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { SignalRService } from 'src/app/_shared/signalR/signalR.service';
+import { ApiLoginService } from 'src/app/_shared/service/api.login.service';
 
 @Component({
   selector: 'app-list-author',
@@ -18,14 +20,20 @@ export class ListAuthorComponent implements OnInit {
 
   authors$ : Observable<Author[]>;
   
-  constructor(private router: Router, private apiService: ApiAuthorService, private datePipe : DatePipe) { }
+  constructor(private router: Router, private apiService: ApiAuthorService, private datePipe : DatePipe, private apiLoginService: ApiLoginService,
+    private signalRService: SignalRService) { }
 
   ngOnInit() {
 
-    if(!window.localStorage.getItem('token')) {
+    if(!this.apiLoginService.isLogged()) {
       this.router.navigate(['login']);
       return;
     }
+
+    this.signalRService.StartHub();
+    this.signalRService.notificationReceived.subscribe(() => {
+      this.authors$ = this.getAuthors();
+  });
 
     this.authors$ = this.getAuthors();
   }
@@ -38,13 +46,13 @@ export class ListAuthorComponent implements OnInit {
   };
 
   editAuthor(user: Author): void {
-    window.localStorage.removeItem("editAuthorId");
-    window.localStorage.setItem("editAuthorId", user.id);
-    this.router.navigate(['edit-author']);
+    localStorage.removeItem("editAuthorId");
+    localStorage.setItem("editAuthorId", user.id);
+    this.router.navigate(['author','edit-author']);
   };
 
   addAuthor(): void {
-    this.router.navigate(['add-author']);
+    this.router.navigate(['author','add-author']);
   };
 
   getAuthors(): Observable<Author[]> {

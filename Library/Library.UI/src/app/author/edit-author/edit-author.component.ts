@@ -52,7 +52,7 @@ export class EditAuthorComponent implements OnInit {
     this.apiService.updateAuthor(this.editForm.value).subscribe
       ( async (result : ApiResponse) => {
           if(result.statusCode == 200) {
-            this.router.navigate(['/list-author']);
+            this.router.navigate(['author','list-author']);
           }else {
             alert(result.message);
           }

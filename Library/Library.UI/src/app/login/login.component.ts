@@ -26,10 +26,8 @@ export class LoginComponent implements OnInit {
     }
 
     this.apiService.login(loginPayload).subscribe(data => {
-      debugger;
       if(data != null) {
-        window.localStorage.setItem('token', data.token);
-        this.router.navigate(['list-author']);
+        this.router.navigate(['author','list-author']);
       }else {
         this.invalidLogin = true;
         alert(data.message);
@@ -38,7 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    window.localStorage.removeItem('token');
+    this.apiService.logout();
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.compose([Validators.required])],
       password: ['', Validators.required]

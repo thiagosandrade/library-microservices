@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SignalRMessage } from './_shared/signalR/signalR.message';
 import { SignalRService } from './_shared/signalR/signalR.service';
 import { MessageNotifierService, Severities } from './_shared/messageNotifier/messageNotifier.service';
+import { ApiLoginService } from './_shared/service/api.login.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,10 +12,10 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'LibraryUI';
-
-  constructor(private signalRService: SignalRService,
+  
+  constructor(private signalRService: SignalRService, private router: Router,
     private messageNotifierService: MessageNotifierService,
-    private router: Router){
+    private loginService: ApiLoginService){
 
   }
   
@@ -27,5 +28,17 @@ export class AppComponent implements OnInit {
 
         this.messageNotifierService.messageNotify(Severities.INFO, signalRMessage.type, json.Message.Name);
     });
+  }
+
+  logout(): void {
+    this.loginService.logout();
+  }
+
+  login(): void {
+    this.router.navigate(['login']);
+  }
+
+  get isLoggedIn(): boolean {
+    return this.loginService.isLoggedIn;
   }
 }

@@ -1,7 +1,21 @@
 version: '3.5'
 
 services:
-          
+    library-ui:
+        image: library-ui
+        container_name: library-ui
+        build:
+            context: library.ui
+            dockerfile: Dockerfile
+            args:
+                ENVIRONMENT: "production"
+        ports:
+            - "4200:4200"
+        expose:
+            - 4200
+        depends_on:
+            - library-gateway
+            
     library-gateway:
         image: library-gateway
         container_name: library-gateway
