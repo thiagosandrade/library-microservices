@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
-import { Author } from 'src/app/_shared/model/author.model';
-import { ApiAuthorResponse } from 'src/app/_shared/model/api.author.response';
-import { DatePipe } from '@angular/common';
-import { ApiResponse } from 'src/app/_shared/model/api.response';
+import { Store, select } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { selectSelectedUser } from 'src/app/store/selectors/author.selector';
+import { UpdateAuthor } from 'src/app/store/actions/author.actions';
+import { IAuthor } from 'src/app/_shared/model/author.model';
 
 @Component({
   selector: 'app-edit-author',
@@ -14,18 +15,25 @@ import { ApiResponse } from 'src/app/_shared/model/api.response';
 })
 export class EditAuthorComponent implements OnInit {
 
-  author: Author;
   editForm: FormGroup;
-  constructor(private formBuilder: FormBuilder,private router: Router, private apiService: ApiAuthorService, private datePipe : DatePipe) { }
+  author: IAuthor;
+
+  constructor(private formBuilder: FormBuilder,private router: Router, private apiService: ApiAuthorService,
+      private store: Store<IAppState>
+    ) { }
+
+  author$ = this.store.pipe(select(selectSelectedUser))
+    .subscribe( (author : IAuthor) =>{
+      if(author == null){
+        this.router.navigate(['list-user']);
+        return;
+      }
+      this.author = author;
+    }
+  );
 
   ngOnInit() {
     
-    let userId = window.localStorage.getItem("editAuthorId");
-    if(!userId) {
-      alert("Invalid action.")
-      this.router.navigate(['list-user']);
-      return;
-    }
     this.editForm = this.formBuilder.group({
       id: [''],
       name: ['', Validators.required],
@@ -40,25 +48,12 @@ export class EditAuthorComponent implements OnInit {
         country: ['', Validators.required]
       })
     });
-    this.apiService.getAuthorById(userId).subscribe
-      (async (result : ApiAuthorResponse) => {
-        let dateFormatted = this.datePipe.transform(result.value.birth, 'yyyy/MM/dd')
-        result.value.birth = dateFormatted;
-        this.editForm.setValue(result.value);
-      });
+
+    this.editForm.setValue(this.author);
   }
 
   onSubmit() {
-    this.apiService.updateAuthor(this.editForm.value).subscribe
-      ( async (result : ApiResponse) => {
-          if(result.statusCode == 200) {
-            this.router.navigate(['author','list-author']);
-          }else {
-            alert(result.message);
-          }
-        },
-        (error: any) => {
-          alert(error);
-        });
+    this.store.dispatch(new UpdateAuthor(this.editForm.value));
+    this.router.navigate(['author','list-author'])
   }
 }

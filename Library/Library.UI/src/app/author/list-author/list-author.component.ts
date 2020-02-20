@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
 import { Router } from '@angular/router';
-import { Author } from 'src/app/_shared/model/author.model';
-import { ApiAuthorListResponse } from 'src/app/_shared/model/api.author.response';
-import { DatePipe } from '@angular/common';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { IAuthor } from 'src/app/_shared/model/author.model';
 import { SignalRService } from 'src/app/_shared/signalR/signalR.service';
 import { ApiLoginService } from 'src/app/_shared/service/api.login.service';
+import { Store, select } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { selectAuthorList } from 'src/app/store/selectors/author.selector';
+import { GetAuthors, SetSelectedAuthor, DeleteAuthor } from 'src/app/store/actions/author.actions';
 
 @Component({
   selector: 'app-list-author',
@@ -16,13 +16,11 @@ import { ApiLoginService } from 'src/app/_shared/service/api.login.service';
 })
 export class ListAuthorComponent implements OnInit {
 
-  authors: Author[] = [];
+  constructor(private router: Router, private apiService: ApiAuthorService, private apiLoginService: ApiLoginService,
+    private signalRService: SignalRService, private store: Store<IAppState>) { }
 
-  authors$ : Observable<Author[]>;
-  
-  constructor(private router: Router, private apiService: ApiAuthorService, private datePipe : DatePipe, private apiLoginService: ApiLoginService,
-    private signalRService: SignalRService) { }
-
+  authors$ = this.store.pipe(select(selectAuthorList));
+    
   ngOnInit() {
 
     if(!this.apiLoginService.isLogged()) {
@@ -32,41 +30,22 @@ export class ListAuthorComponent implements OnInit {
 
     this.signalRService.StartHub();
     this.signalRService.notificationReceived.subscribe(() => {
-      this.authors$ = this.getAuthors();
-  });
+      this.authors$ = this.store.pipe(select(selectAuthorList));
+    });
 
-    this.authors$ = this.getAuthors();
+    this.store.dispatch(new GetAuthors());
   }
 
-  deleteAuthor(author: Author): void {
-    this.apiService.deleteAuthor(author.id)
-      .subscribe( () => {
-        this.authors$ = this.getAuthors();
-      })
+  deleteAuthor(author: IAuthor): void {
+    this.store.dispatch(new DeleteAuthor(author));
   };
 
-  editAuthor(user: Author): void {
-    localStorage.removeItem("editAuthorId");
-    localStorage.setItem("editAuthorId", user.id);
+  editAuthor(user: IAuthor): void {
+    this.store.dispatch(new SetSelectedAuthor(user))
     this.router.navigate(['author','edit-author']);
   };
 
   addAuthor(): void {
     this.router.navigate(['author','add-author']);
   };
-
-  getAuthors(): Observable<Author[]> {
-    return this.apiService.getAuthors().pipe(
-      map((data : ApiAuthorListResponse) => {
-        data.value.authors.map(author => {
-          let dateFormatted = this.datePipe.transform(author.birth, 'yyyy/MM/dd')
-          author.birth = dateFormatted;
-        })
-
-        this.authors = data.value.authors;        
-
-        return data.value.authors;
-      })
-    )
-  }
 }

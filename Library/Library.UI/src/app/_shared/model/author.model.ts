@@ -1,18 +1,14 @@
-export class Authors {
-  authors: Author[]
-}
-
-export class Author {
-    id: string;
+export interface IAuthor {
+    id: number;
     name: string;
     surname: string;
     birth: string;
     age: number;
-    placeOfBirth : PlaceOfBirth;
+    placeOfBirth : IPlaceOfBirth;
   }
 
-  export class PlaceOfBirth{
-    id: string;
+  export interface IPlaceOfBirth{
+    id: number;
     city: string;
     state: string;
     country: string;

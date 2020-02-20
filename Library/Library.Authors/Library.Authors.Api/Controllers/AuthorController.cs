@@ -39,7 +39,7 @@ namespace Library.Authors.Api.Controllers
         {
             var result = await _mediator.Send(new GetAllAuthorQuery());
 
-            return Ok(new OkObjectResult(result));
+            return Ok(new OkObjectResult(result.Authors));
         }
 
         [HttpPost]
