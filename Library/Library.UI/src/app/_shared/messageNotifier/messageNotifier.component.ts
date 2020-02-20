@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Message } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { MessageNotifierService } from './messageNotifier.service';
 
@@ -10,9 +10,8 @@ import { MessageNotifierService } from './messageNotifier.service';
 export class MessageNotifierComponent {
 
     messageSubscription: Subscription;
-    message: Message[] = [];
 
-    constructor(private messageNotifier: MessageNotifierService) {
+    constructor(private messageNotifier: MessageNotifierService, private messageService: MessageService) {
         this.subscribeToMessageNotifications();
     }
 
@@ -24,14 +23,15 @@ export class MessageNotifierComponent {
     }
 
     sendMessage(severity: string, summary: string, detail: string) {
-        this.message = [];
-        this.message.push({
-            sticky: false,
-            life: 2000,
-            severity: severity,
-            summary: summary,
-            detail: detail
-        });
+        
+        this.messageService.add(
+            {
+                severity:severity, 
+                summary:summary, 
+                detail:detail,
+                life: 2000,
+                sticky: false
+            });
     }
 
     ngOnDestroy() {

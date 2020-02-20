@@ -1,15 +1,16 @@
 import { MessageNotifierService } from './messageNotifier/messageNotifier.service';
 import { SignalRService } from './signalR/signalR.service';
 import { MessageNotifierComponent } from './messageNotifier/messageNotifier.component';
-import { GrowlModule } from 'primeng/growl';
+import { ToastModule } from 'primeng/toast';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
     imports: [
          CommonModule,
-         GrowlModule,
+         ToastModule,
     ],
     declarations: [
          MessageNotifierComponent,
@@ -22,7 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ],
     providers: [
          SignalRService,
-         MessageNotifierService
+         MessageNotifierService,
+         MessageService
      ]
  })
  export class SharedModule { 
