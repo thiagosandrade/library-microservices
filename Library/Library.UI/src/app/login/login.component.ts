@@ -4,10 +4,11 @@ import { ApiLoginService } from "../_shared/service/api.login.service";
 import { IUser } from '../_shared/model/user.model';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from '../store/state/app.state';
-import { Login, ActionsEnum, EntitiesEnum } from '../store/actions/app.actions';
+import { EntitiesEnum } from '../store/actions/app.actions';
 import { ofType, Actions } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { selectLoggedUser } from '../store/selectors/user.selector';
+import { AuthorActionTypes, Login } from '../store/actions/login.actions';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
     }
 
     this._actions$.pipe(
-      ofType<Login>(`Login_${ActionsEnum.Login}`)).subscribe(() => {
+      ofType<Login>(`Login_${AuthorActionTypes.Login}`)).subscribe(() => {
         if(!this.apiService.isLogged())
         {
           this.invalidLogin = true;

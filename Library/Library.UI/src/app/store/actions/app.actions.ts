@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { IEntity } from 'src/app/_shared/model/entity.model';
-import { IUser } from 'src/app/_shared/model/user.model';
 
 export enum EntitiesEnum {
     Author = 'Author',
@@ -18,7 +17,6 @@ export enum ActionsEnum {
     Delete = "Delete",
     Success = "Success",
     Fail = "Fail",
-    Login = "Login",
     ClearSelected = "ClearSelected"
 }
 
@@ -77,10 +75,5 @@ export class Fail implements Action {
     constructor(public payload: any, private entityType: string){}
 }
 
-export class Login implements Action {
-    public readonly type = `${this.entityType}_${ActionsEnum.Login}`;
-    constructor(public payload: IUser, private entityType: string){}
-}
-
 export type Actions = GetAll | GetAllSuccess | Get | GetSuccess | ClearSelected | SetSelected | 
-    Create | Update | Delete | Success | Fail | Login;
+    Create | Update | Delete | Success | Fail ;

@@ -4,11 +4,12 @@ import { withLatestFrom, switchMap, map, catchError } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { IAppState } from '../state/app.state';
 import { of } from 'rxjs';
-import { Get, ActionsEnum, GetSuccess, Success, Fail, Login, SetSelected, EntitiesEnum } from '../actions/app.actions';
+import { Get, ActionsEnum, GetSuccess, Success, Fail, SetSelected, EntitiesEnum } from '../actions/app.actions';
 import { ApiLoginService } from 'src/app/_shared/service/api.login.service';
 import { IUser } from 'src/app/_shared/model/user.model';
 import { ApiLoginResponse } from 'src/app/_shared/model/api.login.response';
 import { selectLoggedUser } from '../selectors/user.selector';
+import { Login, AuthorActionTypes } from '../actions/login.actions';
 
 @Injectable()
 export class LoginEffects{
@@ -31,7 +32,7 @@ export class LoginEffects{
 
     @Effect()
     loginUser$ = this._actions$.pipe(
-        ofType<Login>(`${EntitiesEnum.Login}_${ActionsEnum.Login}`),
+        ofType<Login>(`${EntitiesEnum.Login}_${AuthorActionTypes.Login}`),
         map(action => action.payload),
         switchMap((user : IUser) => this._loginService.login(user).pipe(
             switchMap((response : ApiLoginResponse) => [
