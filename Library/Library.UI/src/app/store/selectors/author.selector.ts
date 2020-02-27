@@ -1,15 +1,20 @@
-import { IAppState } from "../state/app.state";
-import { createSelector } from '@ngrx/store';
-import { IAuthorState } from '../state/author.state';
+import { IAppState, initialAppState } from "../state/app.state";
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { IAuthor } from 'src/app/_shared/model/author.model';
+import { appReducer } from '../reducers/app.reducer';
+import { Actions } from '@ngrx/effects';
+import { EntitiesEnum } from '../actions/app.actions';
 
-const selectAuthors = (state: IAppState) => state.authors;
+const getAuthorFeatureState = createFeatureSelector<IAppState<IAuthor>>('authorsFeature');
+
+export const authorReducer = appReducer<IAppState<IAuthor>>(EntitiesEnum.Author, initialAppState, Actions);
 
 export const selectAuthorList = createSelector(
-    selectAuthors,
-    (state: IAuthorState) => state.authors
+    getAuthorFeatureState,
+    (state: IAppState<IAuthor>) => state != null ? state.entities : null
 );
 
 export const selectSelectedUser = createSelector(
-    selectAuthors,
-    (state: IAuthorState) => state.selectedAuthor
+    getAuthorFeatureState,
+    (state: IAppState<IAuthor>) => state.selectedEntity
 );

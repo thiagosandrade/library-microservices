@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Effect, ofType, Actions } from '@ngrx/effects';
-import { GetAuthor, AuthorActionsEnum, GetAuthorSuccess, GetAuthors, GetAuthorsSuccess, UpdateAuthor, Success, Fail, DeleteAuthor, CreateAuthor } from '../actions/author.actions';
-import { withLatestFrom, switchMap, map, mergeMap, catchError } from 'rxjs/operators';
+import { withLatestFrom, switchMap, map, catchError } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
 import { IAppState } from '../state/app.state';
@@ -9,6 +8,7 @@ import { ApiAuthorListResponse, ApiAuthorResponse } from 'src/app/_shared/model/
 import { of } from 'rxjs';
 import { selectAuthorList } from '../selectors/author.selector';
 import { IAuthor } from 'src/app/_shared/model/author.model';
+import { Get, ActionsEnum, GetSuccess, GetAll, GetAllSuccess, Create, Success, Fail, Delete, Update, EntitiesEnum } from '../actions/app.actions';
 
 @Injectable()
 export class AuthorEffects{
@@ -16,56 +16,55 @@ export class AuthorEffects{
     constructor(
         private _authorService: ApiAuthorService,
         private _actions$: Actions,
-        private _store: Store<IAppState>
-      ) {}
+        private _store: Store<IAppState<IAuthor>>) {}
 
     @Effect()
     getAuthor$ = this._actions$.pipe(
-        ofType<GetAuthor>(AuthorActionsEnum.GetAuthor),
+        ofType<Get>(`${EntitiesEnum.Author}_${ActionsEnum.Get}`),
         map(action => action.payload),
         withLatestFrom(this._store.pipe(select(selectAuthorList))),
         switchMap(
             ([id, authors]) => {
                 const selectedAuthor = authors.filter(author => author.id === +id)[0];
-                return of(new GetAuthorSuccess(selectedAuthor));
+                return of(new GetSuccess(selectedAuthor, EntitiesEnum.Author));
             })
     );
 
     @Effect()
     getAuthors$ = this._actions$.pipe(
-        ofType<GetAuthors>(AuthorActionsEnum.GetAuthors),
+        ofType<GetAll>(`${EntitiesEnum.Author}_${ActionsEnum.GetAll}`),
         switchMap(() => this._authorService.getAuthors().pipe(
-            switchMap((response : ApiAuthorListResponse) => of(new GetAuthorsSuccess(response.value)))
+            switchMap((response : ApiAuthorListResponse) => of(new GetAllSuccess(response.value, EntitiesEnum.Author)))
         ))
     );
 
     @Effect()
     createAuthor$ = this._actions$.pipe(
-        ofType<CreateAuthor>(AuthorActionsEnum.CreateAuthor),
+        ofType<Create>(`${EntitiesEnum.Author}_${ActionsEnum.Create}`),
         map(action => action.payload),
         switchMap((author : IAuthor) => this._authorService.createAuthor(author).pipe(
-            switchMap((response : ApiAuthorResponse) => of(new Success(response.value))),
-            catchError(err => of(new Fail(err)))
+            switchMap((response : ApiAuthorResponse) => of(new Success(response.value, EntitiesEnum.Author))),
+            catchError(err => of(new Fail(err, EntitiesEnum.Author)))
         ))
     );
 
     @Effect()
     updateAuthor$ = this._actions$.pipe(
-        ofType<UpdateAuthor>(AuthorActionsEnum.UpdateAuthor),
+        ofType<Update>(`${EntitiesEnum.Author}_${ActionsEnum.Update}`),
         map(action => action.payload),
         switchMap((author : IAuthor) => this._authorService.updateAuthor(author).pipe(
-            switchMap((response : ApiAuthorResponse) => of(new Success(response.value))),
-            catchError(err => of(new Fail(err)))
+            switchMap((response : ApiAuthorResponse) => of(new Success(response.value, EntitiesEnum.Author))),
+            catchError(err => of(new Fail(err, EntitiesEnum.Author)))
         ))
     );
 
     @Effect()
     deleteAuthor$ = this._actions$.pipe(
-        ofType<DeleteAuthor>(AuthorActionsEnum.DeleteAuthor),
+        ofType<Delete>(`${EntitiesEnum.Author}_${ActionsEnum.Delete}`),
         map(action => action.payload),
         switchMap((author : IAuthor) => this._authorService.deleteAuthor(author.id).pipe(
-            switchMap((response : ApiAuthorResponse) => of(new Success(response.value))),
-            catchError(err => of(new Fail(err)))
+            switchMap((response : ApiAuthorResponse) => of(new Success(response.value, EntitiesEnum.Author))),
+            catchError(err => of(new Fail(err, EntitiesEnum.Author)))
         ))
     );
 

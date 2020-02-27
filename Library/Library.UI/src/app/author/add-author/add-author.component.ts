@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { CreateAuthor } from 'src/app/store/actions/author.actions';
+import { Create, EntitiesEnum } from 'src/app/store/actions/app.actions';
+import { IAuthor } from 'src/app/_shared/model/author.model';
 
 @Component({
   selector: 'app-add-author',
@@ -13,7 +13,7 @@ import { CreateAuthor } from 'src/app/store/actions/author.actions';
 })
 export class AddAuthorComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiAuthorService, private store: Store<IAppState>) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private store: Store<IAppState<IAuthor>>) { }
 
   addForm: FormGroup;
 
@@ -35,7 +35,7 @@ export class AddAuthorComponent implements OnInit {
   }
 
   onSubmit() {
-    this.store.dispatch(new CreateAuthor(this.addForm.value));
+    this.store.dispatch(new Create(this.addForm.value, EntitiesEnum.Author));
     this.router.navigate(['author','list-author']);
   }
 }

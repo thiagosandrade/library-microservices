@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
 import { Router } from '@angular/router';
 import { IAuthor } from 'src/app/_shared/model/author.model';
 import { SignalRService } from 'src/app/_shared/signalR/signalR.service';
@@ -7,7 +6,7 @@ import { ApiLoginService } from 'src/app/_shared/service/api.login.service';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { selectAuthorList } from 'src/app/store/selectors/author.selector';
-import { GetAuthors, SetSelectedAuthor, DeleteAuthor } from 'src/app/store/actions/author.actions';
+import { GetAll, SetSelected, Delete, EntitiesEnum } from 'src/app/store/actions/app.actions';
 
 @Component({
   selector: 'app-list-author',
@@ -16,8 +15,8 @@ import { GetAuthors, SetSelectedAuthor, DeleteAuthor } from 'src/app/store/actio
 })
 export class ListAuthorComponent implements OnInit {
 
-  constructor(private router: Router, private apiService: ApiAuthorService, private apiLoginService: ApiLoginService,
-    private signalRService: SignalRService, private store: Store<IAppState>) { }
+  constructor(private router: Router, private apiLoginService: ApiLoginService,
+    private signalRService: SignalRService, private store: Store<IAppState<IAuthor>>) { }
 
   authors$ = this.store.pipe(select(selectAuthorList));
     
@@ -33,15 +32,15 @@ export class ListAuthorComponent implements OnInit {
       this.authors$ = this.store.pipe(select(selectAuthorList));
     });
 
-    this.store.dispatch(new GetAuthors());
+    this.store.dispatch(new GetAll(EntitiesEnum.Author));
   }
 
   deleteAuthor(author: IAuthor): void {
-    this.store.dispatch(new DeleteAuthor(author));
+    this.store.dispatch(new Delete(author, EntitiesEnum.Author));
   };
 
   editAuthor(user: IAuthor): void {
-    this.store.dispatch(new SetSelectedAuthor(user))
+    this.store.dispatch(new SetSelected(user, EntitiesEnum.Author))
     this.router.navigate(['author','edit-author']);
   };
 

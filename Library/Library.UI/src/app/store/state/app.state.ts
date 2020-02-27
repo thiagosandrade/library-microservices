@@ -1,13 +1,11 @@
-import { IAuthorState, initialAuthorState } from './author.state';
+import { IEntity } from 'src/app/_shared/model/entity.model';
 
-export interface IAppState {
-    authors: IAuthorState
+export interface IAppState<T extends IEntity> {
+    entities: T[];
+    selectedEntity: T;
 }
 
-export const initialAppState: IAppState = {
-    authors: initialAuthorState
-}
-
-export function getInitialState(): IAppState {
-    return initialAppState;
+export const initialAppState: IAppState<IEntity> = {
+    entities: [],
+    selectedEntity: null
 }

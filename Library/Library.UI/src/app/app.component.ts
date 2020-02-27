@@ -15,9 +15,7 @@ export class AppComponent implements OnInit {
   
   constructor(private signalRService: SignalRService, private router: Router,
     private messageNotifierService: MessageNotifierService,
-    private loginService: ApiLoginService){
-
-  }
+    private loginService: ApiLoginService){ }
   
   ngOnInit(): void {
 
@@ -38,7 +36,16 @@ export class AppComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
-  get isLoggedIn(): boolean {
-    return this.loginService.isLoggedIn;
+  get isLoggedIn() {
+    var result = this.loginService.isLogged().subscribe(
+      data => {
+        if(data != null)
+          return true;
+
+        return false;
+      }
+    );
+
+    return result;
   }
 }

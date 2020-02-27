@@ -1,5 +1,6 @@
-export interface IAuthor {
-    id: number;
+import { IEntity } from './entity.model';
+
+export interface IAuthor extends IEntity {
     name: string;
     surname: string;
     birth: string;
@@ -7,8 +8,7 @@ export interface IAuthor {
     placeOfBirth : IPlaceOfBirth;
   }
 
-  export interface IPlaceOfBirth{
-    id: number;
+  export interface IPlaceOfBirth extends IEntity {
     city: string;
     state: string;
     country: string;

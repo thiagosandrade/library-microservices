@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { selectSelectedUser } from 'src/app/store/selectors/author.selector';
-import { UpdateAuthor } from 'src/app/store/actions/author.actions';
+import { Update, EntitiesEnum } from 'src/app/store/actions/app.actions';
 import { IAuthor } from 'src/app/_shared/model/author.model';
 
 @Component({
@@ -18,14 +17,12 @@ export class EditAuthorComponent implements OnInit {
   editForm: FormGroup;
   author: IAuthor;
 
-  constructor(private formBuilder: FormBuilder,private router: Router, private apiService: ApiAuthorService,
-      private store: Store<IAppState>
-    ) { }
+  constructor(private formBuilder: FormBuilder,private router: Router, private store: Store<IAppState<IAuthor>>) { }
 
   author$ = this.store.pipe(select(selectSelectedUser))
     .subscribe( (author : IAuthor) =>{
       if(author == null){
-        this.router.navigate(['list-user']);
+        this.router.navigate(['author','list-author']);
         return;
       }
       this.author = author;
@@ -49,11 +46,12 @@ export class EditAuthorComponent implements OnInit {
       })
     });
 
-    this.editForm.setValue(this.author);
+    if(this.author != null)
+      this.editForm.setValue(this.author);
   }
 
   onSubmit() {
-    this.store.dispatch(new UpdateAuthor(this.editForm.value));
+    this.store.dispatch(new Update(this.editForm.value, EntitiesEnum.Author));
     this.router.navigate(['author','list-author'])
   }
 }

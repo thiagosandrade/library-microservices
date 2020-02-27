@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
 import { ApiLoginService } from "../_shared/service/api.login.service";
-import { User } from '../_shared/model/user.model';
+import { IUser } from '../_shared/model/user.model';
+import { Store, select } from '@ngrx/store';
+import { IAppState } from '../store/state/app.state';
+import { Login, ActionsEnum, EntitiesEnum } from '../store/actions/app.actions';
+import { ofType, Actions } from '@ngrx/effects';
+import { Router } from '@angular/router';
+import { selectLoggedUser } from '../store/selectors/user.selector';
 
 @Component({
   selector: 'app-login',
@@ -13,26 +18,38 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   invalidLogin: boolean = false;
-  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiLoginService) { }
+  constructor(private formBuilder: FormBuilder, private apiService: ApiLoginService, private store: Store<IAppState<IUser>>, private router: Router,
+    private _actions$: Actions) { }
+
+  loggedUser$ = this.store.pipe(select(selectLoggedUser));
+
 
   onSubmit() {
     if (this.loginForm.invalid) {
       return;
     }
     
-    let loginPayload : User = {
+    let loginPayload : IUser = {
+      id: null,
+      token: "",
       login: this.loginForm.controls.username.value,
       password: this.loginForm.controls.password.value
     }
 
-    this.apiService.login(loginPayload).subscribe(data => {
-      if(data != null) {
-        this.router.navigate(['author','list-author']);
-      }else {
-        this.invalidLogin = true;
-        alert(data.message);
-      }
-    });
+    this._actions$.pipe(
+      ofType<Login>(`Login_${ActionsEnum.Login}`)).subscribe(() => {
+        if(!this.apiService.isLogged())
+        {
+          this.invalidLogin = true;
+        }
+        else
+        {
+          this.router.navigate(['author','list-author']);
+        }
+      });
+
+      this.store.dispatch(new Login(loginPayload, EntitiesEnum.Login));
+    
   }
 
   ngOnInit() {
@@ -42,6 +59,4 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
   }
-
-
 }
