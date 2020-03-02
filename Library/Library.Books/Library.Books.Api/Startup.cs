@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace Library.Books.Api
 {
@@ -61,8 +62,11 @@ namespace Library.Books.Api
 
         private static void AddInjections(IServiceCollection services)
         {
-            services.AddInjections();  
-            services.AddControllers();
+            services.AddInjections();
+            services.AddControllers().AddNewtonsoftJson(x =>
+            {
+                x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
             services.AddSwaggerGen(c =>
             {

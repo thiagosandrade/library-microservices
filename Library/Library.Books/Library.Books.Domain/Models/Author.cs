@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Library.Books.Domain.Models
 {
-    public class Category : JsonDefault
+    public class Author : JsonDefault
     {
-        public virtual IEnumerable<BookCategory> Books { get; set; }
+        public virtual List<BookAuthor> Books { get; set; }
     }
 }

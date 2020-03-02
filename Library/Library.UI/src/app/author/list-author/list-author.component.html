@@ -1,6 +1,6 @@
 <div class="col-md-6 user-container">
     <h2 style="margin: auto"> Authors</h2>
-    <button class="btn btn-danger" style="width:100px" (click)="addAuthor()"> Add Author</button>
+    <button class="btn btn-danger col-md-2"  (click)="addAuthor()"> Add Author</button>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -11,6 +11,7 @@
         <th>Age</th>
         <th>City</th>
         <th>Country</th>
+        <th></th>
         <th></th>
       </tr>
       </thead>
@@ -23,8 +24,11 @@
         <td>{{author.age}}</td>
         <td>{{author.placeOfBirth.city}}</td>
         <td>{{author.placeOfBirth.country}}</td>
-        <td><button class="btn btn-success" (click)="deleteAuthor(author)"> Delete</button>
-          <button class="btn btn-success" (click)="editAuthor(author)" style="margin-left: 20px;"> Edit</button>
+        <td>
+          <button class="btn btn-success" (click)="deleteAuthor(author)"> Delete</button>
+        </td>
+        <td>
+          <button class="btn btn-success" (click)="editAuthor(author)"> Edit</button>
         </td>
       </tr>
       </tbody>

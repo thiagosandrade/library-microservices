@@ -24,7 +24,9 @@ namespace Library.Books.Business.CQRS.Commands
         public async Task<Unit> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
 
-            Book book = new Book(request.Name, request.NumberOfPages, request.CategoryId);
+            Book book = new Book(null, request.Title, request.Isbn, request.PageCount, request.PublishedDate, 
+                request.ThumbnailUrl, request.ShortDescription, request.LongDescription,
+                request.Status, request.Authors, request.Categories);
 
             await BookRepository.Create(book);
 

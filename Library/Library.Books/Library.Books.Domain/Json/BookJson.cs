@@ -1,10 +1,11 @@
 ﻿using Library.Books.Domain.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Library.Books.Business.CQRS.Contracts.Queries
+namespace Library.Books.Domain.Json
 {
-    public class GetBookQueryResult
+    public class BookJson
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -15,7 +16,11 @@ namespace Library.Books.Business.CQRS.Contracts.Queries
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public string Status { get; set; }
-        public IList<BookAuthor> Authors { get; set; }
-        public IList<BookCategory> Categories { get; set; }
+
+        [JsonConverter(typeof(CustomJsonConverter<Author>))]
+        public virtual IEnumerable<Author> Authors { get; set; }
+
+        [JsonConverter(typeof(CustomJsonConverter<Category>))]
+        public virtual IEnumerable<Category> Categories { get; set; }
     }
 }

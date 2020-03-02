@@ -4,13 +4,15 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
+using Library.Books.Domain.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Library.Books.Business.CQRS.Contracts.Queries
 {
     public class GetCategoryResult
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public virtual IEnumerable<BookCategory> Books { get; set; }
+
     }
 }

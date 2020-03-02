@@ -1,24 +1,43 @@
 using System;
+using System.Collections.Generic;
 
 namespace Library.Books.Domain.Models
 {
+
     public class Book : Entity
     {
-        public string Name { get; set; }
-        public int NumberOfPages { get; set; }
-        public Guid CategoryId { get; set; }
-        public virtual Category Category { get; set; }
+        public string Title { get; set; }
+        public string Isbn { get; set; }
+        public int PageCount { get; set; }
+        public DateTime PublishedDate { get; set; }
+        public string ThumbnailUrl { get; set; }
+        public string ShortDescription { get; set; }
+        public string LongDescription { get; set; }
+        public string Status { get; set; }
+
+        public virtual IEnumerable<BookAuthor> Authors { get; set; }
+
+        public virtual IEnumerable<BookCategory> Categories { get; set; }
+        
         protected Book()
         {
 
         }
 
-        public Book(string name, int numberOfPages, Guid categoryId, Guid? id = null)
+        public Book(Guid? id, string title, string isbn, int pageCount, DateTime publishedDate, string thumbnailUrl, string shortDescription, string longDescription, 
+            string status, IEnumerable<BookAuthor> authors, IEnumerable<BookCategory> categories)
         {
             Id = id ?? Guid.NewGuid();
-            Name = name;
-            NumberOfPages = numberOfPages;
-            CategoryId = categoryId;
+            Title = title;
+            Isbn = isbn;
+            PageCount = pageCount;
+            PublishedDate = publishedDate;
+            ThumbnailUrl = thumbnailUrl;
+            ShortDescription = shortDescription;
+            LongDescription = longDescription;
+            Status = status;
+            Authors = authors;
+            Categories = categories;
         }
     }
 }

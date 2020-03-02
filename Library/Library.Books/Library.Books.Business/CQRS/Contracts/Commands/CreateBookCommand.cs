@@ -1,14 +1,22 @@
 ﻿using System;
-using Library.Books.Business.CQRS.Contracts.Queries;
+using System.Collections;
+using System.Collections.Generic;
+using Library.Books.Domain.Models;
 using MediatR;
 
 namespace Library.Books.Business.CQRS.Contracts.Commands
 {
     public class CreateBookCommand : IRequest<Unit>
     {
-        public string Name { get; set; }
-        public int NumberOfPages { get; set; }
-        public Guid CategoryId { get; set; }
-        public virtual GetCategoryResult Category { get; set; }
+        public string Title { get; set; }
+        public string Isbn { get; set; }
+        public int PageCount { get; set; }
+        public DateTime PublishedDate { get; set; }
+        public string ThumbnailUrl { get; set; }
+        public string ShortDescription { get; set; }
+        public string LongDescription { get; set; }
+        public string Status { get; set; }
+        public IEnumerable<BookAuthor> Authors { get; set; }
+        public IEnumerable<BookCategory> Categories { get; set; }
     }
 }

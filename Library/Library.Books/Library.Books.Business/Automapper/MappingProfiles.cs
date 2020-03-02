@@ -13,8 +13,8 @@ namespace Library.Books.Business.Automapper
             CreateMap<Category, GetCategoryResult>();
 
             CreateMap<Book, GetBookQueryResult>()
-                .ForMember(map => map.Category, 
-                    opt => opt.MapFrom(s => s.Category));
+                .ForMember(map => map.Categories, 
+                    opt => opt.MapFrom(s => s.Categories));
 
             CreateMap<List<Book>, GetAllBookQueryResult>()
                 .ForMember(map => map.Books,

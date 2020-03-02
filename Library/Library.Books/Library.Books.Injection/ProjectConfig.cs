@@ -26,6 +26,7 @@ namespace Library.Books.Injection
             using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             using var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
+
             context.Database.EnsureCreated();
 
             context.SaveChanges();
