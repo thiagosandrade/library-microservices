@@ -4,6 +4,7 @@ using Library.Auth.Business.CQRS;
 using Library.Auth.Business.Services;
 using Library.Auth.Database;
 using Library.Auth.Database.Interfaces;
+using Library.Auth.Domain.Models;
 using Library.Hub.Rabbit;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -28,7 +29,20 @@ namespace Library.Auth.Injection
             using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             using var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-            context.Database.EnsureCreated();
+            context.AddRange(
+                    new User(
+                        "Jack",
+                        "Daniels",
+                        "test",
+                        "12345",
+                        "jack.daniels@gmail.com"),
+                    new User(
+                        "John",
+                        "Something",
+                        "test2",
+                        "12345",
+                        "john.something@gmail.com")
+                    );
 
             context.SaveChanges();
         }

@@ -1,8 +1,5 @@
-using Library.Auth.Business.Events;
-using Library.Auth.Business.Handlers;
 using Library.Auth.Database;
 using Library.Auth.Injection;
-using Library.Hub.Rabbit.RabbitMq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

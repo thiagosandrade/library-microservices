@@ -13,8 +13,8 @@ namespace Library.Auth.Business.Services
 {
     public class AuthService : IAuthService
     {
-        private IMediator _mediator { get; }
-        private IConfiguration _config { get; }
+        private readonly IMediator _mediator;
+        private readonly IConfiguration _config;
 
         public AuthService(IMediator mediator, IConfiguration config)
         {

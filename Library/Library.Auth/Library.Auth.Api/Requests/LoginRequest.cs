@@ -1,6 +1,6 @@
-﻿namespace Library.Auth.Api.Controllers
+﻿namespace Library.Auth.Api.Requests
 {
-    public class AuthRequest
+    public class LoginRequest
     {
         public string Login { get; set; }
         public string Password { get; set; }

@@ -2,8 +2,17 @@
 
 namespace Library.Auth.Business.CQRS.Contracts.Commands
 {
-    public class CreateUserCommand : IRequest
+    public class CreateUserCommand : IRequest<string>
     {
+        public CreateUserCommand(string name, string surname, string login, string email, string password)
+        {
+            Name = name;
+            Surname = surname;
+            Login = login;
+            Email = email;
+            Password = password;
+        }
+
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Login { get; set; }
