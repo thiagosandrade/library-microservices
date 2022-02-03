@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Library.Auth.Business.CQRS.Commands
 {
-    public class LoginUserCommandHandler : BaseHandler, IRequestHandler<LoginUserCommand, string>
+    public class LoginUserCommandHandler : BaseHandler, IRequestHandler<LoginUserCommand, object>
     {
         private readonly IEventBus _eventBus;
         private readonly IAuthService _authService;
@@ -19,7 +19,7 @@ namespace Library.Auth.Business.CQRS.Commands
             _authService = authService;
         }
 
-        public async Task<string> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<object> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var token = await _authService.Authenticate(request.Login, request.Password);
 

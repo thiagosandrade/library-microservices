@@ -15,6 +15,16 @@ namespace Library.Auth.Business.AutoMapper
             CreateMap<List<User>, GetAllUserQueryResult>()
                 .ForMember(map => map.Users,
                     opt => opt.MapFrom(x => x));
+
+            CreateMap<UserRole, UserRolesResult>()
+                .ForMember(map => map.UserRole,
+                    opt => opt.MapFrom(x => x.Role.RoleName));
+
+            CreateMap<User, GetUserWithRolesQueryResult>();
+
+            CreateMap<List<User>, GetAllUserWithRolesQueryResult>()
+                .ForMember(map => map.Users,
+                    opt => opt.MapFrom(x => x));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Library.Auth.Database.Interfaces;
 using Library.Auth.Domain.Models;
@@ -15,9 +16,19 @@ namespace Library.Auth.Database
         {
             _context = context;
         }
-        public async Task<List<TEntity>> GetAll()
+        public async Task<List<TEntity>> GetAll(params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _context.Set<TEntity>().ToListAsync();
+            var query = _context.Set<TEntity>().AsQueryable();
+
+            if(includes != null)
+            {
+                foreach (var item in includes)
+                {
+                    query = query.Include(item);
+                }
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<TEntity> GetById(int id)

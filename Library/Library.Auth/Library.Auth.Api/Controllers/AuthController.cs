@@ -31,13 +31,10 @@ namespace Library.Auth.Api.Controllers
             var token = await _mediator.Send(new LoginUserCommand(user.Login,
                                                                   user.Password));
 
-            if (string.IsNullOrEmpty(token))
+            if (token is null)
                 return BadRequest(new {message = "Username or password incorrect"});
 
-            return Ok(new
-            {
-                Token = token
-            });
+            return Ok(token);
 
         }
 
@@ -53,13 +50,10 @@ namespace Library.Auth.Api.Controllers
                                                                    user.Login,
                                                                    user.Password));
 
-            if (string.IsNullOrEmpty(token))
+            if (token is null)
                 return BadRequest(new { message = "Creation of user not succeeded" });
 
-            return Ok(new
-            {
-                Token = token
-            });
+            return Ok(token);
 
         }
     }

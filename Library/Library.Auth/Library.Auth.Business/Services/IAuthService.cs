@@ -4,6 +4,6 @@ namespace Library.Auth.Business.Services
 {
     public interface IAuthService
     {
-        Task<string> Authenticate(string login, string password);
+        Task<object> Authenticate(string login, string password);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Library.Auth.Business.CQRS.Contracts.Commands
 {
-    public class LoginUserCommand : IRequest<string>
+    public class LoginUserCommand : IRequest<object>
     {
         public LoginUserCommand(string login, string password)
         {

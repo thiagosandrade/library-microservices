@@ -30,6 +30,11 @@ namespace Library.Auth.Injection
             using var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
             context.AddRange(
+                new Role("Reader"),
+                new Role("SuperUser")
+                );
+
+            context.AddRange(
                     new User(
                         "Jack",
                         "Daniels",
@@ -43,6 +48,12 @@ namespace Library.Auth.Injection
                         "12345",
                         "john.something@gmail.com")
                     );
+
+            context.AddRange(
+                    new UserRole() { RoleId = 1, UserId = 1 },
+                    new UserRole() { RoleId = 2, UserId = 2 }
+                );
+
 
             context.SaveChanges();
         }

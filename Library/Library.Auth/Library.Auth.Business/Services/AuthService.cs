@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -22,36 +23,41 @@ namespace Library.Auth.Business.Services
             _config = config;
         }
 
-        public async Task<string> Authenticate(string login, string password)
+        public async Task<object> Authenticate(string login, string password)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return null;
 
-            var result = await _mediator.Send(new GetAllUserQuery());
+            var result = await _mediator.Send(new GetAllUserWithRolesQuery());
 
             var user = result.Users.Where(x => x.Login.Equals(login) && x.Password.Equals(password)).FirstOrDefault();
 
             if (user == null)
                 return null;
 
+            var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+
+            foreach (var userRole in user.UserRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole.UserRole));
+            }
+
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("Secret"));
+            var key = Encoding.UTF8.GetBytes(_config.GetValue<string>("JWT:Secret"));
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim("sub", user.Name),
-                    new Claim(ClaimTypes.Name, user.Name),
-                    new Claim(ClaimTypes.Role, "USER"),
-                    new Claim("userType", "SimpleUser"),
-                }),
+                Subject = new ClaimsIdentity(authClaims),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return new { token = $"Bearer { tokenHandler.WriteToken(token)}", expiration = tokenDescriptor.Expires };
         }
     }
 }

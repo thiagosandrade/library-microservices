@@ -1,5 +1,8 @@
+using Library.Auth.Business.Events;
+using Library.Auth.Business.Handlers;
 using Library.Auth.Database;
 using Library.Auth.Injection;
+using Library.Hub.Rabbit.RabbitMq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,13 +37,14 @@ namespace Library.Auth.Api
                 });
 
 
-            var secret = Configuration.GetValue<string>("Secret");
-            var key = Encoding.ASCII.GetBytes(secret);
+            var secret = Configuration.GetValue<string>("JWT:Secret");
+            var key = Encoding.UTF8.GetBytes(secret);
 
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(x =>
             {
@@ -68,8 +72,8 @@ namespace Library.Auth.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            //var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            //eventBus.Subscribe<UserLoggedEvent, UserLoggedEventHandler>();
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<UserLoggedEvent, UserLoggedEventHandler>();
 
             app.UseHttpsRedirection();
 
@@ -97,10 +101,32 @@ namespace Library.Auth.Api
             services.AddInjections();  
             services.AddControllers().AddNewtonsoftJson();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library.Authors", Version = "v1" });
-            });
+            services
+                .AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library.Authors", Version = "v1" });
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        In = ParameterLocation.Header,
+                        Description = "Please enter JWT with Bearer into field",
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.ApiKey
+                    });
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string []{}
+                        }
+                    });
+                });
 
             services.AddCors(x => x.AddPolicy("MVRCors", y => 
                 y.AllowAnyHeader()

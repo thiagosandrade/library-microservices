@@ -10,9 +10,11 @@ services:
             - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/mnesiab
         ports:
             - "5672:5672"
+            - "5673:5673"
             - "15672:15672"
         expose:
             - 5672
+            - 5673
             - 15672
         networks:
           - library-network

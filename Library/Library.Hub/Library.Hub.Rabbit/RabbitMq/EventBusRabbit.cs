@@ -77,7 +77,7 @@ namespace Library.Hub.Rabbit.RabbitMq
 
         private void CreateChannel()
         {
-            if(_connection == null || !_connection.IsOpen)
+            if(_connection is null || !_connection.IsOpen)
                 _connection = GetConnectionFactory().CreateConnection();
 
             _channel = _connection.CreateModel();

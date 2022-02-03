@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Library.Auth.Business.CQRS.Commands
 {
-    public class CreateUserCommandHandler : BaseHandler, IRequestHandler<CreateUserCommand, string>
+    public class CreateUserCommandHandler : BaseHandler, IRequestHandler<CreateUserCommand, object>
     {
         private readonly IGenericRepository<User> _userRepository;
         private readonly IAuthService _authService;
@@ -24,7 +24,7 @@ namespace Library.Auth.Business.CQRS.Commands
             _eventBus = eventBus;
         }
 
-        public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<object> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             User user = new User(request.Name, request.Surname, request.Login, request.Email, request.Password);
 

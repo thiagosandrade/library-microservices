@@ -16,11 +16,11 @@ namespace Library.Auth.Api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.ConfigureAppConfiguration(ConfigConfiguration);
+                    webBuilder.ConfigureAppConfiguration(AppSettingsConfiguration);
                     webBuilder.UseStartup<Startup>();
                 });
 
-        private static void ConfigConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder config)
+        private static void AppSettingsConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder config)
         {
             config.SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true)

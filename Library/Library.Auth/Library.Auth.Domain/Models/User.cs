@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Library.Auth.Domain.Models
 {
     public class User : Entity
@@ -16,5 +18,7 @@ namespace Library.Auth.Domain.Models
         public string Login { get; private set; }
         public string Password { get; private set; }
         public string Email { get; private set; }
+
+        public virtual IEnumerable<UserRole> UserRoles { get; set; }
     }
 }
