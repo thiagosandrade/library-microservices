@@ -3,7 +3,8 @@ import { IUser } from 'src/app/_shared/model/user.model';
 import { Action } from '@ngrx/store';
 
 export enum AuthorTypes {
-    Login = "Login"
+    Login = "Login",
+    Logout = "Logout"
 }
 
 export const AuthorActionTypes = {
@@ -13,6 +14,11 @@ export const AuthorActionTypes = {
 
 export class Login implements Action {
     public readonly type = `${this.entityType}_${AuthorActionTypes.Login}`;
+    constructor(public payload: IUser, private entityType: string){}
+}
+
+export class Logout implements Action {
+    public readonly type = `${this.entityType}_${AuthorActionTypes.Logout}`;
     constructor(public payload: IUser, private entityType: string){}
 }
 

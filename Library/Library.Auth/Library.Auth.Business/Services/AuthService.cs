@@ -37,7 +37,9 @@ namespace Library.Auth.Business.Services
 
             var authClaims = new List<Claim>
                 {
+                    new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(ClaimTypes.Surname, user.Surname),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 

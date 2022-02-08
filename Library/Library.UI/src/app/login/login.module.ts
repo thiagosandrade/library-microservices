@@ -9,7 +9,7 @@ import { SharedModule } from '../_shared/shared.module';
 import { LoginEffects } from '../store/effects/login.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { loginReducer } from '../store/selectors/user.selector';
+import { loginReducer } from '../store/selectors/login.selector';
 
 @NgModule({
   declarations: [

@@ -16,9 +16,8 @@ namespace Library.Gateway
                 .ConfigureAppConfiguration((ic, config) =>
                 {
                     config
-                        .AddJsonFile($"appsettings.{ic.HostingEnvironment.EnvironmentName}.json", true,
-                            true)
-                        .AddJsonFile("ocelot.json", false, false);
+                        .AddJsonFile($"appsettings.{ic.HostingEnvironment.EnvironmentName}.json", false, true)
+                        .AddJsonFile($"ocelot.{ic.HostingEnvironment.EnvironmentName}.json", false, true);
                 })
                 .UseStartup<Startup>();
     }

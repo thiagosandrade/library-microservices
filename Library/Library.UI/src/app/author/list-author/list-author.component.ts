@@ -30,8 +30,6 @@ export class ListAuthorComponent implements OnInit {
     this.signalRService.StartHub();
     this.signalRService.notificationReceived.subscribe(() => {
       this.authors$ = this.store.pipe(select(selectAuthorList));
-      this.store.dispatch(new GetAll(EntitiesEnum.Author));
-
     });
     this.store.dispatch(new GetAll(EntitiesEnum.Author));
 

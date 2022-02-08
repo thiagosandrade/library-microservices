@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: './login/login.module#LoginModule'
   },
   { 
+    path: 'user',  
+    loadChildren: './user/user.module#UserModule'
+  },
+  { 
     path: 'author', 
     loadChildren: './author/author.module#AuthorModule'
   },

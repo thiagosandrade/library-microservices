@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { selectSelectedUser } from 'src/app/store/selectors/author.selector';
+import { getSelectedUser } from 'src/app/store/selectors/author.selector';
 import { Update, EntitiesEnum } from 'src/app/store/actions/app.actions';
 import { IAuthor } from 'src/app/_shared/model/author.model';
 
@@ -19,7 +19,7 @@ export class EditAuthorComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,private router: Router, private store: Store<IAppState<IAuthor>>) { }
 
-  author$ = this.store.pipe(select(selectSelectedUser))
+  author$ = this.store.pipe(select(getSelectedUser))
     .subscribe( (author : IAuthor) =>{
       if(author == null){
         this.router.navigate(['author','list-author']);

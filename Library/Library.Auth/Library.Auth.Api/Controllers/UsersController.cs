@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Library.Auth.Api.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
@@ -21,33 +21,27 @@ namespace Library.Auth.Api.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Roles = "Reader, SuperUser")]
-        [HttpGet("Users")]
+        //[Authorize(Roles = "Reader, SuperUser")]
+        [HttpGet("")]
         public async Task<IActionResult> GetUsers()
         {
             _logger.LogInformation($"Get Users");
 
             var result = await _mediator.Send(new GetAllUserQuery());
 
-            return Ok(new
-            {
-                Result = result
-            });
+            return Ok(new OkObjectResult(result.Users));
 
         }
 
-        [Authorize(Roles = "SuperUser")]
-        [HttpGet("UsersWithRoles")]
+        [Authorize(Roles = "Reader, SuperUser")]
+        [HttpGet("WithRoles")]
         public async Task<IActionResult> GetUsersWithRoles()
         {
             _logger.LogInformation($"Get Users with Roles");
 
             var result = await _mediator.Send(new GetAllUserWithRolesQuery());
 
-            return Ok(new
-            {
-                Result = result
-            });
+            return Ok(new OkObjectResult(result.Users));
 
         }
     }

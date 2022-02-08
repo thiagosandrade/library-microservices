@@ -1,155 +1,48 @@
 {
   "ReRoutes": [
-    //HUB
-    {
-      "DownstreamPathTemplate": "/{catchAll}",
-      "DownstreamScheme": "ws",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "library-hub",
-          "Port": 59583
-        }
-      ],
-      "UpstreamPathTemplate": "/{catchAll}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
+  ],
+  "DynamicRoutes": [
+  ],
+  "Aggregates": [
+  ],
+  "GlobalConfiguration": {
+    "RequestIdKey": null,
+    "ServiceDiscoveryProvider": {
+      "Scheme": null,
+      "Host": null,
+      "Port": 0,
+      "Type": null,
+      "Token": null,
+      "ConfigurationKey": null,
+      "PollingInterval": 0,
+      "Namespace": null
     },
-    //PLACE OF BIRTH
-    {
-      //Internal Redirect
-      "DownstreamPathTemplate": "/api/placeofbirth",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "library-authors",
-          "Port": 59581
-        }
-      ],
-      //Ocelot Exposure EntryPoint
-      "UpstreamPathTemplate": "/placeofbirth/",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "1s",
-        "PeriodTimespan": 0,
-        "Limit": 999
-      }
+    "RateLimitOptions": {
+      "ClientIdHeader": "ClientId",
+      "QuotaExceededMessage": null,
+      "RateLimitCounterPrefix": "ocelot",
+      "DisableRateLimitHeaders": false,
+      "HttpStatusCode": 429
     },
-    //AUTHORS
-    {
-      //Internal Redirect
-      "DownstreamPathTemplate": "/api/author",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "library-authors",
-          "Port": 59581
-        }
-      ],
-      //Ocelot Exposure EntryPoint
-      "UpstreamPathTemplate": "/Author/",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "1s",
-        "PeriodTimespan": 0,
-        "Limit": 999
-      }
+    "QoSOptions": {
+      "ExceptionsAllowedBeforeBreaking": 0,
+      "DurationOfBreak": 0,
+      "TimeoutValue": 0
     },
-    {
-      "DownstreamPathTemplate": "/api/author/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "library-authors",
-          "Port": 59581
-        }
-      ],
-      "UpstreamPathTemplate": "/Author/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "1s",
-        "PeriodTimespan": 0,
-        "Limit": 999
-      }
+    "BaseUrl": null,
+    "LoadBalancerOptions": {
+      "Type": null,
+      "Key": null,
+      "Expiry": 0
     },
-    //BOOKS
-    {
-      "DownstreamPathTemplate": "/api/book",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "library-books",
-          "Port": 59582
-        }
-      ],
-      "UpstreamPathTemplate": "/book/",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
-      "FileCacheOptions": {
-        "TtlSeconds": 60
-      }
+    "DownstreamScheme": null,
+    "HttpHandlerOptions": {
+      "AllowAutoRedirect": false,
+      "UseCookieContainer": false,
+      "UseTracing": false,
+      "UseProxy": true,
+      "MaxConnectionsPerServer": 2147483647
     },
-    {
-      "DownstreamPathTemplate": "/api/book/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "library-books",
-          "Port": 59582
-        }
-      ],
-      "UpstreamPathTemplate": "/book/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
-      "FileCacheOptions": {
-        "TtlSeconds": 60
-      }
-    },
-    //HUB
-    {
-      //Internal Redirect
-      "DownstreamPathTemplate": "/hub",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "library-hub",
-          "Port": 59583
-        }
-      ],
-      //Ocelot Exposure EntryPoint
-      "UpstreamPathTemplate": "/hub",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "1s",
-        "PeriodTimespan": 0,
-        "Limit": 999
-      }
-    },
-    //AUTH
-    {
-      //Internal Redirect
-      "DownstreamPathTemplate": "/api/auth",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "library-auth",
-          "Port": 59584
-        }
-      ],
-      //Ocelot Exposure EntryPoint
-      "UpstreamPathTemplate": "/Auth/",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "1s",
-        "PeriodTimespan": 0,
-        "Limit": 999
-      }
-    }
-  ]
+    "DownstreamHttpVersion": null
+  }
 }
