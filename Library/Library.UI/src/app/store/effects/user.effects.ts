@@ -15,7 +15,7 @@ import { selectLoggedUser } from "../selectors/login.selector";
 export class UserEffects{
     
     constructor(
-        private _authorService: ApiUserService,
+        private _userService: ApiUserService,
         private _actions$: Actions,
         private _store: Store<IAppState<IUser>>) {}
 
@@ -25,8 +25,8 @@ export class UserEffects{
         map(action => action.payload),
         withLatestFrom(this._store.pipe(select(selectUserList))),
         switchMap(
-            ([id, authors]) => {
-                const selectedUser = authors.filter(author => author.id === +id)[0];
+            ([id, users]) => {
+                const selectedUser = users.filter(user => user.id === +id)[0];
                 return of(new GetSuccess(selectedUser, EntitiesEnum.User));
             })
     );
@@ -37,39 +37,57 @@ export class UserEffects{
         withLatestFrom(this._store.pipe(select(selectLoggedUser))),
         switchMap(
             ([, loggedUser]) => 
-            this._authorService
+            this._userService
                 .getUsers(loggedUser.token)
                 .pipe(
                         switchMap((response : ApiUserListResponse) => of(new GetAllSuccess(response.value, EntitiesEnum.User)))
                 )
-        ),
+        )
     );
 
     @Effect()
     createUser$ = this._actions$.pipe(
         ofType<Create>(`${EntitiesEnum.User}_${ActionsEnum.Create}`),
         map(action => action.payload),
-        switchMap((author : IUser) => this._authorService.createUser(author).pipe(
-            switchMap((response : ApiUserResponse) => of(new Success(response.value, EntitiesEnum.User))),
-            catchError(err => of(new Fail(err, EntitiesEnum.User)))
-        ))
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
+        switchMap(
+            ([user,userLogged]) => 
+            this._userService
+                .createUser(user, userLogged.token)
+                .pipe(
+                        switchMap((response : ApiUserResponse) => of(new Success(response.value, EntitiesEnum.User))),
+                        catchError(err => of(new Fail(err, EntitiesEnum.User)))
+                ),
+        ),
+        switchMap(() => [
+                new GetAll(EntitiesEnum.User),
+            ])
     );
 
     @Effect()
     updateUser$ = this._actions$.pipe(
         ofType<Update>(`${EntitiesEnum.User}_${ActionsEnum.Update}`),
         map(action => action.payload),
-        switchMap((author : IUser) => this._authorService.updateUser(author).pipe(
-            switchMap((response : ApiUserResponse) => of(new Success(response.value, EntitiesEnum.User))),
-            catchError(err => of(new Fail(err, EntitiesEnum.User)))
-        ))
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
+        switchMap(
+            ([user,userLogged]) => 
+            this._userService
+                .updateUser(user, userLogged.token)
+                .pipe(
+                        switchMap((response : ApiUserResponse) => of(new Success(response.value, EntitiesEnum.User))),
+                        catchError(err => of(new Fail(err, EntitiesEnum.User)))
+                ),
+        ),
+        switchMap(() => [
+                new GetAll(EntitiesEnum.User),
+            ])
     );
 
     @Effect()
     deleteUser$ = this._actions$.pipe(
         ofType<Delete>(`${EntitiesEnum.User}_${ActionsEnum.Delete}`),
         map(action => action.payload),
-        switchMap((author : IUser) => this._authorService.deleteUser(author.id).pipe(
+        switchMap((user : IUser) => this._userService.deleteUser(user.id).pipe(
             switchMap((response : ApiUserResponse) => of(new Success(response.value, EntitiesEnum.User))),
             catchError(err => of(new Fail(err, EntitiesEnum.User)))
         ))

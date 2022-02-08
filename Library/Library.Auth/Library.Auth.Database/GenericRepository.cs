@@ -52,7 +52,7 @@ namespace Library.Auth.Database
             });
         }
 
-        public async Task Update(int id, TEntity entity)
+        public async Task Update(TEntity entity)
         {
             await Task.Run(async () =>
             {

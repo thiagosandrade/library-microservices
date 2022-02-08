@@ -9,6 +9,8 @@
         <th>Surname</th>
         <th>Login</th>
         <th>Email</th>
+        <th></th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -18,6 +20,12 @@
         <td>{{user.surname}}</td>
         <td>{{user.login}}</td>
         <td>{{user.email}}</td>
+        <td>
+          <button class="btn btn-success" (click)="deleteUser(user)" [disabled]="!(isAdmin$ | async)"> Delete</button>
+        </td>
+        <td>
+          <button class="btn btn-success" (click)="editUser(user)" [disabled]="!(isAdmin$ | async)"> Edit</button>
+        </td>
       </tr>
       </tbody>
     </table>

@@ -37,16 +37,16 @@ export class ListUserComponent implements OnInit {
     this.store.dispatch(new GetAll(EntitiesEnum.User));
   }
 
-  deleteuser(user: IUser): void {
+  deleteUser(user: IUser): void {
     this.store.dispatch(new Delete(user, EntitiesEnum.User));
   };
 
-  edituser(user: IUser): void {
+  editUser(user: IUser): void {
     this.store.dispatch(new SetSelected(user, EntitiesEnum.User))
     this.router.navigate(['user','edit-user']);
   };
 
-  adduser(): void {
+  addUser(): void {
     this.router.navigate(['user','add-user']);
   };
 }

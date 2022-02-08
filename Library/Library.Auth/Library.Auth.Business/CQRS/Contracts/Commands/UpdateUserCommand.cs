@@ -2,10 +2,11 @@
 
 namespace Library.Auth.Business.CQRS.Contracts.Commands
 {
-    public class CreateUserCommand : IRequest
+    public class UpdateUserCommand : IRequest
     {
-        public CreateUserCommand(string name, string surname, string login, string email, string password)
+        public UpdateUserCommand(string name, string surname, string login, string email, string password, int id)
         {
+            Id = id;
             Name = name;
             Surname = surname;
             Login = login;
@@ -13,6 +14,7 @@ namespace Library.Auth.Business.CQRS.Contracts.Commands
             Password = password;
         }
 
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Login { get; set; }

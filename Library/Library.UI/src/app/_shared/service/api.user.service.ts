@@ -6,6 +6,7 @@ import { IUser } from '../model/user.model';
 import { ApiResponse } from '../model/api.response';
 import { map } from 'rxjs/internal/operators/map';
 import { environment } from 'src/environments/environment';
+import { IEntity } from '../model/entity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +28,20 @@ export class ApiUserService {
     return this.http.get<ApiUserResponse>(this.baseUrl + id)
   }
 
-  createUser(user: IUser): Observable<ApiUserResponse> {
-    return this.http.post<ApiUserResponse>(this.baseUrl, user);
+  createUser(user: IEntity, token: string): Observable<ApiUserResponse> {
+    return this.http.post<ApiUserResponse>(this.baseUrl, user, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
-  updateUser(user: IUser): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl, user);
+  updateUser(user: IEntity, token: string): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(this.baseUrl, user, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
   deleteUser(id: number): Observable<ApiResponse> {

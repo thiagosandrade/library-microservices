@@ -61,26 +61,5 @@ namespace Library.Auth.Api.Controllers
             return Ok(new OkObjectResult(userDetails));
 
         }
-
-
-
-        [AllowAnonymous]
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] CreateRequest user)
-        {
-            _logger.LogInformation($"Creating user: {user}");
-
-            var token = await _mediator.Send(new CreateUserCommand(user.Name,
-                                                                   user.Surname,
-                                                                   user.Login,
-                                                                   user.Login,
-                                                                   user.Password));
-
-            if (token is null)
-                return BadRequest(new { message = "Creation of user not succeeded" });
-
-            return Ok(new OkObjectResult(token));
-
-        }
     }
 }

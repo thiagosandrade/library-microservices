@@ -41,7 +41,6 @@ namespace Library.Gateway
 
             app.UseCors("CorsPolicy");
 
-
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -51,8 +50,7 @@ namespace Library.Gateway
 
             var webSocketOptions = new WebSocketOptions()
             {
-                KeepAliveInterval = TimeSpan.FromSeconds(120),
-                ReceiveBufferSize = 4 * 1024
+                KeepAliveInterval = TimeSpan.FromSeconds(120)
             };
 
             app.UseWebSockets(webSocketOptions);

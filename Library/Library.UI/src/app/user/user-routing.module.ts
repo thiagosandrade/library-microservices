@@ -8,16 +8,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: './list-user/list-user.module#ListUserModule'
   },
-  // { 
-  //   path: 'add-user', 
-  //   canActivate: [AuthGuard],
-  //   loadChildren: './add-user/add-user.module#AddUserModule'
-  // },
-  // { 
-  //   path: 'edit-user', 
-  //   canActivate: [AuthGuard],
-  //   loadChildren: './edit-user/edit-user.module#EditUserModule'
-  // }
+  { 
+    path: 'add-user', 
+    canActivate: [AuthGuard],
+    loadChildren: './add-user/add-user.module#AddUserModule'
+  },
+  { 
+    path: 'edit-user', 
+    canActivate: [AuthGuard],
+    loadChildren: './edit-user/edit-user.module#EditUserModule'
+  }
 ];
 
 @NgModule({

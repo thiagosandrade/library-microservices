@@ -9,6 +9,11 @@ const getUserFeatureState = createFeatureSelector<IAppState<IUser>>('usersFeatur
 
 export const userReducer = appReducer<IAppState<IUser>>(EntitiesEnum.User, initialAppState, Actions);
 
+export const getSelectedUser = createSelector(
+    getUserFeatureState,
+    (state: IAppState<IUser>) => state != null ? state.selectedEntity : null
+);
+
 export const selectUserList = createSelector(
     getUserFeatureState,
     (state: IAppState<IUser>) => state != null ? state.entities : null
