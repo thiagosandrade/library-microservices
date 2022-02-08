@@ -3,13 +3,18 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { appReducer } from '../reducers/app.reducer';
 import { IUser } from 'src/app/_shared/model/user.model';
 import { EntitiesEnum } from '../actions/app.actions';
-import { AuthorActionTypes } from '../actions/login.actions';
+import { Actions } from "@ngrx/effects";
 
-const getLoginFeatureState = createFeatureSelector<IAppState<IUser>>('loginFeature');
+const getUserFeatureState = createFeatureSelector<IAppState<IUser>>('usersFeature');
 
-export const loginReducer = appReducer<IAppState<IUser>>(EntitiesEnum.Login, initialAppState, AuthorActionTypes);
+export const userReducer = appReducer<IAppState<IUser>>(EntitiesEnum.User, initialAppState, Actions);
 
-export const selectLoggedUser = createSelector(
-    getLoginFeatureState,
+export const getSelectedUser = createSelector(
+    getUserFeatureState,
     (state: IAppState<IUser>) => state != null ? state.selectedEntity : null
+);
+
+export const selectUserList = createSelector(
+    getUserFeatureState,
+    (state: IAppState<IUser>) => state != null ? state.entities : null
 );

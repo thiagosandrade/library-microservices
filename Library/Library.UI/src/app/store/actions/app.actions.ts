@@ -3,7 +3,8 @@ import { IEntity } from 'src/app/_shared/model/entity.model';
 
 export enum EntitiesEnum {
     Author = 'Author',
-    Login = 'Login'
+    Login = 'Login',
+    User = 'User'
 }
 
 export enum ActionsEnum {

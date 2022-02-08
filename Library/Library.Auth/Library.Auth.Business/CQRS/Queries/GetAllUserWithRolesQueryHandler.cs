@@ -21,7 +21,7 @@ namespace Library.Auth.Business.CQRS.Queries
 
         public async Task<GetAllUserWithRolesQueryResult> Handle(GetAllUserWithRolesQuery request, CancellationToken cancellationToken)
         {
-            var result = await _userRepository.GetAll(x => x.UserRoles);
+            var result = await _userRepository.GetAll(includes: x => x.UserRoles);
 
             return _mapper.Map<GetAllUserWithRolesQueryResult>(result);
         }

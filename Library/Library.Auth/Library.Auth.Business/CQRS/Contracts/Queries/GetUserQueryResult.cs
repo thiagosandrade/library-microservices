@@ -1,4 +1,6 @@
-﻿namespace Library.Auth.Business.CQRS.Contracts.Queries
+﻿using System.Collections.Generic;
+
+namespace Library.Auth.Business.CQRS.Contracts.Queries
 {
     public class GetUserQueryResult
     {
@@ -8,5 +10,8 @@
         public string Login { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string Token { get; set; }
+        public IEnumerable<UserRolesResult> UserRoles { get; set; }
+
     }
 }

@@ -3,7 +3,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { Store, select } from '@ngrx/store';
 import { IAppState } from '../store/state/app.state';
 import { IUser } from '../_shared/model/user.model';
-import { selectLoggedUser } from '../store/selectors/user.selector';
+import { selectLoggedUser } from '../store/selectors/login.selector';
 import { map } from 'rxjs/operators';
 
 @Injectable()

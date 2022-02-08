@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Library.Auth.Database.Interfaces;
@@ -16,10 +17,15 @@ namespace Library.Auth.Database
         {
             _context = context;
         }
-        public async Task<List<TEntity>> GetAll(params Expression<Func<TEntity, object>>[] includes)
+        public async Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
         {
             var query = _context.Set<TEntity>().AsQueryable();
-
+            
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            
             if(includes != null)
             {
                 foreach (var item in includes)
@@ -46,7 +52,7 @@ namespace Library.Auth.Database
             });
         }
 
-        public async Task Update(int id, TEntity entity)
+        public async Task Update(TEntity entity)
         {
             await Task.Run(async () =>
             {

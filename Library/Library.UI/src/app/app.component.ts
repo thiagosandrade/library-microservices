@@ -2,8 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { SignalRMessage } from './_shared/signalR/signalR.message';
 import { SignalRService } from './_shared/signalR/signalR.service';
 import { MessageNotifierService, Severities } from './_shared/messageNotifier/messageNotifier.service';
-import { ApiLoginService } from './_shared/service/api.login.service';
 import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { IAppState } from './store/state/app.state';
+import { IUser } from './_shared/model/user.model';
+import { isUserLogged } from './store/selectors/login.selector';
+import { Logout } from './store/actions/login.actions';
+import { EntitiesEnum } from './store/actions/app.actions';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +20,10 @@ export class AppComponent implements OnInit {
   
   constructor(private signalRService: SignalRService, private router: Router,
     private messageNotifierService: MessageNotifierService,
-    private loginService: ApiLoginService){ }
+    private store: Store<IAppState<IUser>>){ }
   
+  userLogged$ = this.store.pipe(select(isUserLogged));
+
   ngOnInit(): void {
 
     this.signalRService.StartHub();
@@ -29,23 +36,11 @@ export class AppComponent implements OnInit {
   }
 
   logout(): void {
-    this.loginService.logout();
+    this.store.dispatch(new Logout(null, EntitiesEnum.Login))
   }
 
   login(): void {
     this.router.navigate(['login']);
   }
-
-  get isLoggedIn() {
-    var result = this.loginService.isLogged().subscribe(
-      data => {
-        if(data != null)
-          return true;
-
-        return false;
-      }
-    );
-
-    return result;
-  }
+ 
 }

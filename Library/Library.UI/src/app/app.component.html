@@ -3,10 +3,10 @@
     <a class="navbar-brand" href="http://#">Microservices</a>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" >
-        <a class="nav-link" href="#" (click)="login()" *ngIf="!isLoggedIn">Login</a>
+        <a class="nav-link" href="#" (click)="login()" *ngIf="!(userLogged$ | async)">Login</a>
       </li>  
       <li class="nav-item">
-        <a class="nav-link" href="#" (click)="logout()" *ngIf="isLoggedIn">Logout</a>
+        <a class="nav-link" href="#" (click)="logout()" *ngIf="userLogged$ | async">Logout</a>
       </li>
     </ul>
   </div>

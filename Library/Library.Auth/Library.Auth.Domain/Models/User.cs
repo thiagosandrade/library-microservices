@@ -4,8 +4,9 @@ namespace Library.Auth.Domain.Models
 {
     public class User : Entity
     {
-        public User(string name, string surname, string login, string password, string email)
+        public User(string name, string surname, string login, string password, string email, int id = 0)
         {
+            Id = id;
             Name = name;
             Surname = surname;
             Login = login;

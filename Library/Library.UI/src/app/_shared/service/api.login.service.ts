@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store, select } from '@ngrx/store';
 import { ClearSelected, EntitiesEnum } from 'src/app/store/actions/app.actions';
-import { selectLoggedUser } from 'src/app/store/selectors/user.selector';
+import { selectLoggedUser } from 'src/app/store/selectors/login.selector';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +22,15 @@ export class ApiLoginService {
   private islogged = this.store.pipe(select(selectLoggedUser));
 
   login(loginPayload : IUser) : Observable<ApiLoginResponse> {
-    return this.http.post<ApiLoginResponse>(this.baseUrl, loginPayload).pipe(
-      map(response => {
-        loginPayload.token = response.token;
-        return loginPayload;
-      })
-    );
+    return this.http.post<ApiLoginResponse>(`${this.baseUrl}login`, loginPayload);
+  }
+
+  loginDetails(token : string) : Observable<ApiLoginResponse> {
+    return this.http.get<ApiLoginResponse>(`${this.baseUrl}getuserlogged`, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
   public logout() {

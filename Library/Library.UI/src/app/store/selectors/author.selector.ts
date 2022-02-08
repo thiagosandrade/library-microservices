@@ -14,7 +14,7 @@ export const selectAuthorList = createSelector(
     (state: IAppState<IAuthor>) => state != null ? state.entities : null
 );
 
-export const selectSelectedUser = createSelector(
+export const getSelectedUser = createSelector(
     getAuthorFeatureState,
     (state: IAppState<IAuthor>) => state.selectedEntity
 );
