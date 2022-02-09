@@ -10,6 +10,7 @@ const routes: Routes = [
   },
   { 
     path: 'list-author', 
+    canActivate: [AuthGuard],
     loadChildren: './list-author/list-author.module#ListAuthorModule'
   },
   { 

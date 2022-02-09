@@ -1,7 +1,6 @@
 ﻿using Library.Hub.Core.SignalR.Library.Hub.Core.SignalR;
 using Library.Hub.SignalR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Threading.Tasks;
 
@@ -10,11 +9,11 @@ namespace Library.Hub.Controllers
     [Route("api/SignalR")]
     public class SignalRController : Controller
     {
-        private readonly IHubContext<SignalRHub> _hubContext;
+        private readonly INotificationHub _notificationHub;
 
-        public SignalRController(IHubContext<SignalRHub> hubContext)
+        public SignalRController(INotificationHub notificationHub)
         {
-            _hubContext = hubContext;
+            _notificationHub = notificationHub;
         }
 
         [HttpPost]
@@ -22,7 +21,7 @@ namespace Library.Hub.Controllers
         {
             try
             {
-                await _hubContext.Clients.All.SendAsync("BroadcastMessage", message);
+                await _notificationHub.SendMessage(message);
                 return Ok();
             }
             catch (Exception ex)

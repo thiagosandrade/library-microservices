@@ -47,7 +47,7 @@ namespace Library.Authors.Api.Controllers
         {
             try
             {
-                _logger.LogInformation("Command received: {0}", command);
+                _logger.LogInformation($"Command received: {command}");
 
                 await _mediator.Send(command);
 
@@ -65,7 +65,7 @@ namespace Library.Authors.Api.Controllers
         {
             try
             {
-                _logger.LogInformation("Command received: {0}", command);
+                _logger.LogInformation($"Command received: {command}");
 
                 await _mediator.Send(command);
 
@@ -83,7 +83,7 @@ namespace Library.Authors.Api.Controllers
         {
             try
             {
-                _logger.LogInformation("Command received: {0}", id);
+                _logger.LogInformation($"Command received: {id}");
 
                 var command = new DeleteAuthorCommand()
                 {

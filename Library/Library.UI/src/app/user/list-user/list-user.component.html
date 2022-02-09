@@ -1,7 +1,7 @@
 <div class="col-md-6 user-container">
     <h2 style="margin: auto"> Users</h2>
-    <button class="btn btn-danger col-md-2"  (click)="addUser()" [disabled]="!(isAdmin$ | async)"> Add User</button>
-    <table class="table table-striped">
+    <button class="btn btn-danger col-md-2 customButton"  (click)="addUser()" [disabled]="!(isAdmin$ | async)"> Add User</button>
+    <table class="table table-striped customTable">
       <thead>
       <tr>
         <th class="d-none">Id</th>

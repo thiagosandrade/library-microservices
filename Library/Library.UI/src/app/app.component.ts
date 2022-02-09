@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     this.signalRService.notificationReceived.subscribe((signalRMessage: SignalRMessage) => {
         let json = JSON.parse(signalRMessage.payload);
 
-        this.messageNotifierService.messageNotify(Severities.INFO, signalRMessage.type, json.Message.Name);
+        this.messageNotifierService.messageNotify(Severities.INFO, signalRMessage.type, json.Message);
     });
   }
 
@@ -41,6 +41,14 @@ export class AppComponent implements OnInit {
 
   login(): void {
     this.router.navigate(['login']);
+  }
+
+  authors(): void {
+    this.router.navigate(['author', 'list-author']);
+  }
+
+  users(): void {
+    this.router.navigate(['user', 'list-user']);
   }
  
 }

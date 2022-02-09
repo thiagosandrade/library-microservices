@@ -1,5 +1,14 @@
 .user-container {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-  }
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: 10px;
+}
+
+.customTable {
+  margin-top: 10px;
+}
+
+.customButton {
+  padding: 10px;
+}
