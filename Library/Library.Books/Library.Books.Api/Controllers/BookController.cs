@@ -22,7 +22,7 @@ namespace Library.Books.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<GetBookQueryResult> Get(Guid id)
+        public async Task<GetBookQueryResult> Get(int id)
         {
             var query = new GetBookQuery()
             {
@@ -41,7 +41,7 @@ namespace Library.Books.Api.Controllers
         [HttpPost]
         public async Task Post([FromBody] CreateBookCommand command)
         {
-            _logger.LogInformation("Command received: {0}", command);
+            _logger.LogInformation($"Command received: {command}");
 
             await _mediator.Send(command);
         }

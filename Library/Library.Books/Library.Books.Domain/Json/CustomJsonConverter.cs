@@ -17,15 +17,15 @@ namespace Library.Books.Domain.Json
             // read the string array and convert it to dictionary 
             // as declared in your MyCustomType
             var arr = serializer.Deserialize<List<string>>(reader);
-
+            int id = 0;
             var test = new List<T>();
             foreach (var item in arr)
             {
                 if (!string.IsNullOrEmpty(item) && !string.IsNullOrWhiteSpace(item))
                 {
-                    T t = new T()
+                    T t = new()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = ++id,
                         Name = item.Trim().ToString()
                     };
 

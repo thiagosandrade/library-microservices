@@ -5,6 +5,6 @@ namespace Library.Books.Business.CQRS.Contracts.Queries
 {
     public class GetBookQuery : IRequest<GetBookQueryResult>
     {
-        public Guid BookId { get; set; }
+        public int BookId { get; set; }
     }
 }

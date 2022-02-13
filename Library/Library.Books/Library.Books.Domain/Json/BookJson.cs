@@ -7,7 +7,7 @@ namespace Library.Books.Domain.Json
 {
     public class BookJson
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Isbn { get; set; }
         public int PageCount { get; set; }

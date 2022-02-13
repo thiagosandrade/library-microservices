@@ -32,13 +32,13 @@ services:
             - library-auth
             - library-hub
             - library-books
-            - library-authors
+            - library-shop
     
-    library-authors:
-        image: library-authors
-        container_name: library-authors
+    library-shop:
+        image: library-shop
+        container_name: library-shop
         build:
-            context: Library.Authors
+            context: Library.Shop
             dockerfile: Dockerfile
         ports:
             - "59581:59581"

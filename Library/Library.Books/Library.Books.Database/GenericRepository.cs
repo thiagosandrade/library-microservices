@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Library.Books.Database.Interfaces;
 using Library.Books.Domain.Models;
@@ -15,15 +17,34 @@ namespace Library.Books.Database
         {
             _context = context;
         }
-        public async Task<List<TEntity>> GetAll()
+        public async Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _context.Set<TEntity>().ToListAsync();
+            var query = _context.Set<TEntity>().AsQueryable();
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            if (includes != null)
+            {
+                foreach (var item in includes)
+                {
+                    query = query.Include(item);
+                }
+            }
+
+            return await query.ToListAsync();
         }
 
-        public async Task<TEntity> GetById(Guid id)
+        public async Task<TEntity> GetById(int id, bool asNoTracking = false)
         {
-            return await _context.Set<TEntity>()
-                .FirstOrDefaultAsync(e => e.Id == id);
+            var query = _context.Set<TEntity>().AsQueryable();
+
+            if (asNoTracking)
+                query = query.AsNoTracking();
+
+            return await query.FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task Create(TEntity entity)
@@ -35,7 +56,7 @@ namespace Library.Books.Database
             });
         }
 
-        public async Task Update(Guid id, TEntity entity)
+        public async Task Update(int id, TEntity entity)
         {
             await Task.Run(async () =>
             {
@@ -45,7 +66,7 @@ namespace Library.Books.Database
             });
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(int id)
         {
             await Task.Run(async () =>
             {

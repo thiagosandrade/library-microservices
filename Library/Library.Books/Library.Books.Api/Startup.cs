@@ -1,5 +1,8 @@
+using Library.Books.Business.Events;
+using Library.Books.Business.Handlers;
 using Library.Books.Database;
 using Library.Books.Injection;
+using Library.Hub.Rabbit.RabbitMq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +42,9 @@ namespace Library.Books.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            AddRabbitSubscribers(app);
+
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -60,12 +66,22 @@ namespace Library.Books.Api
 
         }
 
+        private static void AddRabbitSubscribers(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            //eventBus.Subscribe<BookCreatedEvent, BookCreatedEventHandler>();
+            //eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
+
+            eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
+        }
+
         private static void AddInjections(IServiceCollection services)
         {
             services.AddInjections();
             services.AddControllers().AddNewtonsoftJson(x =>
             {
                 x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                x.SerializerSettings.MaxDepth = 2;
             });
 
             services.AddSwaggerGen(c =>

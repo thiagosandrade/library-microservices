@@ -19,7 +19,7 @@ namespace Library.Books.Database
 
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            DbContextOptionsBuilder<ApplicationDbContext> builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            DbContextOptionsBuilder<ApplicationDbContext> builder = new();
 
             builder.UseSqlServer(@"Server=.;Database=Library.Authors;Trusted_Connection=True;");
 

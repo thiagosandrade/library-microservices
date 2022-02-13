@@ -18,14 +18,13 @@ namespace Library.Books.Injection
 
             services.AddRabbit();
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-            services.AddMediatR(typeof(BaseHandler).Assembly);
+            services.AddMediatR(typeof(BaseHandler<>).Assembly);
         }
 
         public static void SeedInMemory(IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             using var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-
 
             context.Database.EnsureCreated();
 

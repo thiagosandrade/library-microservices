@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+		<PackageReference Include="MediatR" Version="10.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Library.Shop.Database\Library.Shop.Database.csproj" />
+		<ProjectReference Include="..\Library.Shop.Domain\Library.Shop.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="CQRS\Commands\" />
+	  <Folder Include="CQRS\Contracts\Commands\" />
+	  <Folder Include="CQRS\Contracts\Queries\" />
+	  <Folder Include="CQRS\Queries\" />
+	  <Folder Include="Events\" />
+	  <Folder Include="Handlers\" />
+	</ItemGroup>
+
+</Project>
