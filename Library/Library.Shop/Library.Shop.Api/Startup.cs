@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace Library.Shop.Api
 {
@@ -25,6 +26,12 @@ namespace Library.Shop.Api
             services.AddDbContext<ApplicationDbContext>(opt =>
                  opt.UseLazyLoadingProxies()
                     .UseInMemoryDatabase("Library.Shop"));
+
+            services.AddMvc()
+                .AddNewtonsoftJson(options => {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
+
 
             AddInjections(services);
         }

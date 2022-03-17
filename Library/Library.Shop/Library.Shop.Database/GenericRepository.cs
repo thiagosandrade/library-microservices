@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Library.Shop.Database.Interfaces;
 using Library.Shop.Domain.Models;
@@ -15,9 +17,24 @@ namespace Library.Shop.Database
         {
             _context = context;
         }
-        public async Task<List<TEntity>> GetAll()
+        public async Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _context.Set<TEntity>().ToListAsync();
+            var query = _context.Set<TEntity>().AsQueryable();
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            if (includes != null)
+            {
+                foreach (var item in includes)
+                {
+                    query = query.Include(item);
+                }
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<TEntity> GetById(int id)

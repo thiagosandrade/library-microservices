@@ -16,10 +16,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="CQRS\Commands\" />
-	  <Folder Include="CQRS\Contracts\Commands\" />
-	  <Folder Include="CQRS\Contracts\Queries\" />
-	  <Folder Include="CQRS\Queries\" />
 	  <Folder Include="Events\" />
 	  <Folder Include="Handlers\" />
 	</ItemGroup>

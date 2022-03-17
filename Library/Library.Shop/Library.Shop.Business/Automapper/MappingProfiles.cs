@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
+using Library.Shop.Business.CQRS.Contracts.Queries;
 using Library.Shop.Domain.Models;
 
 namespace Library.Shop.Business.AutoMapper
@@ -8,8 +8,8 @@ namespace Library.Shop.Business.AutoMapper
     {
         public MappingProfiles()
         {
-
-            
+            CreateMap<Cart, GetCartQueryResult>();
+            CreateMap<CartProduct, GetProductCartQueryResult>();
         }
     }
 }

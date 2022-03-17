@@ -18,7 +18,7 @@ namespace Library.Shop.Injection
 
             services.AddRabbit();
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-            services.AddMediatR(typeof(BaseHandler<>).Assembly);
+            services.AddMediatR(typeof(BaseHandler).Assembly);
         }
 
         public static void SeedInMemory(IApplicationBuilder app)

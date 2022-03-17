@@ -11,15 +11,7 @@ namespace Library.Shop.Database
         {
         }
 
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            Seed(modelBuilder);
-        }
-
-        private static void Seed(ModelBuilder modelBuilder)
-        {
-            
-        }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartProduct> Products { get; set; }
     }
 }
