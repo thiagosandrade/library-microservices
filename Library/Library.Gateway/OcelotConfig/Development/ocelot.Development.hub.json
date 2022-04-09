@@ -7,7 +7,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 50807
+          "Port": 19583
         }
       ],
       "UpstreamPathTemplate": "/{catchAll}",

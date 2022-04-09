@@ -24,7 +24,7 @@ namespace Library.Shop.Api.Controllers
         }
 
         //[Authorize(Roles = "Reader, SuperUser")]
-        [HttpGet("id")]
+        [HttpGet("")]
         public async Task<IActionResult> GetCart(int userId)
         {
             _logger.LogInformation($"Get Cart");
@@ -36,7 +36,7 @@ namespace Library.Shop.Api.Controllers
         }
 
         //[Authorize(Roles = "SuperUser")]
-        [HttpPost("")]
+        [HttpPost("/Product")]
         public async Task<IActionResult> AddToCart([FromBody] ProductRequest product)
         {
             _logger.LogInformation($"Add to cart: {product}");
@@ -48,7 +48,7 @@ namespace Library.Shop.Api.Controllers
         }
 
         //[Authorize(Roles = "SuperUser")]
-        [HttpDelete("")]
+        [HttpDelete("/Product")]
         public async Task<IActionResult> RemoveFromCart([FromBody] ProductRequest product)
         {
             _logger.LogInformation($"Remove from cart: {product}");

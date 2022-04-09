@@ -27,6 +27,8 @@
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
+    "jw-paginate": "^1.0.4",
+    "ng-multiselect-dropdown": "^0.3.8",
     "primeng": "^9.0.0-rc.4",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",

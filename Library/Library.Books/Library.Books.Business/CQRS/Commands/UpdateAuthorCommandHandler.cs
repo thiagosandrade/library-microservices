@@ -22,16 +22,16 @@ namespace Library.Books.Business.CQRS.Commands
 
         public async Task<Unit> Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
         {
-            Author author = Mapper.Map<Author>(request);
+            var checkAuthor = await Repository.GetById(request.Id, false);
 
-            var checkAuthor = await Repository.GetById(request.Id);
+            Mapper.Map(request, checkAuthor);
 
             if (checkAuthor is null)
                 throw new Exception("Author not found");
 
-            await Repository.Update(author.Id, author);
+            await Repository.Update(request.Id, checkAuthor);
 
-            var @event = new AuthorUpdatedEvent(author);
+            var @event = new AuthorUpdatedEvent($"Author {request.Name} updated");
 
             await _eventBus.PublishMessage<AuthorUpdatedEvent>(@event);
 

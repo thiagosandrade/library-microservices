@@ -13,9 +13,13 @@
           <input type="password" class="form-control" formControlName="password" id="pwd" autocomplete="off">
           <div class="error" *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">Password is required</div>
         </div>
-        <button class="btn btn-success" [disabled]="loginForm.invalid">Login</button>
-        <div *ngIf="invalidLogin" class="error">
-          <div>Invalid credentials.</div>
+        <div style="display: flex;">
+          <div *ngIf="invalidLogin" class="error col-6">
+            <div>{{errorMessage}}</div>
+          </div>
+          <div class="text-right" [ngClass]="errorMessage != '' ? 'col-6' : 'col-12'">
+            <button class="btn btn-success" [disabled]="loginForm.invalid">Login</button>
+          </div>
         </div>
       </form>
     </div>

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Effect, ofType, Actions } from '@ngrx/effects';
-import { withLatestFrom, switchMap, map, catchError } from 'rxjs/operators';
+import { withLatestFrom, switchMap, map, catchError, mergeMap, merge } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { IAppState } from '../state/app.state';
 import { of } from 'rxjs';
@@ -34,12 +34,20 @@ export class LoginEffects{
     loginUser$ = this._actions$.pipe(
         ofType<Login>(`${EntitiesEnum.Login}_${AuthorActionTypes.Login}`),
         map(action => action.payload),
-        switchMap((user : IUser) => this._loginService.login(user).pipe(
-            switchMap((response : ApiLoginResponse) => [
-                new SetSelected(response.value, EntitiesEnum.Login),
-                new Success(user, EntitiesEnum.Login),
-                new Get(user, EntitiesEnum.Login)
-            ])
+        mergeMap((user : IUser) => this._loginService.login(user).pipe(
+            mergeMap((response : ApiLoginResponse) => {
+                if(response.statusCode == 200){
+                    return [
+                        new SetSelected(response.value, EntitiesEnum.Login),
+                        new Success(user, EntitiesEnum.Login),
+                        new Get(user, EntitiesEnum.Login)
+                    ]
+                }
+
+                return [
+                    new Fail('Invalid User/Password', EntitiesEnum.Login)
+                ]
+            })
         )),
         catchError(err => of(new Fail(err, EntitiesEnum.Login)))
     );

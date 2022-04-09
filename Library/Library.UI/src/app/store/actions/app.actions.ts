@@ -3,6 +3,7 @@ import { IEntity } from 'src/app/_shared/model/entity.model';
 
 export enum EntitiesEnum {
     Author = 'Author',
+    Book = 'Book',
     Login = 'Login',
     User = 'User'
 }

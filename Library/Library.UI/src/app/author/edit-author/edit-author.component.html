@@ -24,36 +24,11 @@
 
       <div class="form-group">
         <label for="age">Age:</label>
-        <input type="number" formControlName="age" placeholder="age" name="age" class="form-control" id="age">
+        <input type="number" formControlName="age" placeholder="age" name="age" class="form-control" id="age" readonly="true">
       </div>
 
-      <div class="d-none">
-        <label for="placeOfBirthId">Place Of Birth Id:</label>
-        <input type="string" formControlName="placeOfBirthId" placeholder="placeOfBirthId" name="placeOfBirthId" class="form-control" id="placeOfBirthId">
+      <div class="text-right">
+        <button class="btn btn-success">Update</button>
       </div>
-  
-      <div formGroupName="placeOfBirth">
-        <div class="d-none">
-            <label for="id">Id:</label>
-            <input type="string" formControlName="id" placeholder="id" name="id" class="form-control" id="childId">
-        </div>
-
-        <div class="form-group">
-            <label for="city">City:</label>
-            <input type="string" formControlName="city" placeholder="city" name="city" class="form-control" id="city">
-        </div>
-
-        <div class="form-group">
-            <label for="state">State:</label>
-            <input type="string" formControlName="state" placeholder="state" name="state" class="form-control" id="state">
-        </div>
-    
-        <div class="form-group">
-            <label for="country">Country:</label>
-            <input type="string" formControlName="country" placeholder="country" name="country" class="form-control" id="country">
-        </div>
-      </div>
-  
-      <button class="btn btn-success">Update</button>
     </form>
   </div>

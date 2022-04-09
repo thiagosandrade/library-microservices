@@ -1,0 +1,47 @@
+{
+  "Routes": [
+    //USERS
+    {
+      //Internal Redirect
+      "DownstreamPathTemplate": "/api/cart",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "library-shop",
+          "Port": 59581
+        }
+      ],
+      //Ocelot Exposure EntryPoint
+      "UpstreamPathTemplate": "/cart",
+      "UpstreamHttpMethod": [ "Get" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 0,
+        "Limit": 999
+      }
+    },
+    {
+      //Internal Redirect
+      "DownstreamPathTemplate": "/api/cart/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "library-shop",
+          "Port": 59581
+        }
+      ],
+      //Ocelot Exposure EntryPoint
+      "UpstreamPathTemplate": "/cart/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 0,
+        "Limit": 999
+      }
+    }
+  ]
+}

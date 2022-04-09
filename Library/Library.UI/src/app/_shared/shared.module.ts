@@ -6,20 +6,28 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { GenericTableComponent } from './genericTable/generic-table.component';
+import { JwPaginationComponent } from './genericPagination/generic.pagination.component';
 
 @NgModule({
     imports: [
          CommonModule,
          ToastModule,
+         NgMultiSelectDropDownModule.forRoot()
     ],
     declarations: [
+         JwPaginationComponent,
+         GenericTableComponent,
          MessageNotifierComponent,
     ],
     exports: [
+         GenericTableComponent,
          MessageNotifierComponent,
          ReactiveFormsModule,
          CommonModule,
-         FormsModule
+         FormsModule,
+         NgMultiSelectDropDownModule
     ],
     providers: [
          SignalRService,

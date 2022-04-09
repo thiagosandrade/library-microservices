@@ -1,36 +1,11 @@
 <div class="col-md-6 user-container">
     <h2 style="margin: auto"> Authors</h2>
     <button class="btn btn-danger col-md-2 customButton"  (click)="addAuthor()"> Add Author</button>
-    <table class="table table-striped customTable">
-      <thead>
-      <tr>
-        <th class="d-none">Id</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Birth</th>
-        <th>Age</th>
-        <th>City</th>
-        <th>Country</th>
-        <th></th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let author of authors$ | async" >
-        <td class="d-none">{{author.id}}</td>
-        <td>{{author.name}}</td>
-        <td>{{author.surname}}</td>
-        <td>{{author.birth}}</td>
-        <td>{{author.age}}</td>
-        <td>{{author.placeOfBirth.city}}</td>
-        <td>{{author.placeOfBirth.country}}</td>
-        <td>
-          <button class="btn btn-success" (click)="deleteAuthor(author)"> Delete</button>
-        </td>
-        <td>
-          <button class="btn btn-success" (click)="editAuthor(author)"> Edit</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <generic-table 
+      [items]="authors$ | async" 
+      [tableColumns]="tableColumns" 
+      (rowEditAction)="editAuthor($event)"
+      (rowDeleteAction)="deleteAuthor($event)"
+      >
+    </generic-table>
   </div>

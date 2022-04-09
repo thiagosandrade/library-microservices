@@ -9,7 +9,7 @@ namespace Library.Books.Database.Interfaces
     {
         Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includes);
 
-        Task<TEntity> GetById(int id, bool asNoTracking = false);
+        Task<TEntity> GetById(int id, bool asNoTracking = false, params Expression<Func<TEntity, object>>[] includes);
 
         Task Create(TEntity entity);
 

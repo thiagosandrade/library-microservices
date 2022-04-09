@@ -15,7 +15,7 @@ import { UserEffects } from '../store/effects/user.effects';
   imports: [
     StoreModule.forFeature('usersFeature', userReducer),
     EffectsModule.forFeature(
-      [ UserEffects ]
+      [ UserEffects]
     ),
     AuthModule,
     UserRoutingModule,

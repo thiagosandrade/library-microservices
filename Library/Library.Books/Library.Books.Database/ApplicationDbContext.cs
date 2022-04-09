@@ -16,6 +16,7 @@ namespace Library.Books.Database
         {
         }
 
+        public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<BookCategory> BookCategories { get; set; }
@@ -28,7 +29,7 @@ namespace Library.Books.Database
 
         private static void Seed(ModelBuilder modelBuilder)
         {
-            using StreamReader r = new("book.json");
+
             modelBuilder.Entity<BookAuthor>()
                .HasKey(t => new { t.AuthorId, t.BookId });
 
@@ -37,6 +38,7 @@ namespace Library.Books.Database
 
             int id = 0;
 
+            using StreamReader r = new("book.json");
             string json = r.ReadToEnd();
             List<BookJson> books = JsonConvert.DeserializeObject<List<BookJson>>(json);
 

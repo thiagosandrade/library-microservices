@@ -1,0 +1,25 @@
+<div>
+    <table class="table table-striped customTable">
+        <thead>
+            <tr>
+                <th *ngFor="let column of tableColumns">
+                    {{column}}
+                </th>
+            </tr> 
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of pageOfItems" >
+                <td *ngFor="let itemProp of item | keyvalue:mySortingFunction">
+                    {{itemProp.value}}
+                </td>
+                <td>
+                    <button class="btn btn-success" (click)="onRowEditAction(item)"> Edit</button>
+                </td>
+                <td>
+                    <button class="btn btn-success" (click)="onRowDeleteAction(item)"> Delete</button>
+                </td>
+            </tr>
+        </tbody>
+      </table>
+      <jw-pagination [items]="items" (changePage)="onChangePage($event)"></jw-pagination>
+</div>

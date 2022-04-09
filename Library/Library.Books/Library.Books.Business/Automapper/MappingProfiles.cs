@@ -11,22 +11,18 @@ namespace Library.Books.Business.Automapper
     {
         public MappingProfiles()
         {
-
+            
             CreateMap<Category, GetCategoryQueryResult>();
+            
+            CreateMap<List<Category>, GetAllCategoryQueryResult>()
+                .ForMember(map => map.Categories,
+                    opt => opt.MapFrom(x => x));
 
             CreateMap<Book, GetBookQueryResult>()
                 .ForMember(map => map.Categories,
                     opt => opt.MapFrom(x => x.Categories))
                 .ForMember(map => map.Authors,
                     opt => opt.MapFrom(x => x.Authors));
-
-
-            CreateMap<BookAuthor, GetAuthorQueryResult>()
-                .IncludeMembers(x => x.Author);
-
-            CreateMap<BookCategory, GetCategoryQueryResult>()
-                .IncludeMembers(x => x.Category);
-
 
             CreateMap<List<Book>, GetAllBookQueryResult>()
                 .ForMember(map => map.Books,
@@ -38,8 +34,18 @@ namespace Library.Books.Business.Automapper
                 .ForMember(map => map.Authors,
                     opt => opt.MapFrom(x => x));
 
+
+            CreateMap<BookAuthor, GetAuthorQueryResult>()
+                .IncludeMembers(x => x.Author);
+
+            CreateMap<BookCategory, GetCategoryQueryResult>()
+                .IncludeMembers(x => x.Category);
+
             CreateMap<CreateAuthorCommand, Author>();
             CreateMap<UpdateAuthorCommand, Author>();
+
+            CreateMap<CreateBookCommand, Book>();
+            CreateMap<UpdateBookCommand, Book>();
 
         }
     }

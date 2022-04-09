@@ -22,14 +22,11 @@ namespace Library.Books.Business.CQRS.Commands
 
         public async Task<Unit> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
-
-            Book book = new(request.Title, request.Isbn, request.PageCount, request.PublishedDate, 
-                request.ThumbnailUrl, request.ShortDescription, request.LongDescription,
-                request.Status, request.Authors, request.Categories);
+            Book book = Mapper.Map<Book>(request);
 
             await Repository.Create(book);
 
-            var @event = new BookCreatedEvent(book);
+            var @event = new BookCreatedEvent($"Book {request.Title} created");
 
             await _eventBus.PublishMessage<BookCreatedEvent>(@event);
 

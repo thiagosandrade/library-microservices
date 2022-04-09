@@ -27,12 +27,6 @@ namespace Library.Shop.Api
                  opt.UseLazyLoadingProxies()
                     .UseInMemoryDatabase("Library.Shop"));
 
-            services.AddMvc()
-                .AddNewtonsoftJson(options => {
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
-
-
             AddInjections(services);
         }
 
@@ -78,7 +72,9 @@ namespace Library.Shop.Api
         private static void AddInjections(IServiceCollection services)
         {
             services.AddInjections();  
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
             services.AddSwaggerGen(c =>
             {

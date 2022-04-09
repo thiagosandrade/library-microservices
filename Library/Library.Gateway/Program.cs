@@ -2,7 +2,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
+using System.IO;
 
 namespace Library.Gateway
 {
@@ -18,10 +18,12 @@ namespace Library.Gateway
             .UseStartup<Startup>()
             .ConfigureAppConfiguration((ic, config) =>
             {
+                var ocelotConfigPath = Path.Combine(ic.HostingEnvironment.ContentRootPath, "OcelotConfig");
+                ocelotConfigPath = Path.Combine(ocelotConfigPath, ic.HostingEnvironment.EnvironmentName);
+
                 config
-                    .AddJsonFile($"appsettings.{ic.HostingEnvironment.EnvironmentName}.json", false, true)
-                    .AddOcelot(ic.HostingEnvironment)
-                    .AddJsonFile("ocelot.json", true)
+                    .AddJsonFile($"appsettings.{ic.HostingEnvironment.EnvironmentName}.json", true, true)
+                    .AddOcelot(ocelotConfigPath, ic.HostingEnvironment)
                     .AddEnvironmentVariables();
             });
     }

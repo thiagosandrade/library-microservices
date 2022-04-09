@@ -14,6 +14,10 @@ const routes: Routes = [
     path: 'author', 
     loadChildren: './author/author.module#AuthorModule'
   },
+  { 
+    path: 'book', 
+    loadChildren: './book/book.module#BookModule'
+  },
   {
     path : '', 
     loadChildren: './login/login.module#LoginModule'

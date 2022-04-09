@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { getSelectedUser } from 'src/app/store/selectors/author.selector';
+import { getSelectedAuthor } from 'src/app/store/selectors/author.selector';
 import { Update, EntitiesEnum } from 'src/app/store/actions/app.actions';
 import { IAuthor } from 'src/app/_shared/model/author.model';
 
@@ -19,7 +19,7 @@ export class EditAuthorComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,private router: Router, private store: Store<IAppState<IAuthor>>) { }
 
-  author$ = this.store.pipe(select(getSelectedUser))
+  author$ = this.store.select(getSelectedAuthor)
     .subscribe( (author : IAuthor) =>{
       if(author == null){
         this.router.navigate(['author','list-author']);
@@ -36,14 +36,7 @@ export class EditAuthorComponent implements OnInit {
       name: ['', Validators.required],
       surname: ['', Validators.required],
       birth: ['', Validators.required],
-      age: ['', Validators.required],
-      placeOfBirthId: ['', Validators.required],
-      placeOfBirth: this.formBuilder.group({
-        id: ['', Validators.required],
-        city: ['', Validators.required],
-        state: ['', Validators.required],
-        country: ['', Validators.required]
-      })
+      age: ['', Validators.required]
     });
 
     if(this.author != null)

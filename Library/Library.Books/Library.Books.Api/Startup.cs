@@ -81,7 +81,6 @@ namespace Library.Books.Api
             services.AddControllers().AddNewtonsoftJson(x =>
             {
                 x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                x.SerializerSettings.MaxDepth = 2;
             });
 
             services.AddSwaggerGen(c =>

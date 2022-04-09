@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     private messageNotifierService: MessageNotifierService,
     private store: Store<IAppState<IUser>>){ }
   
-  userLogged$ = this.store.pipe(select(isUserLogged));
+  userLogged$ = this.store.select(isUserLogged);
 
   ngOnInit(): void {
 
@@ -45,6 +45,10 @@ export class AppComponent implements OnInit {
 
   authors(): void {
     this.router.navigate(['author', 'list-author']);
+  }
+
+  books(): void {
+    this.router.navigate(['book', 'list-book']);
   }
 
   users(): void {
