@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Library.Books.Database
 {
@@ -15,6 +16,7 @@ namespace Library.Books.Database
         {
         }
 
+        public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<BookCategory> BookCategories { get; set; }
@@ -25,52 +27,91 @@ namespace Library.Books.Database
             Seed(modelBuilder);
         }
 
-        private void Seed(ModelBuilder modelBuilder)
+        private static void Seed(ModelBuilder modelBuilder)
         {
-            using (StreamReader r = new StreamReader("book.json"))
+
+            modelBuilder.Entity<BookAuthor>()
+               .HasKey(t => new { t.AuthorId, t.BookId });
+
+            modelBuilder.Entity<BookCategory>()
+                .HasKey(t => new { t.CategoryId, t.BookId });
+
+            int id = 0;
+
+            using StreamReader r = new("book.json");
+            string json = r.ReadToEnd();
+            List<BookJson> books = JsonConvert.DeserializeObject<List<BookJson>>(json);
+
+            var categories = books
+                .SelectMany(x => x.Categories.SelectMany(x => x.Name.Split(',')).Distinct().ToList())
+                .Distinct()
+                .ToList();
+
+            var catList = new List<Category>();
+            var categoryId = 0;
+            foreach (var item in categories)
             {
-                modelBuilder.Entity<BookAuthor>()
-                   .HasKey(t => new { t.AuthorId, t.BookId });
+                Category cat = new() { Id = ++categoryId, Name = item };
+                catList.Add(cat);
+            }
 
-                modelBuilder.Entity<BookCategory>()
-                    .HasKey(t => new { t.CategoryId, t.BookId });
+            modelBuilder.Entity<Category>().HasData(catList.ToArray());
 
-                string json = r.ReadToEnd();
-                List<BookJson> books = JsonConvert.DeserializeObject<List<BookJson>>(json);
-                List<Book> formattedBook = new List<Book>();
-                foreach (var book in books)
+
+            var authors = books
+                .SelectMany(x => x.Authors.SelectMany(x => x.Name.Split(',')).Distinct().ToList())
+                .Distinct()
+                .ToList();
+
+            var authorList = new List<Author>();
+            var authorId = 0;
+            foreach (var item in authors)
+            {
+                Author author = new(
+                        name: item,
+                        surname: "",
+                        birth: DateTime.Now.AddYears(-30).AddDays(authorId),
+                        id: ++authorId
+                    );
+                authorList.Add(author);
+            }
+
+            modelBuilder.Entity<Author>().HasData(authorList.ToArray());
+
+
+            List<Book> formattedBook = new();
+            foreach (var book in books)
+            {
+                book.Id = ++id;
+
+                foreach (var author in book.Authors)
                 {
-                    book.Id = Guid.NewGuid();
-
-                    foreach (var author in book.Authors)
+                    var authorAddId = authorList.Where(x => x.Name.Equals(author.Name)).First().Id;
+                    BookAuthor item = new()
                     {
-                        BookAuthor item = new BookAuthor()
-                        {
-                            AuthorId = author.Id,
-                            BookId = book.Id
-                        };
-                        modelBuilder.Entity<BookAuthor>().HasData(item);
+                        AuthorId = authorAddId,
+                        BookId = book.Id
+                    };
+                    modelBuilder.Entity<BookAuthor>().HasData(item);
 
-                    }
-
-                    foreach (var category in book.Categories)
-                    {
-                        BookCategory item = new BookCategory()
-                        {
-                            CategoryId = category.Id,
-                            BookId = book.Id
-                        };
-                        modelBuilder.Entity<BookCategory>().HasData(item);
-
-                    }
-
-                    Book bookItem = new Book(book.Id, book.Title, book.Isbn, book.PageCount, book.PublishedDate,
-                        book.ThumbnailUrl, book.ShortDescription, book.LongDescription, book.Status, null, null);
-
-                    modelBuilder.Entity<Book>().HasData(bookItem);
                 }
 
-               
+                foreach (var category in book.Categories)
+                {
+                    var catAddId = catList.Where(x => x.Name.Equals(category.Name)).First().Id;
+                    BookCategory item = new()
+                    {
+                        CategoryId = catAddId,
+                        BookId = book.Id
+                    };
+                    modelBuilder.Entity<BookCategory>().HasData(item);
+
+                }
+
+                Book bookItem = new(book.Title, book.Isbn, book.PageCount, book.PublishedDate,
+                    book.ThumbnailUrl, book.ShortDescription, book.LongDescription, book.Status, null, null, book.Id);
+
+                modelBuilder.Entity<Book>().HasData(bookItem);
             }
         }
     }

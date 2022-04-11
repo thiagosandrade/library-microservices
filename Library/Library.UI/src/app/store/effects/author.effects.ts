@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Effect, ofType, Actions } from '@ngrx/effects';
-import { withLatestFrom, switchMap, map, catchError } from 'rxjs/operators';
+import { withLatestFrom, switchMap, map, catchError, mergeMap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { ApiAuthorService } from 'src/app/_shared/service/api.author.service';
 import { IAppState } from '../state/app.state';
@@ -34,7 +34,7 @@ export class AuthorEffects{
     getAuthors$ = this._actions$.pipe(
         ofType<GetAll>(`${EntitiesEnum.Author}_${ActionsEnum.GetAll}`),
         switchMap(() => this._authorService.getAuthors().pipe(
-            switchMap((response : ApiAuthorListResponse) => of(new GetAllSuccess(response.value, EntitiesEnum.Author)))
+            map((response : ApiAuthorListResponse) => new GetAllSuccess(response.value, EntitiesEnum.Author))
         ))
     );
 
@@ -42,20 +42,34 @@ export class AuthorEffects{
     createAuthor$ = this._actions$.pipe(
         ofType<Create>(`${EntitiesEnum.Author}_${ActionsEnum.Create}`),
         map(action => action.payload),
-        switchMap((author : IAuthor) => this._authorService.createAuthor(author).pipe(
-            switchMap((response : ApiAuthorResponse) => of(new Success(response.value, EntitiesEnum.Author))),
-            catchError(err => of(new Fail(err, EntitiesEnum.Author)))
-        ))
+        switchMap(
+            (author : IAuthor) => 
+            this._authorService.createAuthor(author)
+                .pipe(
+                    switchMap((response : ApiAuthorResponse) => 
+                    [
+                        new Success(response.value, EntitiesEnum.Author),
+                    ]),
+                    catchError(err => of(new Fail(err, EntitiesEnum.Author)))
+            )
+        )
     );
 
     @Effect()
     updateAuthor$ = this._actions$.pipe(
         ofType<Update>(`${EntitiesEnum.Author}_${ActionsEnum.Update}`),
         map(action => action.payload),
-        switchMap((author : IAuthor) => this._authorService.updateAuthor(author).pipe(
-            switchMap((response : ApiAuthorResponse) => of(new Success(response.value, EntitiesEnum.Author))),
-            catchError(err => of(new Fail(err, EntitiesEnum.Author)))
-        ))
+        switchMap(
+            (author : IAuthor) => 
+            this._authorService.updateAuthor(author)
+                .pipe(
+                    switchMap((response : ApiAuthorResponse) => 
+                    [
+                        new Success(response.value, EntitiesEnum.Author),
+                    ]),
+                    catchError(err => of(new Fail(err, EntitiesEnum.Author)))
+                )
+        )
     );
 
     @Effect()
@@ -63,7 +77,10 @@ export class AuthorEffects{
         ofType<Delete>(`${EntitiesEnum.Author}_${ActionsEnum.Delete}`),
         map(action => action.payload),
         switchMap((author : IAuthor) => this._authorService.deleteAuthor(author.id).pipe(
-            switchMap((response : ApiAuthorResponse) => of(new Success(response.value, EntitiesEnum.Author))),
+            mergeMap((response : ApiAuthorResponse) => 
+            [
+                new Success(response.value, EntitiesEnum.Author),
+            ]),
             catchError(err => of(new Fail(err, EntitiesEnum.Author)))
         ))
     );

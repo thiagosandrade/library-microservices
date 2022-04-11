@@ -34,7 +34,7 @@ namespace Library.Auth.Api.Controllers
                                                                   user.Password));
 
             if (token is null)
-                return BadRequest(new {message = "Username or password incorrect"});
+                return Ok(new BadRequestObjectResult("Username or password incorrect"));
 
             return Ok(new OkObjectResult(token));
 

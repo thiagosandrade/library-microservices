@@ -35,7 +35,7 @@ namespace Library.Hub.SignalR
                     if (context.WebSockets.IsWebSocketRequest)
                     {
                         WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                        await Echo(context, webSocket);
+                        await Echo(webSocket);
                     }
                     else
                     {
@@ -48,19 +48,16 @@ namespace Library.Hub.SignalR
                 }
             });
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<SignalRHub>("/notify");
-            });
-
             return app;
 
         }
 
-        private static async Task Echo(HttpContext context, WebSocket webSocket)
+        private static async Task Echo(WebSocket webSocket)
         {
             var buffer = new byte[1024 * 4];
+            
             WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            
             while (!result.CloseStatus.HasValue)
             {
                 await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);

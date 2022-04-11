@@ -5,12 +5,12 @@ namespace Library.Books.Domain.Models
 {
     public class BookCategory
     {
-        public Guid BookId { get; set; }
+        public int BookId { get; set; }
 
         [ForeignKey("BookId")]
         public virtual Book Book { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }

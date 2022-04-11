@@ -1,0 +1,26 @@
+{
+  "Routes": [
+    //AUTH
+    {
+      //Internal Redirect
+      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "library-auth",
+          "Port": 19584
+        }
+      ],
+      //Ocelot Exposure EntryPoint
+      "UpstreamPathTemplate": "/auth/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 0,
+        "Limit": 999
+      }
+    }
+  ]
+}

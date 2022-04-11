@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { IAuthor } from 'src/app/_shared/model/author.model';
 import { SignalRService } from 'src/app/_shared/signalR/signalR.service';
 import { ApiLoginService } from 'src/app/_shared/service/api.login.service';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { selectAuthorList } from 'src/app/store/selectors/author.selector';
 import { GetAll, SetSelected, Delete, EntitiesEnum } from 'src/app/store/actions/app.actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list-author',
@@ -18,8 +19,14 @@ export class ListAuthorComponent implements OnInit {
   constructor(private router: Router, private apiLoginService: ApiLoginService,
     private signalRService: SignalRService, private store: Store<IAppState<IAuthor>>) { }
 
-  authors$ = this.store.pipe(select(selectAuthorList));
-    
+  authors$ : Observable<IAuthor[]> = this.store.select(selectAuthorList);
+  tableColumns : any[]= [
+    {name: 'Id', prop: 'id'},
+    { name: 'Name', prop:'name'}, 
+    { name: 'Surname', prop:'surname'}, 
+    { name: 'Birth', prop: 'birth'}, 
+    { name: 'Age', prop: 'age'}];
+
   ngOnInit() {
 
     if(!this.apiLoginService.isLogged()) {
@@ -29,18 +36,18 @@ export class ListAuthorComponent implements OnInit {
 
     this.signalRService.StartHub();
     this.signalRService.notificationReceived.subscribe(() => {
-      this.authors$ = this.store.pipe(select(selectAuthorList));
+      this.authors$ = this.store.select(selectAuthorList);
     });
-    this.store.dispatch(new GetAll(EntitiesEnum.Author));
 
+    this.store.dispatch(new GetAll(EntitiesEnum.Author));
   }
 
   deleteAuthor(author: IAuthor): void {
     this.store.dispatch(new Delete(author, EntitiesEnum.Author));
   };
 
-  editAuthor(user: IAuthor): void {
-    this.store.dispatch(new SetSelected(user, EntitiesEnum.Author))
+  editAuthor(author: IAuthor): void {
+    this.store.dispatch(new SetSelected(author, EntitiesEnum.Author))
     this.router.navigate(['author','edit-author']);
   };
 

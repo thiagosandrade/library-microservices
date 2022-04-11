@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { IUser } from '../_shared/model/user.model';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from '../store/state/app.state';
-import { EntitiesEnum } from '../store/actions/app.actions';
+import { ActionsEnum, EntitiesEnum, Fail } from '../store/actions/app.actions';
 import { ofType, Actions } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { selectLoggedUser } from '../store/selectors/login.selector';
@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   invalidLogin: boolean = false;
+  errorMessage: string = '';
+
   constructor(private formBuilder: FormBuilder, private store: Store<IAppState<IUser>>, private router: Router,
     private _actions$: Actions) { }
 
@@ -37,22 +39,7 @@ export class LoginComponent implements OnInit {
       userRoles: null
     }
 
-    this._actions$.pipe(
-      ofType<Login>(`${EntitiesEnum.Login}_${AuthorActionTypes.Login}`))
-      .subscribe(() => {
-        	this.loggedUser$.subscribe(logged => {
-            if(!logged)
-            {
-              this.invalidLogin = true;
-            }
-            else
-            {
-              this.router.navigate(['user','list-user']);
-            }
-          })
-      });
-
-      this.store.dispatch(new Login(loginPayload, EntitiesEnum.Login));
+    this.store.dispatch(new Login(loginPayload, EntitiesEnum.Login));
     
   }
 
@@ -62,5 +49,20 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.compose([Validators.required])],
       password: ['', Validators.required]
     });
+
+    this._actions$.pipe(
+      ofType<Fail>(`${EntitiesEnum.Login}_${ActionsEnum.Fail}`))
+      .subscribe((data: any) => {
+        	this.invalidLogin = true;
+          this.errorMessage = data.payload
+      });
+
+    this.loggedUser$.subscribe(logged => {
+      if(logged)
+      {
+        this.invalidLogin = false;
+        this.router.navigate(['user','list-user']);
+      }
+    })
   }
 }

@@ -33,7 +33,7 @@ namespace Library.Hub.Rabbit.RabbitMq
             
             _exchange = _configuration.GetValue<string>("Exchange");
             _queue = _configuration.GetValue<string>("Queue");
-            CreateChannel();
+            //CreateChannel();
         }
 
         public Task PublishMessage<T>(IMessageEvent @event)
@@ -49,7 +49,11 @@ namespace Library.Hub.Rabbit.RabbitMq
                     _exchange,
                     $"{typeof(T).Name.ToLower()}",
                     null,
-                    Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(encapsulatedEvent)));
+                    Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(encapsulatedEvent, new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        MaxDepth = 3
+                    })));
                 _logger.LogInformation("Published {0}", typeof(T).Name);
 
             });
@@ -64,7 +68,7 @@ namespace Library.Hub.Rabbit.RabbitMq
             return Task.Run(() =>
             {
                 if (_channel == null || _channel.IsClosed)
-                   CreateChannel();
+                    CreateChannel();
 
                 CreateQueue<T, TH>();
 

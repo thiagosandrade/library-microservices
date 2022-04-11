@@ -36,6 +36,13 @@ namespace Library.Hub
 
             app.WebSocketsConfig();
 
+            app.UseRouting();
+
+            app.UseEndpoints(routes =>
+            {
+                routes.MapHub<SignalRHub>("/notify");
+            });
+
             app.ApplicationServices.GetService<INotificationHub>();
 
             app.UseMvc();

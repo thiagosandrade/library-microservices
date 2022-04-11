@@ -24,10 +24,10 @@ namespace Library.Books.Domain.Models
 
         }
 
-        public Book(Guid? id, string title, string isbn, int pageCount, DateTime publishedDate, string thumbnailUrl, string shortDescription, string longDescription, 
-            string status, IEnumerable<BookAuthor> authors, IEnumerable<BookCategory> categories)
+        public Book(string title, string isbn, int pageCount, DateTime publishedDate, string thumbnailUrl, string shortDescription, string longDescription,
+            string status, IEnumerable<BookAuthor> authors, IEnumerable<BookCategory> categories, int id = 0)
         {
-            Id = id ?? Guid.NewGuid();
+            Id = id;
             Title = title;
             Isbn = isbn;
             PageCount = pageCount;

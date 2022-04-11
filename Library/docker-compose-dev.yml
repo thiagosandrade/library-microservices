@@ -1,0 +1,108 @@
+version: '3.5'
+
+services:
+    library-gateway:
+        image: library-gateway
+        container_name: library-gateway
+        build:
+            context: Library.Gateway
+            dockerfile: Dockerfile
+            args:
+                CONFIG_PROFILE: "Development"
+                PORT: 19580
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Development"
+        ports:
+            - "19580:19580"
+        expose:
+            - 19580
+        depends_on:
+            - library-auth
+            - library-hub
+            - library-books
+            - library-shop
+    
+    library-shop:
+        image: library-shop
+        container_name: library-shop
+        build:
+            context: Library.Shop
+            dockerfile: Dockerfile
+            args:
+                CONFIG_PROFILE: "Development"
+                PORT: 19581
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Development"
+        ports:
+            - "19581:19581"
+        expose:
+            - 19581
+                  
+    library-book:
+        image: library-book
+        container_name: library-book
+        build:
+            context: Library.Books
+            dockerfile: Dockerfile
+            args:
+                CONFIG_PROFILE: "Development"
+                PORT: 19582
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Development"
+        ports:
+            - "19582:19582"
+        expose:
+            - 19582
+        
+    library-hub:
+        image: library-hub
+        container_name: library-hub
+        build:
+            context: Library.hub
+            dockerfile: Dockerfile
+            args:
+                CONFIG_PROFILE: "Development"
+                PORT: 19583
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Development"
+        ports:
+            - "19583:19583"
+        expose:
+            - 19583
+            
+    library-auth:
+        image: library-auth
+        container_name: library-auth
+        build:
+            context: Library.Auth
+            dockerfile: Dockerfile
+            args:
+                CONFIG_PROFILE: "Development"
+                PORT: 19584
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Development"
+        ports:
+            - "19584:19584"
+        expose:
+            - 19584
+            
+    library-ui:
+        image: library-ui
+        container_name: library-ui
+        build:
+            context: library.ui
+            dockerfile: Dockerfile
+            args:
+                ENVIRONMENT: "development"
+        ports:
+            - "4200:4200"
+        expose:
+            - 4200
+        depends_on:
+            - library-gateway
+
+networks: 
+    default:
+        name: "library-network"
+
+    

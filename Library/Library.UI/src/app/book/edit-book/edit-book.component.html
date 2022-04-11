@@ -1,0 +1,78 @@
+<div class="col-md-6 user-container">
+    <span type="button" [routerLink]="['/book/list-book']">
+      <i class="fa fa-arrow-left fa-2x"></i>
+    </span>  
+    <h2 class="text-center" style="display: inline;">Edit Book</h2>
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+      <div class="d-none">
+        <input type="text" formControlName="id" placeholder="id" name="id" class="form-control" id="id">
+      </div>
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" formControlName="title" placeholder="title" name="title" class="form-control" id="title">
+      </div>
+  
+      <div class="form-group">
+        <label for="isbn">Isbn:</label>
+        <input formControlName="isbn" placeholder="isbn" name="isbn" class="form-control" id="isbn">
+      </div>
+  
+      <div class="form-group">
+        <label for="pageCount">PageCount:</label>
+        <input type="string" formControlName="pageCount" placeholder="pageCount" name="pageCount" class="form-control" id="pageCount" placeholder="yyyy-mm-dd">
+      </div>
+
+      <div class="form-group">
+        <label for="publishedDate">PublishedDate:</label>
+        <input type="date" formControlName="publishedDate" placeholder="publishedDate" name="publishedDate" class="form-control" id="publishedDate">
+      </div>
+
+      <div class="form-group">
+        <label for="thumbnailUrl">ThumbnailUrl:</label>
+        <input type="string" formControlName="thumbnailUrl" placeholder="thumbnailUrl" name="thumbnailUrl" class="form-control" id="thumbnailUrl">
+      </div>
+
+      <div class="form-group">
+        <label for="shortDescription">ShortDescription:</label>
+        <input type="string" formControlName="shortDescription" placeholder="shortDescription" name="shortDescription" class="form-control" id="shortDescription">
+      </div>
+
+      <div class="form-group">
+        <label for="longDescription">LongDescription:</label>
+        <input type="string" formControlName="longDescription" placeholder="longDescription" name="longDescription" class="form-control" id="longDescription">
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <input type="string" formControlName="status" placeholder="status" name="status" class="form-control" id="status">
+      </div>
+
+      <div class="form-group" *ngIf="isDropdownAvailable">
+        <label for="authors">Authors:</label>
+        <ng-multiselect-dropdown
+          [settings]="dropdownSettings"
+          [data]="dropdownList"
+          formControlName="authors"
+          name="authors"
+          id="authors"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+
+      <div class="form-group" *ngIf="isDropdownAvailableCategory">
+        <label for="authors">Categories:</label>
+        <ng-multiselect-dropdown
+          [settings]="dropdownSettings"
+          [data]="dropdownCategoryList"
+          formControlName="categories"
+          name="categories"
+          id="categories"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+
+      <div class="text-right">
+        <button class="btn btn-success">Update</button>
+      </div>
+    </form>
+  </div>

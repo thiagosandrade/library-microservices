@@ -35,6 +35,7 @@ export class ListUserComponent implements OnInit {
       this.users$ = this.store.pipe(select(selectUserList));
     });
     this.store.dispatch(new GetAll(EntitiesEnum.User));
+    this.store.dispatch(new GetAll(EntitiesEnum.Author));
   }
 
   deleteUser(user: IUser): void {

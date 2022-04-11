@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Library.Books.Business.CQRS.Queries
 {
-    public class GetAllBookQueryHandler : BaseHandler, IRequestHandler<GetAllBookQuery, GetAllBookQueryResult>
+    public class GetAllBookQueryHandler : BaseHandler<Book>, IRequestHandler<GetAllBookQuery, GetAllBookQueryResult>
     {
         public GetAllBookQueryHandler(IMapper mapper, IGenericRepository<Book> bookRepository) : base(mapper, bookRepository)
         {
@@ -16,9 +16,11 @@ namespace Library.Books.Business.CQRS.Queries
 
         public async Task<GetAllBookQueryResult> Handle(GetAllBookQuery request, CancellationToken cancellationToken)
         {
-            var result = await BookRepository.GetAll();
+            var result = await Repository.GetAll(null, x => x.Authors, x => x.Categories);
 
-            return Mapper.Map<GetAllBookQueryResult>(result);
+            var result2 = Mapper.Map<GetAllBookQueryResult>(result);
+
+            return result2;
         }
     }
 }

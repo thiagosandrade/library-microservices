@@ -1,18 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Library.Hub.Rabbit" Version="1.0.1-alpha" />
-    <PackageReference Include="MediatR" Version="8.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+		<PackageReference Include="MediatR" Version="10.0.1" />
+		<PackageReference Include="Microservices.Hub.Rabbit" Version="2.0.1-alpha" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Library.Books.Database\Library.Books.Database.csproj" />
-    <ProjectReference Include="..\Library.Books.Domain\Library.Books.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Library.Books.Database\Library.Books.Database.csproj" />
+		<ProjectReference Include="..\Library.Books.Domain\Library.Books.Domain.csproj" />
+	</ItemGroup>
 
 </Project>

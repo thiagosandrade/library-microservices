@@ -6,7 +6,7 @@ namespace Library.Books.Business.CQRS.Contracts.Queries
 {
     public class GetBookQueryResult
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Isbn { get; set; }
         public int PageCount { get; set; }
@@ -15,7 +15,8 @@ namespace Library.Books.Business.CQRS.Contracts.Queries
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public string Status { get; set; }
-        public IList<BookAuthor> Authors { get; set; }
-        public IList<BookCategory> Categories { get; set; }
+
+        public IList<GetAuthorQueryResult> Authors { get; set; }
+        public IList<GetCategoryQueryResult> Categories { get; set; }
     }
 }

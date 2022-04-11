@@ -519,7 +519,7 @@
     "shortDescription": "Mobile Agents is the first book to give the reader the ability to create and use powerful mobile agents on the Internet.",
     "longDescription": "Mobile Agents is the first book to give the reader the ability to create and use powerful mobile agents on the Internet. The book presents the reality of today's agent technologies and the future that this technology promises. It teaches how to create and deploy the major mobile agent systems (Telescript, Agent Tcl, Ara, Aglets Workbench) and how to solve a variety of problems on the Internet. Each of the chapters was written in collaboration with the original developers of the agent systems.",
     "status": "PUBLISH",
-    "authors": [ "William R. Cockayne and Michael Zyda", "editors" ],
+    "authors": [ "William R. Cockayne", "Michael Zyda" ],
     "categories": [ "Internet" ]
   },
   {
@@ -1574,7 +1574,7 @@
     "thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/landres.jpg",
     "longDescription": "A software system is the realization of a set of concerns. One of the central premises of object-oriented programming is that each concern should be implemented as a separate module. However, there are certain system-wide concerns, such as logging, security, performance, and so forth, that often need to be addressed in many, if not all of the modules. Consequently, the code to handle these system-wide concerns may be mixed in with the core logic of a huge number of modules, resulting in lower productivity, poor quality, and systems that are hard to evolve.    Aspect-oriented programming overcomes these problems by modularizing the system-wide concerns.    AspectJ enables AOP programming in Java by adding a few new language constructs. By using Java as the base language and creating a final system that is compatible with Java byte code specification, AspectJ passes on all the benefits of Java. The use of Java as the base language also makes AspectJ a relatively easy language to learn.    AspectJ in Action is a practical guide to AOP and AspectJ. The reusable code examples that are provided will enable quick implementation of functionality in your system.    The book is divided into three parts. The first part introduces AOP and AspectJ and will be helpful to developers wanting to learn or advance their knowledge of AspectJ. The second and third parts present examples of everyday situations in which you can use simple and easy AspectJ solutions to implement common system requirements such as logging, policy enforcement, resource pooling, business rules, thread-safety, authentication and authorization, as well as transaction management.",
     "status": "PUBLISH",
-    "authors": [ "Galina", "Vlad Landres" ],
+    "authors": [ "Galina Landres", "Vlad Landres" ],
     "categories": [ "Business", "Client-Server" ]
   },
   {

@@ -1,0 +1,11 @@
+<div class="col-md-6 user-container">
+  <h2 style="margin: auto"> Books</h2>
+  <button class="btn btn-danger col-md-2 customButton"  (click)="addBook()"> Add Book</button>
+  <generic-table 
+    [items]="books$ | async" 
+    [tableColumns]="tableColumns" 
+    (rowEditAction)="editBook($event)"
+    (rowDeleteAction)="deleteBook($event)"
+    >
+  </generic-table>
+</div>

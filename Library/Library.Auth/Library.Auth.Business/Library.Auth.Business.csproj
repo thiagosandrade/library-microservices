@@ -1,19 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Library.Hub.Rabbit" Version="1.0.8-alpha" />
-    <PackageReference Include="MediatR" Version="8.0.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+		<PackageReference Include="MediatR" Version="10.0.1" />
+		<PackageReference Include="Microservices.Hub.Rabbit" Version="2.0.0-alpha" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Library.Auth.Database\Library.Auth.Database.csproj" />
-    <ProjectReference Include="..\Library.Auth.Domain\Library.Auth.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Library.Auth.Database\Library.Auth.Database.csproj" />
+		<ProjectReference Include="..\Library.Auth.Domain\Library.Auth.Domain.csproj" />
+	</ItemGroup>
 
 </Project>
