@@ -45,32 +45,22 @@ namespace Library.Shop.Database
 
         public async Task Create(TEntity entity)
         {
-            await Task.Run(async () =>
-            {
-                await _context.Set<TEntity>().AddAsync(entity);
-                await _context.SaveChangesAsync();
-            });
+            await _context.Set<TEntity>().AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Update(int id, TEntity entity)
         {
-            await Task.Run(async () =>
-            {
-                _context.Set<TEntity>().Update(entity);
-
-                await _context.SaveChangesAsync();
-            });
+            _context.Set<TEntity>().Update(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
         {
-            await Task.Run(async () =>
-            {
-                var entity = await GetById(id);
-                _context.Set<TEntity>().Remove(entity);
+            var entity = await GetById(id);
+            _context.Set<TEntity>().Remove(entity);
 
-                await _context.SaveChangesAsync();
-            });
+            await _context.SaveChangesAsync();
 
         }
     }

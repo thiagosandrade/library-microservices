@@ -20,7 +20,7 @@ namespace Library.Shop.Business.CQRS.Commands
         {
             var cart = await _cartRepository.GetById(request.Id);
 
-            cart.AddItem(request.ProductId);
+            cart.AddItem(request.ProductId, request.Quantity);
 
             await _cartRepository.Update(request.Id, cart);
 

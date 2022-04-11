@@ -58,6 +58,21 @@
         >
         </ng-multiselect-dropdown>
       </div>
-      <button class="btn btn-success">Add</button>
+
+      <div class="form-group" *ngIf="isDropdownAvailableCategory">
+        <label for="authors">Categories:</label>
+        <ng-multiselect-dropdown
+          [settings]="dropdownSettings"
+          [data]="dropdownCategoryList"
+          formControlName="categories"
+          name="categories"
+          id="categories"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+
+      <div class="text-right">
+        <button class="btn btn-success">Add</button>
+      </div>
     </form>
   </div>

@@ -8,16 +8,12 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="MediatR" Version="10.0.1" />
+		<PackageReference Include="Microservices.Hub.Rabbit" Version="2.0.1-alpha" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Library.Shop.Database\Library.Shop.Database.csproj" />
 		<ProjectReference Include="..\Library.Shop.Domain\Library.Shop.Domain.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Events\" />
-	  <Folder Include="Handlers\" />
 	</ItemGroup>
 
 </Project>

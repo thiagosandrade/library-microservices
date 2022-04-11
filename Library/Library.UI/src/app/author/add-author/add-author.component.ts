@@ -22,15 +22,7 @@ export class AddAuthorComponent implements OnInit {
       id: [''],
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      birth: ['', Validators.required],
-      age: ['', Validators.required],
-      placeOfBirthId: ['', Validators.required],
-      placeOfBirth: this.formBuilder.group({
-        id: ['', Validators.required],
-        city: ['', Validators.required],
-        state: ['', Validators.required],
-        country: ['', Validators.required]
-      })
+      birth: ['', Validators.required]
     });
   }
 

@@ -69,10 +69,13 @@ namespace Library.Books.Api
         private static void AddRabbitSubscribers(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            //eventBus.Subscribe<BookCreatedEvent, BookCreatedEventHandler>();
-            //eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
 
-            eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
+            eventBus.Subscribe<BookUpdatedEvent, EventHandler<BookUpdatedEvent>>();
+            eventBus.Subscribe<BookCreatedEvent, EventHandler<BookCreatedEvent>>();
+            eventBus.Subscribe<BookDeletedEvent, EventHandler<BookDeletedEvent>>();
+            eventBus.Subscribe<AuthorUpdatedEvent, EventHandler<AuthorUpdatedEvent>>();
+            eventBus.Subscribe<AuthorCreatedEvent, EventHandler<AuthorCreatedEvent>>();
+            eventBus.Subscribe<AuthorDeletedEvent, EventHandler<AuthorDeletedEvent>>();
         }
 
         private static void AddInjections(IServiceCollection services)

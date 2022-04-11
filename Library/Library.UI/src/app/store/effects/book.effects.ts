@@ -42,13 +42,17 @@ export class BookEffects{
     createBook$ = this._actions$.pipe(
         ofType<Create>(`${EntitiesEnum.Book}_${ActionsEnum.Create}`),
         map(action => action.payload),
-        switchMap((book : IBook) => this._bookService.createBook(book).pipe(
-            map((response : ApiBookResponse) => 
-            [
-                new Success(response.value, EntitiesEnum.Book),
-            ]),
-            catchError(err => of(new Fail(err, EntitiesEnum.Book)))
-        ))
+        switchMap(
+            (book : IBook) => 
+            this._bookService.createBook(book)
+                .pipe(
+                    switchMap((response : ApiBookResponse) => 
+                    [
+                        new Success(response.value, EntitiesEnum.Book),
+                    ]),
+                    catchError(err => of(new Fail(err, EntitiesEnum.Book)))
+                )
+        )
     );
 
     @Effect()

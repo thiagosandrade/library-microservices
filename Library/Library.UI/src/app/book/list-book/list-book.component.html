@@ -1,32 +1,11 @@
 <div class="col-md-6 user-container">
-    <h2 style="margin: auto"> Books</h2>
-    <button class="btn btn-danger col-md-2 customButton"  (click)="addBook()"> Add Book</button>
-    <table class="table table-striped customTable">
-      <thead>
-      <tr>
-        <th class="d-none">Id</th>
-        <th>ISBN</th>
-        <th>Title</th>
-        <th>ShortDescription</th>
-        <th>Authors</th>
-        <th></th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let book of books$ | async" >
-        <td class="d-none">{{book.id}}</td>
-        <td>{{book.isbn}}</td>
-        <td>{{book.title}}</td>
-        <td>{{book.shortDescription}}</td>
-        <td>{{book.authorsAsString}}</td>
-        <td>
-          <button class="btn btn-success" (click)="deleteBook(book)"> Delete</button>
-        </td>
-        <td>
-          <button class="btn btn-success" (click)="editBook(book)"> Edit</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+  <h2 style="margin: auto"> Books</h2>
+  <button class="btn btn-danger col-md-2 customButton"  (click)="addBook()"> Add Book</button>
+  <generic-table 
+    [items]="books$ | async" 
+    [tableColumns]="tableColumns" 
+    (rowEditAction)="editBook($event)"
+    (rowDeleteAction)="deleteBook($event)"
+    >
+  </generic-table>
+</div>

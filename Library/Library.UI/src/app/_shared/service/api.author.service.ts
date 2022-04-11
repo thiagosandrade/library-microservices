@@ -20,10 +20,10 @@ export class ApiAuthorService {
     return this.http.get<ApiAuthorListResponse>(this.baseUrl)
     .pipe(
       map( (response : ApiAuthorListResponse) => {
-        response.value.map(author => {
-          let dateFormatted = this.datePipe.transform(author.birth, 'yyyy/MM/dd')
-          author.birth = dateFormatted;
-        })
+          response.value.map(author => {
+            let dateFormatted = this.datePipe.transform(author.birth, 'yyyy/MM/dd')
+            author.birth = dateFormatted;
+          })
         return response;
       })
     )

@@ -53,7 +53,6 @@ export class ApiBookService {
   }
 
   updateBook(user: IBook): Observable<ApiResponse> {
-    console.log('updateBook')
     return this.http.put<ApiResponse>(this.baseUrl, user);
   }
 

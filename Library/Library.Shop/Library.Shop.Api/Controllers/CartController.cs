@@ -2,7 +2,6 @@
 using Library.Shop.Business.CQRS.Contracts.Commands;
 using Library.Shop.Business.CQRS.Contracts.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 namespace Library.Shop.Api.Controllers
 {
     [ApiController]
-    //[Authorize]
+    //[Authorize(Roles = "Reader, SuperUser")]
     [Route("api/[controller]")]
     public class CartController : ControllerBase
     {
@@ -23,7 +22,6 @@ namespace Library.Shop.Api.Controllers
             _mediator = mediator;
         }
 
-        //[Authorize(Roles = "Reader, SuperUser")]
         [HttpGet("")]
         public async Task<IActionResult> GetCart(int userId)
         {
@@ -35,28 +33,25 @@ namespace Library.Shop.Api.Controllers
 
         }
 
-        //[Authorize(Roles = "SuperUser")]
         [HttpPost("/Product")]
         public async Task<IActionResult> AddToCart([FromBody] ProductRequest product)
         {
             _logger.LogInformation($"Add to cart: {product}");
 
-            await _mediator.Send(new AddProductCommand(product.CartId, product.ProductId));
+            await _mediator.Send(new AddProductCommand(product.CartId, product.ProductId, product.Quantity));
 
-            return Ok();
+            return Ok(new OkObjectResult("Command Completed"));
 
         }
 
-        //[Authorize(Roles = "SuperUser")]
         [HttpDelete("/Product")]
         public async Task<IActionResult> RemoveFromCart([FromBody] ProductRequest product)
         {
             _logger.LogInformation($"Remove from cart: {product}");
 
-            await _mediator.Send(new RemoveProductCommand(product.CartId, product.ProductId));
+            await _mediator.Send(new RemoveProductCommand(product.CartId, product.ProductId, product.Quantity));
 
-            return Ok();
-
+            return Ok(new OkObjectResult("Command Completed"));
         }
     }
 }

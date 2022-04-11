@@ -20,6 +20,12 @@ export class ListBookComponent implements OnInit {
     private signalRService: SignalRService, private store: Store<IAppState<IBook>>) { }
 
   books$ : Observable<IBook[]> = this.store.select(selectBookList);
+  tableColumns : any[]= [
+    {name: 'Id', prop: 'id'},
+    { name: 'ISBN', prop:'isbn'}, 
+    { name: 'Title', prop:'title'}, 
+    { name: 'ShortDescription', prop: 'shortDescription'}, 
+    { name: 'Authors', prop: 'authorsAsString'}];
     
   ngOnInit() {
 

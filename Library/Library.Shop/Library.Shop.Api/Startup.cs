@@ -1,4 +1,6 @@
 using Library.Hub.Rabbit.RabbitMq;
+using Library.Shop.Business.Events;
+using Library.Shop.Business.Handlers;
 using Library.Shop.Database;
 using Library.Shop.Injection;
 using Microsoft.AspNetCore.Builder;
@@ -64,8 +66,8 @@ namespace Library.Shop.Api
         private static void AddRabbitSubscribers(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            //eventBus.Subscribe<BookCreatedEvent, BookCreatedEventHandler>();
-            //eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
+            eventBus.Subscribe<CartProductAddedEvent, EventHandler<CartProductAddedEvent>>();
+            eventBus.Subscribe<CartProductRemovedEvent, EventHandler<CartProductRemovedEvent>>();
 
         }
 

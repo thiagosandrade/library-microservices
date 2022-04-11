@@ -6,7 +6,7 @@
       "DownstreamScheme": "ws",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "library-hub",
           "Port": 19583
         }
       ],

@@ -20,7 +20,12 @@ export class ListAuthorComponent implements OnInit {
     private signalRService: SignalRService, private store: Store<IAppState<IAuthor>>) { }
 
   authors$ : Observable<IAuthor[]> = this.store.select(selectAuthorList);
-  tableColumns : string[]= ['Id','Name', 'Surname', 'Birth', 'Age'];
+  tableColumns : any[]= [
+    {name: 'Id', prop: 'id'},
+    { name: 'Name', prop:'name'}, 
+    { name: 'Surname', prop:'surname'}, 
+    { name: 'Birth', prop: 'birth'}, 
+    { name: 'Age', prop: 'age'}];
 
   ngOnInit() {
 

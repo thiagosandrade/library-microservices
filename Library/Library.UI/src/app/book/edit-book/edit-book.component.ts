@@ -58,7 +58,6 @@ export class EditBookComponent implements OnInit {
 
     this.categoryService.getCategories()
       .subscribe(result => {
-        console.log(result)
         result != null && result.map(category => this.dropdownCategoryList.push({item_id: category.id, item_text: category.name}))
         this.isDropdownAvailableCategory = true;
       })
@@ -77,7 +76,6 @@ export class EditBookComponent implements OnInit {
       this.book.categories.forEach(item => {
         this.selectedItemsCategory.push({item_id: item.id, item_text: item.name})
       })
-
 
       this.editForm = this.formBuilder.group({
       id: [''],
@@ -117,8 +115,7 @@ export class EditBookComponent implements OnInit {
       }
     })
 
-    console.log('dispatch update')
-    this.store.dispatch(new Update(this.editForm.value, EntitiesEnum.Book));
+    this.store.dispatch(new Update(value, EntitiesEnum.Book));
     this.router.navigate(['book','list-book'])
   }
 }

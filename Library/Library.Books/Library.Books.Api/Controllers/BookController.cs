@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using Library.Books.Business.CQRS.Contracts.Commands;
 using Library.Books.Business.CQRS.Contracts.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Library.Books.Api.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Reader, SuperUser")]
     [Route("api/[controller]")]
     public class BookController : ControllerBase
     {

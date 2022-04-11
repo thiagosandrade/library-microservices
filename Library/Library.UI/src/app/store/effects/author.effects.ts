@@ -42,13 +42,17 @@ export class AuthorEffects{
     createAuthor$ = this._actions$.pipe(
         ofType<Create>(`${EntitiesEnum.Author}_${ActionsEnum.Create}`),
         map(action => action.payload),
-        switchMap((author : IAuthor) => this._authorService.createAuthor(author).pipe(
-            map((response : ApiAuthorResponse) => 
-            [
-                new Success(response.value, EntitiesEnum.Author),
-            ]),
-            catchError(err => of(new Fail(err, EntitiesEnum.Author)))
-        ))
+        switchMap(
+            (author : IAuthor) => 
+            this._authorService.createAuthor(author)
+                .pipe(
+                    switchMap((response : ApiAuthorResponse) => 
+                    [
+                        new Success(response.value, EntitiesEnum.Author),
+                    ]),
+                    catchError(err => of(new Fail(err, EntitiesEnum.Author)))
+            )
+        )
     );
 
     @Effect()

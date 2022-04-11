@@ -19,9 +19,13 @@ export const appReducer = <T extends IAppState<IEntity>>(entityType: EntitiesEnu
             };
         }
         case `${entityType}_${ActionsEnum.SetSelected}`: {
+            let entitySelected = state.entities.find(item => action.payload.id === item.id);
+            if(entitySelected == null)
+                entitySelected = action.payload
+
             return <T> {
                 ...state,
-                selectedEntity: action.payload
+                selectedEntity: entitySelected
             }
         }
         case `${entityType}_${ActionsEnum.Create}`: {

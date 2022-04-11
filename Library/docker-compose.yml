@@ -8,7 +8,10 @@ services:
             context: Library.Gateway
             dockerfile: Dockerfile
             args:
-                ASPNETCORE_ENVIRONMENT: "Release"
+                CONFIG_PROFILE: "Development"
+                PORT: 59580
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Release"
         ports:
             - "59580:59580"
         expose:
@@ -26,7 +29,10 @@ services:
             context: Library.Shop
             dockerfile: Dockerfile
             args:
-                ASPNETCORE_ENVIRONMENT: "Release"
+                CONFIG_PROFILE: "Development"
+                PORT: 59581
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Release"
         ports:
             - "59581:59581"
         expose:
@@ -39,7 +45,10 @@ services:
             context: Library.Books
             dockerfile: Dockerfile
             args:
-                ASPNETCORE_ENVIRONMENT: "Release"
+                CONFIG_PROFILE: "Development"
+                PORT: 59582
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Release"
         ports:
             - "59582:59582"
         expose:
@@ -52,7 +61,10 @@ services:
             context: Library.hub
             dockerfile: Dockerfile
             args:
-                ASPNETCORE_ENVIRONMENT: "Release"
+                CONFIG_PROFILE: "Development"
+                PORT: 59583
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Release"
         ports:
             - "59583:59583"
         expose:
@@ -65,7 +77,10 @@ services:
             context: Library.Auth
             dockerfile: Dockerfile
             args:
-                ASPNETCORE_ENVIRONMENT: "Release"
+                CONFIG_PROFILE: "Development"
+                PORT: 59584
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Release"
         ports:
             - "59584:59584"
         expose:
@@ -76,9 +91,9 @@ services:
         container_name: library-ui
         build:
             context: library.ui
-            dockerfile: Dockerfile
+            dockerfile: dockerfile
             args:
-                ENVIRONMENT: "prod"
+                environment: "prod"
         ports:
             - "4200:4200"
         expose:

@@ -3,8 +3,8 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS base
 WORKDIR /app
-EXPOSE 59582/tcp
-#EXPOSE 443
+ARG PORT
+EXPOSE ${PORT}/tcp
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 WORKDIR /src
@@ -12,17 +12,18 @@ WORKDIR /src
 COPY . .
 WORKDIR "/src/Library.Books.Api"
 
-ARG ASPNETCORE_ENVIRONMENT
+ARG CONFIG_PROFILE
 
-RUN dotnet build "Library.Books.Api.csproj" -c ${ASPNETCORE_ENVIRONMENT} -o /app/build
+RUN dotnet restore
 
 FROM build AS publish
-RUN dotnet publish "Library.Books.Api.csproj" -c ${ASPNETCORE_ENVIRONMENT} -o /app/publish
+RUN dotnet publish "Library.Books.Api.csproj" -c ${CONFIG_PROFILE} -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS http://*:59582
-ENTRYPOINT ["dotnet", "Library.Books.Api.dll","http://*:59582"]
+
+ENV ASPNETCORE_URLS http://*:${PORT}
+ENTRYPOINT ["dotnet", "Library.Books.Api.dll","http://*:${PORT}"]
 
 
