@@ -16,6 +16,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { LoginModule } from './login/login.module';
+import { CartModule } from './cart/cart.module';
 
 
 @NgModule({
@@ -29,9 +30,10 @@ import { LoginModule } from './login/login.module';
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
+    SharedModule,
+    CartModule,
     LoginModule,
     AuthModule,
-    SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

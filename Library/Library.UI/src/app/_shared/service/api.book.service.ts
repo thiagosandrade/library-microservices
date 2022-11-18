@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs/index";
 import { ApiBookResponse, ApiBookListResponse } from "../model/api.book.response";
-import { IBook } from '../model/book.model';
 import { ApiResponse } from '../model/api.response';
 import { map } from 'rxjs/internal/operators/map';
 import { environment } from 'src/environments/environment';

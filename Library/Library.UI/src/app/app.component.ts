@@ -8,7 +8,8 @@ import { IAppState } from './store/state/app.state';
 import { IUser } from './_shared/model/user.model';
 import { isUserLogged } from './store/selectors/login.selector';
 import { Logout } from './store/actions/login.actions';
-import { EntitiesEnum } from './store/actions/app.actions';
+import { EntitiesEnum, GetAll } from './store/actions/app.actions';
+import { IBook } from './_shared/model/book.model';
 
 @Component({
   selector: 'app-root',

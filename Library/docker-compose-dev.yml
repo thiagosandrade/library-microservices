@@ -86,20 +86,20 @@ services:
         expose:
             - 19584
             
-    library-ui:
-        image: library-ui
-        container_name: library-ui
-        build:
-            context: library.ui
-            dockerfile: Dockerfile
-            args:
-                ENVIRONMENT: 
-        ports:
-            - "4200:4200"
-        expose:
-            - 4200
-        depends_on:
-            - library-gateway
+    # library-ui:
+        # image: library-ui
+        # container_name: library-ui
+        # build:
+            # context: library.ui
+            # dockerfile: Dockerfile
+            # args:
+                # ENVIRONMENT: 
+        # ports:
+            # - "4200:4200"
+        # expose:
+            # - 4200
+        # depends_on:
+            # - library-gateway
 
 networks: 
     default:

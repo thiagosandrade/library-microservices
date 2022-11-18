@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Library.Shop.Domain.Models
+﻿namespace Library.Shop.Domain.Models
 {
     public class CartProduct : Entity
     {
