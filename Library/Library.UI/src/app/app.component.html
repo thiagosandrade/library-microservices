@@ -22,5 +22,13 @@
     </ul>
   </div>
 </nav>
-<router-outlet></router-outlet>
+<div style="display: flex">
+  <div [ngClass]="(userLogged$ | async) ? 'col-md-9' : 'col-md-12'">
+    <router-outlet></router-outlet>
+  </div>
+  <div *ngIf="(userLogged$ | async)" class="col-md-3">
+    <app-cart></app-cart>
+  </div>
+</div>
+
 <message-notifier></message-notifier>

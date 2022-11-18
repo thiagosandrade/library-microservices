@@ -6,8 +6,10 @@ import { ApiLoginService } from 'src/app/_shared/service/api.login.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { selectBookList } from 'src/app/store/selectors/book.selector';
-import { GetAll, SetSelected, Delete, EntitiesEnum } from 'src/app/store/actions/app.actions';
+import { GetAll, SetSelected, Delete, EntitiesEnum, Create, Get } from 'src/app/store/actions/app.actions';
 import { Observable } from 'rxjs';
+import { ICart, IProductCart } from 'src/app/_shared/model/cart.model';
+import { getSelectedCart } from 'src/app/store/selectors/cart.selector';
 
 @Component({
   selector: 'app-list-book',
@@ -17,15 +19,19 @@ import { Observable } from 'rxjs';
 export class ListBookComponent implements OnInit {
 
   constructor(private router: Router, private apiLoginService: ApiLoginService,
-    private signalRService: SignalRService, private store: Store<IAppState<IBook>>) { }
+    private signalRService: SignalRService, private store: Store<IAppState<IBook>>, private cartStore: Store<IAppState<ICart>>) { }
 
-  books$ : Observable<IBook[]> = this.store.select(selectBookList);
+    books$ : Observable<IBook[]> = this.store.select(selectBookList);
+    private cartId = 0;
+
   tableColumns : any[]= [
     {name: 'Id', prop: 'id'},
+    {name: 'Image', prop: 'thumbnailUrl'},
     { name: 'ISBN', prop:'isbn'}, 
     { name: 'Title', prop:'title'}, 
     { name: 'ShortDescription', prop: 'shortDescription'}, 
-    { name: 'Authors', prop: 'authorsAsString'}];
+    { name: 'Authors', prop: 'authorsAsString'},
+    { name: '', prop: ''}];
     
   ngOnInit() {
 
@@ -40,6 +46,10 @@ export class ListBookComponent implements OnInit {
     });
 
     this.store.dispatch(new GetAll(EntitiesEnum.Book));
+
+    this.cartStore.select(getSelectedCart).subscribe(item => {
+      this.cartId = item.id
+    })
   }
 
   deleteBook(book: IBook): void {
@@ -54,4 +64,16 @@ export class ListBookComponent implements OnInit {
   addBook(): void {
     this.router.navigate(['book','add-book']);
   };
+
+  addItemToCart(book: IBook): void {
+   
+      let cartItem : IProductCart = {
+        id: 0,
+        cartId: this.cartId,
+        productId: book.id,
+        quantity: 1
+      }
+
+      this.cartStore.dispatch(new Create(cartItem, EntitiesEnum.Cart));
+  }
 }

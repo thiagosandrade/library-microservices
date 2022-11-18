@@ -6,6 +6,7 @@ namespace Library.Shop.Business.CQRS.Contracts.Queries
         public int Id { get; set; }
         public int CartId { get; set; }
         public int ProductId { get; set; }
+        public int Quantity { get; set; }
      
     }
 }

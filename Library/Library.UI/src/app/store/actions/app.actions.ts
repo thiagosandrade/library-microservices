@@ -5,7 +5,8 @@ export enum EntitiesEnum {
     Author = 'Author',
     Book = 'Book',
     Login = 'Login',
-    User = 'User'
+    User = 'User',
+    Cart = 'Cart'
 }
 
 export enum ActionsEnum {

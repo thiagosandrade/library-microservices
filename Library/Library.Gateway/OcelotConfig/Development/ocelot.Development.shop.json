@@ -12,8 +12,8 @@
         }
       ],
       //Ocelot Exposure EntryPoint
-      "UpstreamPathTemplate": "/cart",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamPathTemplate": "/cart/",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -34,7 +34,7 @@
       ],
       //Ocelot Exposure EntryPoint
       "UpstreamPathTemplate": "/cart/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,

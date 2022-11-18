@@ -2,6 +2,7 @@
 using Library.Shop.Business.CQRS.Contracts.Commands;
 using Library.Shop.Business.CQRS.Contracts.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace Library.Shop.Api.Controllers
 {
     [ApiController]
-    //[Authorize(Roles = "Reader, SuperUser")]
+    [Authorize(Roles = "Reader, SuperUser")]
     [Route("api/[controller]")]
     public class CartController : ControllerBase
     {
@@ -22,7 +23,7 @@ namespace Library.Shop.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetCart(int userId)
         {
             _logger.LogInformation($"Get Cart");
@@ -33,7 +34,7 @@ namespace Library.Shop.Api.Controllers
 
         }
 
-        [HttpPost("/Product")]
+        [HttpPost("Product/AddItem")]
         public async Task<IActionResult> AddToCart([FromBody] ProductRequest product)
         {
             _logger.LogInformation($"Add to cart: {product}");
@@ -44,7 +45,7 @@ namespace Library.Shop.Api.Controllers
 
         }
 
-        [HttpDelete("/Product")]
+        [HttpPost("Product/RemoveItem")]
         public async Task<IActionResult> RemoveFromCart([FromBody] ProductRequest product)
         {
             _logger.LogInformation($"Remove from cart: {product}");

@@ -12,6 +12,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
     @Output() rowEditAction: EventEmitter<any> = new EventEmitter();
     @Output() rowDeleteAction: EventEmitter<any> = new EventEmitter();
+    @Output() rowAddAction: EventEmitter<any> = new EventEmitter();
 
     pageOfItems: Array<any> = [];
     
@@ -32,13 +33,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
         this.pageOfItems = pageOfItems.map(item => {
             let result = {};
             this.tableColumns.forEach(column => {
-                if(column.name == 'Edit' || column.name == 'Delete')
+                if(column.name == 'Add' ||column.name == 'Edit' || column.name == 'Delete')
                     return;
 
                 result[column.prop] = item[column.prop];
             })
             return result;
         })
+    }
+
+    onRowAddAction(item: any){
+        this.rowAddAction.emit(item)
     }
 
     onRowEditAction(item: any){

@@ -36,6 +36,9 @@ namespace Library.Shop.Domain.Models
 
             if(product != null)
                 product.RemoveQuantity(quantity);
+
+            if (product.Quantity == 0)
+                Items.Remove(product);
         }
     }
 }
