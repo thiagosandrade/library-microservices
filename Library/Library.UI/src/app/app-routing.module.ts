@@ -4,23 +4,23 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   { 
     path: 'login',  
-    loadChildren: './login/login.module#LoginModule'
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
   { 
     path: 'user',  
-    loadChildren: './user/user.module#UserModule'
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   },
   { 
     path: 'author', 
-    loadChildren: './author/author.module#AuthorModule'
+    loadChildren: () => import('./author/author.module').then(m => m.AuthorModule)
   },
   { 
     path: 'book', 
-    loadChildren: './book/book.module#BookModule'
+    loadChildren: () => import('./book/book.module').then(m => m.BookModule)
   },
   {
     path : '', 
-    loadChildren: './login/login.module#LoginModule'
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   }
 ];
 

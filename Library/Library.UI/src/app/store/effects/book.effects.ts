@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { selectBookList } from '../selectors/book.selector';
 import { IBook } from 'src/app/_shared/model/book.model';
 import { Get, ActionsEnum, GetSuccess, GetAll, GetAllSuccess, Create, Success, Fail, Delete, Update, EntitiesEnum } from '../actions/app.actions';
+import { selectLoggedUser } from "../selectors/login.selector";
 
 @Injectable()
 export class BookEffects{
@@ -33,7 +34,8 @@ export class BookEffects{
     @Effect()
     getBooks$ = this._actions$.pipe(
         ofType<GetAll>(`${EntitiesEnum.Book}_${ActionsEnum.GetAll}`),
-        switchMap(() => this._bookService.getBooks().pipe(
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
+        switchMap(([, loggedUser]) => this._bookService.getBooks(loggedUser.token).pipe(
             map((response : ApiBookListResponse) => new GetAllSuccess(response.value, EntitiesEnum.Book))
         ))
     );
@@ -42,9 +44,10 @@ export class BookEffects{
     createBook$ = this._actions$.pipe(
         ofType<Create>(`${EntitiesEnum.Book}_${ActionsEnum.Create}`),
         map(action => action.payload),
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
         switchMap(
-            (book : IBook) => 
-            this._bookService.createBook(book)
+            ([book, loggedUser]) => 
+            this._bookService.createBook(book, loggedUser.token)
                 .pipe(
                     switchMap((response : ApiBookResponse) => 
                     [
@@ -59,9 +62,10 @@ export class BookEffects{
     updateBook$ = this._actions$.pipe(
         ofType<Update>(`${EntitiesEnum.Book}_${ActionsEnum.Update}`),
         map(action => action.payload),
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
         switchMap(
-            (book : IBook) => 
-            this._bookService.updateBook(book)
+            ([book, loggedUser]) => 
+            this._bookService.updateBook(book, loggedUser.token)
                 .pipe(
                     switchMap((response : ApiBookResponse) => 
                     [
@@ -72,13 +76,12 @@ export class BookEffects{
         )
     );
 
-    
-
     @Effect()
     deleteBook$ = this._actions$.pipe(
         ofType<Delete>(`${EntitiesEnum.Book}_${ActionsEnum.Delete}`),
         map(action => action.payload),
-        switchMap((book : IBook) => this._bookService.deleteBook(book.id).pipe(
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
+        switchMap(([book, loggedUser]) => this._bookService.deleteBook(book.id, loggedUser.token).pipe(
             mergeMap((response : ApiBookResponse) => 
             [
                 new Success(response.value, EntitiesEnum.Book),

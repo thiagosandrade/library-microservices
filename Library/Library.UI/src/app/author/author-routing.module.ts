@@ -6,17 +6,17 @@ const routes: Routes = [
   { 
     path: 'add-author', 
     canActivate: [AuthGuard],
-    loadChildren: './add-author/add-author.module#AddAuthorModule'
+    loadChildren: () => import('./add-author/add-author.module').then(m => m.AddAuthorModule)
   },
   { 
     path: 'list-author', 
     canActivate: [AuthGuard],
-    loadChildren: './list-author/list-author.module#ListAuthorModule'
+    loadChildren: () => import('./list-author/list-author.module').then(m => m.ListAuthorModule)
   },
   { 
     path: 'edit-author', 
     canActivate: [AuthGuard],
-    loadChildren: './edit-author/edit-author.module#EditAuthorModule'
+    loadChildren: () => import('./edit-author/edit-author.module').then(m => m.EditAuthorModule)
   }
 ];
 

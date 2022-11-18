@@ -16,8 +16,12 @@ export class ApiBookService {
   constructor(private http: HttpClient, private datePipe : DatePipe) { }
   private baseUrl = `${environment.apiUrl}/book/`;
 
-  getBooks() : Observable<ApiBookListResponse> {
-    return this.http.get<ApiBookListResponse>(this.baseUrl)
+  getBooks(token: string) : Observable<ApiBookListResponse> {
+    return this.http.get<ApiBookListResponse>(this.baseUrl, {
+      headers: {
+        "Authorization": token
+      }
+    })
     .pipe(
       map( (response : ApiBookListResponse) => {
         response.value.map(book => {
@@ -37,8 +41,12 @@ export class ApiBookService {
     )
   }
 
-  getBookById(id: string): Observable<ApiBookResponse> {
-    return this.http.get<ApiBookResponse>(this.baseUrl + id)
+  getBookById(id: string, token: string): Observable<ApiBookResponse> {
+    return this.http.get<ApiBookResponse>(this.baseUrl + id, {
+      headers: {
+        "Authorization": token
+      }
+    })
     .pipe(
       map( (response : ApiBookResponse) => {
             let dateFormatted = this.datePipe.transform(response.value.publishedDate, 'yyyy/MM/dd')
@@ -48,16 +56,28 @@ export class ApiBookService {
     );
   }
 
-  createBook(user: IBook): Observable<ApiBookResponse> {
-    return this.http.post<ApiBookResponse>(this.baseUrl, user);
+  createBook(user: any, token: string): Observable<ApiBookResponse> {
+    return this.http.post<ApiBookResponse>(this.baseUrl, user, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
-  updateBook(user: IBook): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl, user);
+  updateBook(user: any, token: string): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(this.baseUrl, user, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
-  deleteBook(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(this.baseUrl + id);
+  deleteBook(id: number, token: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.baseUrl + id, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
 }

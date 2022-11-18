@@ -19,7 +19,7 @@ services:
         depends_on:
             - library-auth
             - library-hub
-            - library-books
+            - library-book
             - library-shop
     
     library-shop:

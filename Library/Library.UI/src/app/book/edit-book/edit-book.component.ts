@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { getSelectedBook } from 'src/app/store/selectors/book.selector';
 import { Update, EntitiesEnum } from 'src/app/store/actions/app.actions';
@@ -11,6 +11,7 @@ import { IAuthor } from 'src/app/_shared/model/author.model';
 import { selectAuthorList } from 'src/app/store/selectors/author.selector';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ApiCategoryService } from 'src/app/_shared/service/api.category.service';
+import { selectLoggedUser } from 'src/app/store/selectors/login.selector';
 
 @Component({
   selector: 'app-edit-book',
@@ -28,6 +29,7 @@ export class EditBookComponent implements OnInit {
     private store: Store<IAppState<IBook>>) { }
 
   authors$ : Observable<IAuthor[]> = this.store.select(selectAuthorList);
+  loggedUser$ = this.store.pipe(select(selectLoggedUser));
 
   book$ = this.store.select(getSelectedBook)
     .subscribe( (book : IBook) =>{
@@ -56,11 +58,16 @@ export class EditBookComponent implements OnInit {
       this.isDropdownAvailable = true;
     })
 
-    this.categoryService.getCategories()
-      .subscribe(result => {
-        result != null && result.map(category => this.dropdownCategoryList.push({item_id: category.id, item_text: category.name}))
-        this.isDropdownAvailableCategory = true;
-      })
+    this.loggedUser$.subscribe(logged => {
+      if(logged)
+      {
+        this.categoryService.getCategories(logged.token)
+        .subscribe(result => {
+          result != null && result.map(category => this.dropdownCategoryList.push({item_id: category.id, item_text: category.name}))
+          this.isDropdownAvailableCategory = true;
+        })
+      }
+    })
 
     this.dropdownSettings = {
       idField: 'item_id',

@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Library.Books.Injection
 {
-    public static class ProjectConfig
+    public static class InjectionConfig
     {
         public static void AddInjections(this IServiceCollection services)
         {
