@@ -19,7 +19,7 @@ services:
         depends_on:
             - library-auth
             - library-hub
-            - library-books
+            - library-book
             - library-shop
     
     library-shop:
@@ -93,7 +93,7 @@ services:
             context: library.ui
             dockerfile: Dockerfile
             args:
-                ENVIRONMENT: "development"
+                ENVIRONMENT: 
         ports:
             - "4200:4200"
         expose:

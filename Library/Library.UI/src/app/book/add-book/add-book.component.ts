@@ -10,6 +10,7 @@ import { IAuthor } from 'src/app/_shared/model/author.model';
 import { selectAuthorList } from 'src/app/store/selectors/author.selector';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ApiCategoryService } from 'src/app/_shared/service/api.category.service';
+import { selectLoggedUser } from 'src/app/store/selectors/login.selector';
 
 @Component({
   selector: 'app-add-book',
@@ -26,6 +27,7 @@ export class AddBookComponent implements OnInit {
   addForm: FormGroup;
 
   authors$ : Observable<IAuthor[]> = this.store.select(selectAuthorList);
+  loggedUser$ = this.store.pipe(select(selectLoggedUser));
 
   dropdownList = [];
   selectedItems = [];
@@ -55,11 +57,18 @@ export class AddBookComponent implements OnInit {
       result != null && result.map(author => this.dropdownList.push({item_id: author.id, item_text: author.name}))
     })
 
-    this.categoryService.getCategories()
-      .subscribe(result => {
-        result != null && result.map(category => this.dropdownCategoryList.push({item_id: category.id, item_text: category.name}))
-        this.isDropdownAvailableCategory = true;
-      })
+    this.loggedUser$.subscribe(logged => {
+      if(logged)
+      {
+        this.categoryService.getCategories(logged.token)
+        .subscribe(result => {
+          result != null && result.map(category => this.dropdownCategoryList.push({item_id: category.id, item_text: category.name}))
+          this.isDropdownAvailableCategory = true;
+        })
+      }
+    })
+
+    
 
     this.dropdownSettings = {
       idField: 'item_id',

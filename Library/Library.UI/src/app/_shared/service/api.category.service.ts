@@ -16,8 +16,12 @@ export class ApiCategoryService {
   constructor(private http: HttpClient, private datePipe : DatePipe) { }
   private baseUrl = `${environment.apiUrl}/category/`;
 
-  getCategories() : Observable<ICategory[]> {
-    return this.http.get<ApiCategoryListResponse>(this.baseUrl)
+  getCategories(token: string) : Observable<ICategory[]> {
+    return this.http.get<ApiCategoryListResponse>(this.baseUrl, {
+      headers: {
+        "Authorization": token
+      }
+    })
     .pipe(
       map( (response : ApiCategoryListResponse) => {
         return response.value;
@@ -25,8 +29,12 @@ export class ApiCategoryService {
     )
   }
 
-  getCategoryById(id: string): Observable<ApiCategoryResponse> {
-    return this.http.get<ApiCategoryResponse>(this.baseUrl + id)
+  getCategoryById(id: string, token: string): Observable<ApiCategoryResponse> {
+    return this.http.get<ApiCategoryResponse>(this.baseUrl + id, {
+      headers: {
+        "Authorization": token
+      }
+    })
     .pipe(
       map( (response : ApiCategoryResponse) => {
             return response;
@@ -34,16 +42,28 @@ export class ApiCategoryService {
     );
   }
 
-  createCategory(user: ICategory): Observable<ApiCategoryResponse> {
-    return this.http.post<ApiCategoryResponse>(this.baseUrl, user);
+  createCategory(user: ICategory, token: string): Observable<ApiCategoryResponse> {
+    return this.http.post<ApiCategoryResponse>(this.baseUrl, user, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
-  updateCategory(user: ICategory): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl, user);
+  updateCategory(user: ICategory, token: string): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(this.baseUrl, user, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
-  deleteCategory(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(this.baseUrl + id);
+  deleteCategory(id: number, token: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.baseUrl + id, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
 }

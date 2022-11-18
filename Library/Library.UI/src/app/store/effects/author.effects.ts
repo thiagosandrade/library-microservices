@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { selectAuthorList } from '../selectors/author.selector';
 import { IAuthor } from 'src/app/_shared/model/author.model';
 import { Get, ActionsEnum, GetSuccess, GetAll, GetAllSuccess, Create, Success, Fail, Delete, Update, EntitiesEnum } from '../actions/app.actions';
+import { selectLoggedUser } from "../selectors/login.selector";
 
 @Injectable()
 export class AuthorEffects{
@@ -33,8 +34,13 @@ export class AuthorEffects{
     @Effect()
     getAuthors$ = this._actions$.pipe(
         ofType<GetAll>(`${EntitiesEnum.Author}_${ActionsEnum.GetAll}`),
-        switchMap(() => this._authorService.getAuthors().pipe(
-            map((response : ApiAuthorListResponse) => new GetAllSuccess(response.value, EntitiesEnum.Author))
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
+        switchMap(
+            ([, loggedUser]) => 
+            this._authorService
+                .getAuthors(loggedUser.token)
+                .pipe(
+                    map((response : ApiAuthorListResponse) => new GetAllSuccess(response.value, EntitiesEnum.Author))
         ))
     );
 
@@ -42,9 +48,10 @@ export class AuthorEffects{
     createAuthor$ = this._actions$.pipe(
         ofType<Create>(`${EntitiesEnum.Author}_${ActionsEnum.Create}`),
         map(action => action.payload),
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
         switchMap(
-            (author : IAuthor) => 
-            this._authorService.createAuthor(author)
+            ([author, userLogged]) => 
+            this._authorService.createAuthor(author, userLogged.token)
                 .pipe(
                     switchMap((response : ApiAuthorResponse) => 
                     [
@@ -59,9 +66,10 @@ export class AuthorEffects{
     updateAuthor$ = this._actions$.pipe(
         ofType<Update>(`${EntitiesEnum.Author}_${ActionsEnum.Update}`),
         map(action => action.payload),
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
         switchMap(
-            (author : IAuthor) => 
-            this._authorService.updateAuthor(author)
+            ([author, userLogged]) => 
+            this._authorService.updateAuthor(author, userLogged.token)
                 .pipe(
                     switchMap((response : ApiAuthorResponse) => 
                     [
@@ -76,12 +84,15 @@ export class AuthorEffects{
     deleteAuthor$ = this._actions$.pipe(
         ofType<Delete>(`${EntitiesEnum.Author}_${ActionsEnum.Delete}`),
         map(action => action.payload),
-        switchMap((author : IAuthor) => this._authorService.deleteAuthor(author.id).pipe(
-            mergeMap((response : ApiAuthorResponse) => 
-            [
-                new Success(response.value, EntitiesEnum.Author),
-            ]),
-            catchError(err => of(new Fail(err, EntitiesEnum.Author)))
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
+        switchMap(
+            ([author, userLogged]) => 
+            this._authorService.deleteAuthor(author.id, userLogged.token).pipe(
+                mergeMap((response : ApiAuthorResponse) => 
+                [
+                    new Success(response.value, EntitiesEnum.Author),
+                ]),
+                catchError(err => of(new Fail(err, EntitiesEnum.Author)))
         ))
     );
 

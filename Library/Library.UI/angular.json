@@ -17,18 +17,19 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "buildOptimizer": true,
             "outputPath": "dist/LibraryUI",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "node_modules/primeng/resources/themes/nova-dark/theme.css",
+              "node_modules/primeng/resources/themes/nova/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/bootstrap/scss/bootstrap.scss",
               "node_modules/font-awesome/scss/font-awesome.scss",
@@ -132,5 +133,8 @@
         }
       }
     }},
-  "defaultProject": "LibraryUI"
+  "defaultProject": "LibraryUI",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -24,8 +24,12 @@ export class ApiUserService {
     });
   }
 
-  getUserById(id: string): Observable<ApiUserResponse> {
-    return this.http.get<ApiUserResponse>(this.baseUrl + id)
+  getUserById(id: string, token: string): Observable<ApiUserResponse> {
+    return this.http.get<ApiUserResponse>(this.baseUrl + id, {
+      headers: {
+        "Authorization": token
+      }
+    })
   }
 
   createUser(user: IEntity, token: string): Observable<ApiUserResponse> {
@@ -44,8 +48,12 @@ export class ApiUserService {
     });
   }
 
-  deleteUser(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(this.baseUrl + id);
+  deleteUser(id: number, token: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.baseUrl + id, {
+      headers: {
+        "Authorization": token
+      }
+    });
   }
 
 }

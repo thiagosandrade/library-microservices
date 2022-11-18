@@ -7,7 +7,7 @@ import { ActionsEnum, EntitiesEnum, Fail } from '../store/actions/app.actions';
 import { ofType, Actions } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { selectLoggedUser } from '../store/selectors/login.selector';
-import { AuthorActionTypes, Login, Logout } from '../store/actions/login.actions';
+import { Login, Logout } from '../store/actions/login.actions';
 
 @Component({
   selector: 'app-login',

@@ -28,14 +28,13 @@ namespace Library.Auth.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(opt =>
-                 opt.UseLazyLoadingProxies()
+                opt.UseLazyLoadingProxies()
                     .UseInMemoryDatabase("Library.Auth"));
 
             services.AddMvc()
                 .AddNewtonsoftJson(options => {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
-
 
             var secret = Configuration.GetValue<string>("JWT:Secret");
             var key = Encoding.UTF8.GetBytes(secret);
@@ -72,8 +71,7 @@ namespace Library.Auth.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            eventBus.Subscribe<UserLoggedEvent, UserLoggedEventHandler>();
+            AddRabbitSubscribers(app);
 
             app.UseHttpsRedirection();
 
@@ -94,6 +92,12 @@ namespace Library.Auth.Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+        }
+
+        private static void AddRabbitSubscribers(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<UserLoggedEvent, UserLoggedEventHandler>();
         }
 
         private static void AddInjections(IServiceCollection services)

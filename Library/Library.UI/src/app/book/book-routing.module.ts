@@ -6,17 +6,17 @@ const routes: Routes = [
   { 
     path: 'add-book', 
     canActivate: [AuthGuard],
-    loadChildren: './add-book/add-book.module#AddBookModule'
+    loadChildren: () => import('./add-book/add-book.module').then(m => m.AddBookModule)
   },
   { 
     path: 'list-book', 
     canActivate: [AuthGuard],
-    loadChildren: './list-book/list-book.module#ListBookModule'
+    loadChildren: () => import('./list-book/list-book.module').then(m => m.ListBookModule)
   },
   { 
     path: 'edit-book', 
     canActivate: [AuthGuard],
-    loadChildren: './edit-book/edit-book.module#EditBookModule'
+    loadChildren: () => import('./edit-book/edit-book.module').then(m => m.EditBookModule)
   }
 ];
 

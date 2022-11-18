@@ -87,9 +87,12 @@ export class UserEffects{
     deleteUser$ = this._actions$.pipe(
         ofType<Delete>(`${EntitiesEnum.User}_${ActionsEnum.Delete}`),
         map(action => action.payload),
-        switchMap((user : IUser) => this._userService.deleteUser(user.id).pipe(
-            switchMap((response : ApiUserResponse) => of(new Success(response.value, EntitiesEnum.User))),
-            catchError(err => of(new Fail(err, EntitiesEnum.User)))
+        withLatestFrom(this._store.pipe(select(selectLoggedUser))),
+        switchMap(
+            ([user,userLogged]) => 
+            this._userService.deleteUser(user.id, userLogged.token).pipe(
+                switchMap((response : ApiUserResponse) => of(new Success(response.value, EntitiesEnum.User))),
+                catchError(err => of(new Fail(err, EntitiesEnum.User)))
         ))
     );
 

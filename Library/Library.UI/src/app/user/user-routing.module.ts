@@ -6,17 +6,17 @@ const routes: Routes = [
   { 
     path: 'list-user', 
     canActivate: [AuthGuard],
-    loadChildren: './list-user/list-user.module#ListUserModule'
+    loadChildren: () => import('./list-user/list-user.module').then(m => m.ListUserModule)
   },
   { 
     path: 'add-user', 
     canActivate: [AuthGuard],
-    loadChildren: './add-user/add-user.module#AddUserModule'
+    loadChildren: () => import('./add-user/add-user.module').then(m => m.AddUserModule)
   },
   { 
     path: 'edit-user', 
     canActivate: [AuthGuard],
-    loadChildren: './edit-user/edit-user.module#EditUserModule'
+    loadChildren: () => import('./edit-user/edit-user.module').then(m => m.EditUserModule)
   }
 ];
 
