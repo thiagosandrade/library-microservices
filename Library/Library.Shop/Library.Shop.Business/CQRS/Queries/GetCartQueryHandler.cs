@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Library.Shop.Business.CQRS;
 using Library.Shop.Business.CQRS.Contracts.Queries;
 using Library.Shop.Database.Interfaces;
 using Library.Shop.Domain.Models;

@@ -29,9 +29,8 @@ export class ListBookComponent implements OnInit {
     {name: 'Image', prop: 'thumbnailUrl'},
     { name: 'ISBN', prop:'isbn'}, 
     { name: 'Title', prop:'title'}, 
-    { name: 'ShortDescription', prop: 'shortDescription'}, 
-    { name: 'Authors', prop: 'authorsAsString'},
-    { name: '', prop: ''}];
+    { name: 'Short Description', prop: 'shortDescription'}, 
+    { name: 'Authors', prop: 'authorsAsString'}];
     
   ngOnInit() {
 

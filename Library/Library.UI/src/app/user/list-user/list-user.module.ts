@@ -4,6 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { ListUserRoutingModule } from './list-user-routing.module';
 import { ListUserComponent } from './list-user.component';
 import { SharedModule } from 'src/app/_shared/shared.module';
+import { ShowUserModule } from '../show-user/show-user.module';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { SharedModule } from 'src/app/_shared/shared.module';
   ],
   imports: [
     SharedModule,
+    ShowUserModule,
     ListUserRoutingModule,
     HttpClientModule
   ],

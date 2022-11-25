@@ -1,5 +1,4 @@
-﻿using Library.Shop.Domain.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Library.Shop.Business.CQRS.Contracts.Queries

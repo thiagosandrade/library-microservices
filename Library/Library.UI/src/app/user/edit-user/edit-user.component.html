@@ -1,9 +1,19 @@
-<div class="col-md-6 user-container">
-    <span type="button" [routerLink]="['/author/list-author']">
-      <i class="fa fa-arrow-left fa-2x"></i>
-    </span>  
-    <h2 class="text-center" style="display: inline;">Edit User</h2>
-    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+<div class="col-md-12 user-container">
+    <div *ngIf="isEdit">
+      <span type="button" [routerLink]="['/user/list-user']">
+        <i class="fa fa-arrow-left fa-2x"></i>
+      </span>
+      <h2 class="text-center" style="display: inline;">Edit User</h2>
+    </div>  
+  
+    <div *ngIf="!isEdit">
+      <span type="button" [routerLink]="['/user/list-user']">
+        <i class="fa fa-arrow-left fa-2x"></i>
+      </span>  
+      <h2 class="text-center" style="display: inline;">Add User</h2>
+    </div>  
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="d-none">
         <input type="text" formControlName="id" placeholder="id" name="id" class="form-control" id="id">
       </div>
@@ -32,6 +42,6 @@
         <input type="password" formControlName="password" placeholder="password" name="password" class="form-control" id="password">
       </div>
   
-      <button class="btn btn-success">Update</button>
+      <button class="btn btn-success">Save</button>
     </form>
   </div>

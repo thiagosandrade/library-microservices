@@ -3,13 +3,12 @@ import { SignalRMessage } from './_shared/signalR/signalR.message';
 import { SignalRService } from './_shared/signalR/signalR.service';
 import { MessageNotifierService, Severities } from './_shared/messageNotifier/messageNotifier.service';
 import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { IAppState } from './store/state/app.state';
 import { IUser } from './_shared/model/user.model';
 import { isUserLogged } from './store/selectors/login.selector';
 import { Logout } from './store/actions/login.actions';
-import { EntitiesEnum, GetAll } from './store/actions/app.actions';
-import { IBook } from './_shared/model/book.model';
+import { EntitiesEnum } from './store/actions/app.actions';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +29,7 @@ export class AppComponent implements OnInit {
     this.signalRService.StartHub();
 
     this.signalRService.notificationReceived.subscribe((signalRMessage: SignalRMessage) => {
+      console.log(signalRMessage)
         let json = JSON.parse(signalRMessage.payload);
 
         this.messageNotifierService.messageNotify(Severities.INFO, signalRMessage.type, json.Message);

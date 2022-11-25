@@ -1,20 +1,13 @@
-﻿using Library.Hub.Rabbit.Events.Interfaces;
+﻿using Library.Hub.Rabbit.Events;
 
 namespace Library.Hub.Events
 {
-    public class AuthorCreatedEvent : IMessageEvent
+    public class AuthorCreatedEvent : MessageEvent
     {
-        public dynamic Message { get; set; }
-
-        public AuthorCreatedEvent()
-        {
-
-        }
-
-        public AuthorCreatedEvent(dynamic message)
+        public AuthorCreatedEvent(string message, dynamic item = null)
         {
             Message = message;
+            Item = item;
         }
-
     }
 }

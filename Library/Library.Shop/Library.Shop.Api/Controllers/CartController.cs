@@ -23,7 +23,7 @@ namespace Library.Shop.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         public async Task<IActionResult> GetCart(int userId)
         {
             _logger.LogInformation($"Get Cart");

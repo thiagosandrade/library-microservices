@@ -22,7 +22,17 @@ export class ListUserComponent implements OnInit {
 
   users$ : Observable<IUser[]> = this.store.pipe(select(selectUserList));
   isAdmin$ : Observable<boolean> = this.store.pipe(select(isUserLoggedAdmin));
-    
+  user : IUser = null;
+  showPopup : boolean = false;
+
+  tableColumns : any[]= [
+    {name: 'Id', prop: 'id'},
+    {name: 'Name', prop: 'name'},
+    { name: 'Surname', prop:'surname'}, 
+    { name: 'Login', prop:'login'}, 
+    { name: 'Email', prop: 'email'}
+  ];
+
   ngOnInit() {
 
     if(!this.apiLoginService.isLogged()) {
@@ -48,6 +58,12 @@ export class ListUserComponent implements OnInit {
   };
 
   addUser(): void {
-    this.router.navigate(['user','add-user']);
+    this.router.navigate(['user','edit-user']);
   };
+
+  showUser(user): void {
+    console.log(user)
+    this.user = user;
+    this.showPopup = !this.showPopup;
+  }
 }

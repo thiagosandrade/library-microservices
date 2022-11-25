@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -32,7 +33,10 @@ namespace Library.Books.Business.CQRS.Commands
 
             await Repository.Delete(book.Id);
 
-            var @event = new BookDeletedEvent($"Book {book.Title} deleted");
+            dynamic item = new ExpandoObject();
+            item.BookId = book.Id;
+
+            var @event = new BookDeletedEvent($"Book {book.Title} deleted", item);
 
             await _eventBus.PublishMessage<BookDeletedEvent>(@event);
 

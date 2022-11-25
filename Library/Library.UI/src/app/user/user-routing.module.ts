@@ -9,11 +9,6 @@ const routes: Routes = [
     loadChildren: () => import('./list-user/list-user.module').then(m => m.ListUserModule)
   },
   { 
-    path: 'add-user', 
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./add-user/add-user.module').then(m => m.AddUserModule)
-  },
-  { 
     path: 'edit-user', 
     canActivate: [AuthGuard],
     loadChildren: () => import('./edit-user/edit-user.module').then(m => m.EditUserModule)

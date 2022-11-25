@@ -3,6 +3,7 @@ import { IUserRole } from './userRoles.model';
 
 export interface IUser extends IEntity {
     name: string;
+    surname: string;
     email: string;
     login: string;
     password: string;

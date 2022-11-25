@@ -1,4 +1,7 @@
 <div>
+    <button *ngIf="hasAdd" class="btn btn-danger customButton"  (click)="onRowAddAction()" [disabled]="!(isAdmin$ | async)"> 
+        <i class="fa fa-plus" aria-hidden="true"></i> 
+    </button>
     <table class="table table-striped customTable">
         <thead>
             <tr>
@@ -13,17 +16,24 @@
                     <div *ngIf="column.name !== 'Edit' && column.name !== 'Delete' && column.name !== '' && column.name !== 'Image'">
                         {{item[column.prop]}}
                     </div>
-                    <div *ngIf="column.name == 'Image'">
-                        <img [src]="item[column.prop]" >
-                    </div>
-                    <div *ngIf="column.name == 'Edit'">
-                        <button class="btn btn-success" (click)="onRowEditAction(item)"> Edit</button>
-                    </div>
-                    <div *ngIf="column.name == 'Delete'">
-                        <button class="btn btn-success" (click)="onRowDeleteAction(item)"> Delete</button>
-                    </div>
-                    <div *ngIf="column.name == ''">
-                        <button class="btn btn-success" (click)="onRowAddAction(item)"> <i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                    <div class="text-center">
+                        <div *ngIf="column.name == 'Image'">
+                            <img [src]="item[column.prop]" >
+                        </div>
+                        <div *ngIf="column.name == ''" style="display: inline-flex;">
+                            <div *ngIf="hasDetails" class="spaced">
+                                <button class="btn btn-success" (click)="onRowDetailsAction(item)"> <i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+                            <div *ngIf="hasEdit" class="spaced">
+                                <button class="btn btn-success" (click)="onRowEditAction(item)" [disabled]="!(isAdmin$ | async)"> <i class="fa fa-pencil" aria-hidden="true"></i></button>
+                            </div>
+                            <div *ngIf="hasDelete" class="spaced">
+                                <button class="btn btn-success" (click)="onRowDeleteAction(item)" [disabled]="!(isAdmin$ | async)"> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            </div>
+                            <div *ngIf="hasCart" class="spaced">
+                                <button class="btn btn-success" (click)="onRowCartAction(item)" [disabled]="!(isAdmin$ | async)"> <i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </td>
             </tr>

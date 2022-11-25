@@ -1,11 +1,11 @@
-<div class="col-md-6 user-container">
+<div class="col-md-12 user-container">
     <h2 style="margin: auto"> Authors</h2>
-    <button class="btn btn-danger col-md-2 customButton"  (click)="addAuthor()"> Add Author</button>
     <generic-table 
       [items]="authors$ | async" 
       [tableColumns]="tableColumns" 
       (rowEditAction)="editAuthor($event)"
       (rowDeleteAction)="deleteAuthor($event)"
+      (rowAddAction)="addAuthor()"
       >
     </generic-table>
   </div>

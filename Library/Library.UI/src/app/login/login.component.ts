@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
     let loginPayload : IUser = {
       email: "",
       name: "",
+      surname: "",
       id: null,
       token: "",
       login: this.loginForm.controls.username.value,

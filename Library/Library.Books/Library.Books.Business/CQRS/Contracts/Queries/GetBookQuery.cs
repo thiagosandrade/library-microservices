@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System;
 
 namespace Library.Books.Business.CQRS.Contracts.Queries
 {

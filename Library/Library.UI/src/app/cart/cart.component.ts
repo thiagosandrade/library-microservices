@@ -46,7 +46,10 @@ export class CartComponent implements OnInit {
             if(cart != null && cart != undefined && this.booksList.length > 0)
               this.cartItems = cart.items
       
-              this.cartItems.map(item => item.productName = this.booksList !== null ? this.booksList.filter(x => x.id === item.productId)[0].title : '')
+              this.cartItems.map(item => item.productName = this.booksList !== null ? 
+                this.booksList.filter(x => x.id === item.productId).length > 0 ? this.booksList.filter(x => x.id === item.productId)[0].title : '' : '')
+
+                this.cartItems = this.cartItems.filter(x => x.productName !== '');
           })
         })
     })

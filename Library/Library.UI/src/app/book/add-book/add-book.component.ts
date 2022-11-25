@@ -68,8 +68,6 @@ export class AddBookComponent implements OnInit {
       }
     })
 
-    
-
     this.dropdownSettings = {
       idField: 'item_id',
       textField: 'item_text',

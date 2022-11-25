@@ -4,7 +4,7 @@ import { withLatestFrom, switchMap, map, catchError, mergeMap } from 'rxjs/opera
 import { select, Store } from '@ngrx/store';
 import { IAppState } from '../state/app.state';
 import { of } from 'rxjs';
-import { Get, ActionsEnum, GetSuccess, Create, Success, Fail, Delete, Update, EntitiesEnum } from '../actions/app.actions';
+import { Get, ActionsEnum, GetSuccess, Create, Success, Fail, Delete, EntitiesEnum } from '../actions/app.actions';
 import { selectLoggedUser } from "../selectors/login.selector";
 import { ICart } from "src/app/_shared/model/cart.model";
 import { ApiCartService } from "src/app/_shared/service/api.cart.service";

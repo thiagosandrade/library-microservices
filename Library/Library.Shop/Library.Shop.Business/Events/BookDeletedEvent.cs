@@ -1,15 +1,13 @@
-﻿using MediatR;
-using Library.Hub.Rabbit.Events;
+﻿using Library.Hub.Rabbit.Events;
 
-namespace Library.Books.Business.Events
+namespace Library.Hub.Events
 {
-    public class BookDeletedEvent : MessageEvent, IRequest<Unit>
+    public class BookDeletedEvent : MessageEvent
     {
         public BookDeletedEvent()
         {
 
         }
-
         public BookDeletedEvent(string message, dynamic item = null)
         {
             Message = message;

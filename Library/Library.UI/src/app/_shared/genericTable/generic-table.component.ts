@@ -1,4 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { isUserLoggedAdmin } from "src/app/store/selectors/login.selector";
+import { selectUserList } from "src/app/store/selectors/user.selector";
+import { IAppState } from "src/app/store/state/app.state";
+import { IUser } from "../model/user.model";
 
 @Component({
     selector: 'generic-table',
@@ -10,23 +16,34 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
     @Input() items: Array<any>;
     @Input() tableColumns: any[];
 
+    @Output() rowDetailsAction: EventEmitter<any> = new EventEmitter();
     @Output() rowEditAction: EventEmitter<any> = new EventEmitter();
     @Output() rowDeleteAction: EventEmitter<any> = new EventEmitter();
+    @Output() rowCartAction: EventEmitter<any> = new EventEmitter();
     @Output() rowAddAction: EventEmitter<any> = new EventEmitter();
 
-    pageOfItems: Array<any> = [];
-    
-    ngOnInit(): void {
-        this.tableColumns.push({name: 'Edit', prop: ''});
-        this.tableColumns.push({name: 'Delete', prop: ''});
-    }
+    hasDetails : boolean = false;
+    hasEdit : boolean = false;
+    hasDelete : boolean = false;
+    hasAdd : boolean = false;
+    hasCart : boolean = false;
 
-    mySortingFunction = (a, b) => {
-        let columns = this.tableColumns.map(item => item.name.toLowerCase())
-        let aKey = columns.indexOf(a.key)
-        let bKey = columns.indexOf(b.key)
+    pageOfItems: Array<any> = [];
+
+    users$ : Observable<IUser[]> = this.store.pipe(select(selectUserList));
+    isAdmin$ : Observable<boolean> = this.store.pipe(select(isUserLoggedAdmin));
+    
+    constructor(private store: Store<IAppState<IUser>>) { }
+
+    ngOnInit(): void {
         
-        return aKey > bKey ? 1 : -1;
+        this.tableColumns.push({name: '', prop: ''});
+
+        this.hasDetails = this.rowDetailsAction.observed;
+        this.hasEdit = this.rowEditAction.observed;
+        this.hasDelete = this.rowDeleteAction.observed;
+        this.hasCart = this.rowCartAction.observed;
+        this.hasAdd = this.rowAddAction.observed;
     }
 
     onChangePage(pageOfItems: Array<any>) {
@@ -41,9 +58,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
             return result;
         })
     }
-
-    onRowAddAction(item: any){
-        this.rowAddAction.emit(item)
+    onRowDetailsAction(item: any){
+        this.rowDetailsAction.emit(item)
+    }
+    onRowAddAction(){
+        this.rowAddAction.emit()
     }
 
     onRowEditAction(item: any){
@@ -52,5 +71,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
     onRowDeleteAction(item: any){
         this.rowDeleteAction.emit(item)
+    }
+
+    onRowCartAction(item: any){
+        this.rowCartAction.emit(item)
     }
 }

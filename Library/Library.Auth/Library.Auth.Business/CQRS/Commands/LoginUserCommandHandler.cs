@@ -25,7 +25,7 @@ namespace Library.Auth.Business.CQRS.Commands
 
             if(token != null)
             {
-                var @event = new UserLoggedEvent($"User {request.Login} logged");
+                var @event = new UserLoggedEvent(message: $"User {request.Login} logged");
 
                 await _eventBus.PublishMessage<UserLoggedEvent>(@event);
             }

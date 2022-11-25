@@ -1,18 +1,17 @@
-﻿using MediatR;
-using Library.Hub.Rabbit.Events;
+﻿using Library.Hub.Rabbit.Events;
 
 namespace Library.Shop.Business.Events
 {
-    public class CartProductRemovedEvent : MessageEvent, IRequest<Unit>
+    public class CartProductRemovedEvent : MessageEvent
     {
         public CartProductRemovedEvent()
         {
 
         }
-
-        public CartProductRemovedEvent(dynamic message)
+        public CartProductRemovedEvent(string message, dynamic item = null)
         {
             Message = message;
+            Item = item;
         }
     }
 }

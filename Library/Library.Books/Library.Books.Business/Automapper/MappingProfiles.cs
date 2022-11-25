@@ -2,7 +2,6 @@
 using AutoMapper;
 using Library.Books.Business.CQRS.Contracts.Commands;
 using Library.Books.Business.CQRS.Contracts.Queries;
-using Library.Books.Domain.Json;
 using Library.Books.Domain.Models;
 
 namespace Library.Books.Business.Automapper

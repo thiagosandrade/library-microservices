@@ -1,0 +1,27 @@
+<div class="col-md-12 user-container">
+    <h2 class="text-center">User Details</h2>
+    <form *ngIf="user != null">
+      <div class="d-none">
+        <input type="text" placeholder="id" name="id" class="form-control" id="id" [(ngModel)]="user.id" readonly>
+      </div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" placeholder="name" name="name" class="form-control" id="name" [(ngModel)]="user.name" readonly>
+      </div>
+  
+      <div class="form-group">
+        <label for="surname">Surname:</label>
+        <input type="text" placeholder="surname" name="surname" class="form-control" id="surname" [(ngModel)]="user.surname" readonly>
+      </div>
+  
+      <div class="form-group">
+        <label for="login">Login:</label>
+        <input type="text" placeholder="login" name="login" class="form-control" id="login" [(ngModel)]="user.login" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="text" placeholder="email" name="email" class="form-control" id="email" [(ngModel)]="user.email" readonly>
+      </div>
+    </form>
+  </div>
