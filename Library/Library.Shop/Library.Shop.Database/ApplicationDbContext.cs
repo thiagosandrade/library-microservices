@@ -1,5 +1,4 @@
-﻿using System;
-using Library.Shop.Domain.Models;
+﻿using Library.Shop.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Shop.Database

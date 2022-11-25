@@ -2,6 +2,7 @@
 {
     public interface IMessageEvent
     {
-        public dynamic Message { get; set; }
+        public string Message { get; set; }
+        public dynamic Item { get; set; }
     }
 }

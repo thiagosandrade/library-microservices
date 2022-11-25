@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Library.Hub.Rabbit.Events;
@@ -33,7 +34,6 @@ namespace Library.Hub.Rabbit.RabbitMq
             
             _exchange = _configuration.GetValue<string>("Exchange");
             _queue = _configuration.GetValue<string>("Queue");
-            //CreateChannel();
         }
 
         public Task PublishMessage<T>(IMessageEvent @event)
@@ -43,7 +43,7 @@ namespace Library.Hub.Rabbit.RabbitMq
                 if (_channel == null || _channel.IsClosed)
                     CreateChannel();
 
-                var encapsulatedEvent = new MessageEvent(@event);
+                var encapsulatedEvent = new MessageEvent(@event.Message, @event.Item);
 
                 _channel.BasicPublish(
                     _exchange,
@@ -140,23 +140,36 @@ namespace Library.Hub.Rabbit.RabbitMq
 
                 var encapsulatedMessage = JsonConvert.DeserializeObject<MessageEvent>(message);
 
-
                 if (ExistsMessageHandlerImplementation<T, TH>())
                 {
+                    _logger.LogInformation("Implementation Found, {0} - {1}", typeof(T).Name, typeof(TH).Name);
+
                     var eventMessage = new T
                     {
+                        Item = encapsulatedMessage.Item,
                         Message = encapsulatedMessage.Message
                     };
 
-                    var logger = _serviceProvider.GetRequiredService<ILogger<TH>>();
-                    
-                    // create an object of the type
-                    var handler = (TH)Activator.CreateInstance(typeof(TH), logger);
+                    try
+                    {
+                        var handler = (TH)CreateInstance(typeof(TH), true);
 
-                    await handler.Handle(eventMessage);
+                        _logger.LogInformation("Handler created, {0}", handler.GetType().Name);
+
+                        await handler.Handle(eventMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+
+                        throw;
+                    }
+                    
                 }
                 else
                 {
+                    _logger.LogInformation("Implementation Not Found {0} - {1}, using default", typeof(T).Name, typeof(TH).Name);
+
                     var logger = _serviceProvider.GetRequiredService<ILogger<TH>>();
                     var messageEventStore = _serviceProvider.GetRequiredService<IMessageEventStore>();
 
@@ -170,13 +183,33 @@ namespace Library.Hub.Rabbit.RabbitMq
             });
         }
 
+        private object CreateInstance(Type type, bool genParam)
+        {
+            var constructors = type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (!genParam || constructors.Any(x => !x.GetParameters().Any()))
+                return Activator.CreateInstance(type, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { }, null);
+
+            foreach (var constructor in constructors)
+            {
+                var scope = _serviceProvider.CreateScope();
+                return constructor.Invoke(constructor.GetParameters().Select(x => scope.ServiceProvider.GetRequiredService(x.ParameterType)).ToArray());
+            }
+
+            return null;
+        }
+
         private static bool ExistsMessageHandlerImplementation<T, TH>() 
             where T : IMessageEvent, new() 
             where TH : IMessageEventHandler<T>
         {
-            return typeof(TH).GetInterfaces().Any(x => x.IsGenericType &&
-                                                       x.GetGenericTypeDefinition() == typeof(IMessageEventHandler<>))
+            return typeof(TH).GetInterfaces()
+                             .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IMessageEventHandler<>))
                 && !typeof(TH).Name.Equals("MessageEventHandler");
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

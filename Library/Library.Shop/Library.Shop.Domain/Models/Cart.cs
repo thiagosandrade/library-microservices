@@ -25,7 +25,7 @@ namespace Library.Shop.Domain.Models
             var product = Items.FirstOrDefault(x => x.ProductId.Equals(productId));
 
             if (product == null)
-                Items.Add(new CartProduct(productId, quantity, Id));
+                Items.Add(new CartProduct(productId, Id, quantity));
             else
                 product.IncreaseQuantity(quantity);
         }

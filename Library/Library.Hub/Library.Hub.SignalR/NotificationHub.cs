@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Library.Hub.Core.Interfaces;
@@ -24,29 +23,29 @@ namespace Library.Hub.SignalR
             _logger = logger;
             _hubContext = hubContext;
 
-            _logger.LogInformation("NotificationHub Collection listening");
+            _logger.LogInformation("NotificationHub - Collection listening");
             _messageEventStore.GetMessageEvents().CollectionChanged += OnCollectionChanged;
         }
 
         public async Task SendMessage(SignalRMessage message)
         {
-            _logger.LogInformation("NotificationHub Send Message");
+            _logger.LogInformation("NotificationHub - Send Message");
 
             await _hubContext.Clients.All.BroadcastMessage(message);
         }
         
         private async void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            _logger.LogInformation("NotificationHub Collection changed");
+            _logger.LogInformation("NotificationHub - Collection changed");
 
             var message = _messageEventStore.GetMessageEvents().Last();
 
-            _logger.LogInformation("Message date: {0}", message.CreationDate.ToString());
+            _logger.LogInformation("NotificationHub - Message date: {0}", message.CreationDate.ToString());
 
             await _hubContext.Clients.All.BroadcastMessage(new SignalRMessage
             {
-                Payload = JsonConvert.SerializeObject(message.Message),
-                Type = "Entity Updated"
+                Payload = JsonConvert.SerializeObject(message),
+                Type = ""
             });
         }
     }

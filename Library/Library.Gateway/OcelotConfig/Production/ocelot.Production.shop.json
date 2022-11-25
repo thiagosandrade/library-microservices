@@ -16,7 +16,7 @@
       "UpstreamHttpMethod": [ "Get" ],
       "RateLimitOptions": {
         "ClientWhitelist": [],
-        "EnableRateLimiting": true,
+        "EnableRateLimiting": false,
         "Period": "1s",
         "PeriodTimespan": 0,
         "Limit": 999
@@ -37,7 +37,7 @@
       "UpstreamHttpMethod": [ "Put", "Delete" ],
       "RateLimitOptions": {
         "ClientWhitelist": [],
-        "EnableRateLimiting": true,
+        "EnableRateLimiting": false,
         "Period": "1s",
         "PeriodTimespan": 0,
         "Limit": 999

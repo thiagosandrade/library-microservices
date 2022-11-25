@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { getSelectedUser } from 'src/app/store/selectors/user.selector';
-import { Update, EntitiesEnum } from 'src/app/store/actions/app.actions';
+import { Update, EntitiesEnum, Create } from 'src/app/store/actions/app.actions';
 import { IUser } from 'src/app/_shared/model/user.model';
 
 @Component({
@@ -14,24 +14,29 @@ import { IUser } from 'src/app/_shared/model/user.model';
 })
 export class EditUserComponent implements OnInit {
 
-  editForm: FormGroup;
+  form: FormGroup;
   user: IUser;
+  isEdit: boolean = false;
 
   constructor(private formBuilder: FormBuilder,private router: Router, private store: Store<IAppState<IUser>>) { }
 
   user$ = this.store.pipe(select(getSelectedUser))
     .subscribe( (user : IUser) =>{
+      console.log(user)
       if(user == null){
-        this.router.navigate(['user','list-user']);
-        return;
+        this.isEdit = false;
       }
-      this.user = user;
+      else{
+        this.isEdit = true;
+        this.user = user;
+      }
+      
     }
   );
 
   ngOnInit() {
     
-    this.editForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       id: [''],
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -41,12 +46,18 @@ export class EditUserComponent implements OnInit {
       userRoles: ['', Validators.nullValidator]
     });
 
-    if(this.user != null)
-      this.editForm.setValue(this.user);
+    if(this.isEdit)
+      this.form.setValue(this.user);
   }
 
   onSubmit() {
-    this.store.dispatch(new Update(this.editForm.value, EntitiesEnum.User));
-    this.router.navigate(['user','list-user'])
+    if(this.isEdit){
+      this.store.dispatch(new Update(this.form.value, EntitiesEnum.User));
+      this.router.navigate(['user','list-user'])
+    }
+    else{
+      this.store.dispatch(new Create(this.form.value, EntitiesEnum.User));
+      this.router.navigate(['user','list-user']);
+    }
   }
 }

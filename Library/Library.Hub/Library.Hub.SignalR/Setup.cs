@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.WebSockets;
@@ -20,7 +18,7 @@ namespace Library.Hub.SignalR
 
         public static IApplicationBuilder WebSocketsConfig(this IApplicationBuilder app)
         {
-            var webSocketOptions = new Microsoft.AspNetCore.Builder.WebSocketOptions()
+            var webSocketOptions = new WebSocketOptions()
             {
                 KeepAliveInterval = TimeSpan.FromSeconds(120),
                 ReceiveBufferSize = 4 * 1024

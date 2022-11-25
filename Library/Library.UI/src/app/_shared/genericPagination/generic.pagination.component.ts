@@ -20,7 +20,7 @@ import paginate from 'jw-paginate';
                     <option value="40">40</option>
                 </select>
             </div>
-            <ul *ngIf="pager.pages && pager.pages.length" class="pagination" style="margin-left: auto;">
+            <ul *ngIf="pager.pages && pager.pages.length" class="pagination" style="margin-left: auto;margin-top: 0.5rem;">
                 <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item first-item">
                     <a (click)="setPage(1)" class="page-link">First</a>
                 </li>

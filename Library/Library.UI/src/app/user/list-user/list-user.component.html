@@ -1,32 +1,16 @@
-<div class="col-md-6 user-container">
+<div class="col-md-12 user-container">
     <h2 style="margin: auto"> Users</h2>
-    <button class="btn btn-danger col-md-2 customButton"  (click)="addUser()" [disabled]="!(isAdmin$ | async)"> Add User</button>
-    <table class="table table-striped customTable">
-      <thead>
-      <tr>
-        <th class="d-none">Id</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Login</th>
-        <th>Email</th>
-        <th></th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let user of users$ | async" >
-        <td class="d-none">{{user.id}}</td>
-        <td>{{user.name}}</td>
-        <td>{{user.surname}}</td>
-        <td>{{user.login}}</td>
-        <td>{{user.email}}</td>
-        <td>
-          <button class="btn btn-success" (click)="deleteUser(user)" [disabled]="!(isAdmin$ | async)"> Delete</button>
-        </td>
-        <td>
-          <button class="btn btn-success" (click)="editUser(user)" [disabled]="!(isAdmin$ | async)"> Edit</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <generic-table 
+      [items]="users$ | async" 
+      [tableColumns]="tableColumns" 
+      (rowEditAction)="editUser($event)"
+      (rowDeleteAction)="deleteUser($event)"
+      (rowDetailsAction)="showUser($event)"
+      (rowAddAction)="addUser()"
+      >
+  </generic-table>
   </div>
+
+  <generic-popup [showInput]="showPopup">
+    <show-user [userInput]="user"></show-user>
+  </generic-popup>

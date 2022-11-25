@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/api';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { GenericTableComponent } from './genericTable/generic-table.component';
 import { JwPaginationComponent } from './genericPagination/generic.pagination.component';
+import { GenericPopupComponent } from './genericPopup/generic-popup.component';
 
 @NgModule({
     imports: [
@@ -20,8 +21,10 @@ import { JwPaginationComponent } from './genericPagination/generic.pagination.co
          JwPaginationComponent,
          GenericTableComponent,
          MessageNotifierComponent,
+         GenericPopupComponent
     ],
     exports: [
+         GenericPopupComponent,
          GenericTableComponent,
          MessageNotifierComponent,
          ReactiveFormsModule,
