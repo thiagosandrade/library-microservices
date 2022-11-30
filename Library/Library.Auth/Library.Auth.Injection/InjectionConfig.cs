@@ -59,7 +59,7 @@ namespace Library.Auth.Injection
             services
                 .AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library.Shop", Version = "v1" });
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library.Auth", Version = "v1" });
                     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                     {
                         In = ParameterLocation.Header,

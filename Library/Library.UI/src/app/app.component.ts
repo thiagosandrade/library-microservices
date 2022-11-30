@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAppState } from './store/state/app.state';
 import { IUser } from './_shared/model/user.model';
-import { isUserLogged } from './store/selectors/login.selector';
+import { isUserLogged, selectLoggedUser } from './store/selectors/login.selector';
 import { Logout } from './store/actions/login.actions';
 import { EntitiesEnum } from './store/actions/app.actions';
 
@@ -29,10 +29,13 @@ export class AppComponent implements OnInit {
     this.signalRService.StartHub();
 
     this.signalRService.notificationReceived.subscribe((signalRMessage: SignalRMessage) => {
-      console.log(signalRMessage)
-        let json = JSON.parse(signalRMessage.payload);
+      this.store.select(selectLoggedUser).subscribe(user => {
+          let json = JSON.parse(signalRMessage.payload);
 
-        this.messageNotifierService.messageNotify(Severities.INFO, signalRMessage.type, json.Message);
+          if(json.Users == null || (user != null && json.Users.includes(user.email)))
+            this.messageNotifierService.messageNotify(Severities.INFO, signalRMessage.type, json.Message);
+        }
+      )
     });
   }
 

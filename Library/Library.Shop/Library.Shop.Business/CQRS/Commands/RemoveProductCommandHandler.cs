@@ -29,7 +29,7 @@ namespace Library.Shop.Business.CQRS.Commands
 
             await _cartRepository.Update(request.Id, cart);
 
-            var @event = new CartProductRemovedEvent(message: $"Product removed from cart");
+            var @event = new CartProductRemovedEvent(message: $"Product removed from cart", null, new string[] { request.User });
 
             await _eventBus.PublishMessage<CartProductRemovedEvent>(@event);
 

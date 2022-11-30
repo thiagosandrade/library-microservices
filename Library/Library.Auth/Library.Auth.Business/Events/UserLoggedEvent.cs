@@ -9,10 +9,11 @@ namespace Library.Auth.Business.Events
 
         }
 
-        public UserLoggedEvent(string message, dynamic item = null)
+        public UserLoggedEvent(string message, dynamic item = null, string[] users = null)
         {
             Message = message;
             Item = item;
+            Users = users;
         }
     }
 }

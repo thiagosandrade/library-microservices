@@ -43,7 +43,7 @@ namespace Library.Hub.Rabbit.RabbitMq
                 if (_channel == null || _channel.IsClosed)
                     CreateChannel();
 
-                var encapsulatedEvent = new MessageEvent(@event.Message, @event.Item);
+                var encapsulatedEvent = new MessageEvent(@event.Message, @event.Item, @event.Users);
 
                 _channel.BasicPublish(
                     _exchange,

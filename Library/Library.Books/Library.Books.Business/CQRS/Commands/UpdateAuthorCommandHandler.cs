@@ -31,7 +31,7 @@ namespace Library.Books.Business.CQRS.Commands
 
             await Repository.Update(request.Id, checkAuthor);
 
-            var @event = new AuthorUpdatedEvent($"Author {request.Name} updated");
+            var @event = new AuthorUpdatedEvent($"Author {request.Name} updated", null, new string[] { request.User });
 
             await _eventBus.PublishMessage<AuthorUpdatedEvent>(@event);
 

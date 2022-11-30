@@ -10,9 +10,11 @@ namespace Library.Books.Business.Events
 
         }
 
-        public AuthorDeletedEvent(dynamic message)
+        public AuthorDeletedEvent(string message, dynamic item = null, string[] users = null)
         {
             Message = message;
+            Item = item;
+            Users = users;
         }
     }
 }

@@ -21,7 +21,7 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<PackageVersion>2.0.13-alpha</PackageVersion>
+		<PackageVersion>2.0.15-alpha</PackageVersion>
 		<PackageId>Microservices.Hub.Rabbit</PackageId>
 	</PropertyGroup>
 

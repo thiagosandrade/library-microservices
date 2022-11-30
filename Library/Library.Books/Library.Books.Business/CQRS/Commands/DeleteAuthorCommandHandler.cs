@@ -32,7 +32,7 @@ namespace Library.Books.Business.CQRS.Commands
 
             await Repository.Delete(author.Id);
 
-            var @event = new AuthorDeletedEvent($"Author {author.Name} deleted");
+            var @event = new AuthorDeletedEvent($"Author {author.Name} deleted", null, new string[] { request.User });
 
             await _eventBus.PublishMessage<AuthorDeletedEvent>(@event);
 

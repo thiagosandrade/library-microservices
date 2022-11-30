@@ -8,10 +8,11 @@ namespace Library.Shop.Business.Events
         {
 
         }
-        public CartProductRemovedEvent(string message, dynamic item = null)
+        public CartProductRemovedEvent(string message, dynamic item = null, string[] users = null)
         {
             Message = message;
             Item = item;
+            Users = users;
         }
     }
 }

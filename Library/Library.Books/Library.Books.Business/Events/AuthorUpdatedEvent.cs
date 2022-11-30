@@ -10,9 +10,11 @@ namespace Library.Books.Business.Events
 
         }
 
-        public AuthorUpdatedEvent(dynamic message)
+        public AuthorUpdatedEvent(string message, dynamic item = null, string[] users = null)
         {
             Message = message;
+            Item = item;
+            Users = users;
         }
     }
 }

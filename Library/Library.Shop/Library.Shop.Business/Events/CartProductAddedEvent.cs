@@ -9,10 +9,11 @@ namespace Library.Shop.Business.Events
 
         }
 
-        public CartProductAddedEvent(string message, dynamic item = null)
+        public CartProductAddedEvent(string message, dynamic item = null, string[] users = null)
         {
             Message = message;
             Item = item;
+            Users = users;
         }
     }
 }

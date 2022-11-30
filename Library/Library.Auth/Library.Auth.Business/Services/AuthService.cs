@@ -1,4 +1,5 @@
 ﻿using Library.Auth.Business.CQRS.Contracts.Queries;
+using Library.Auth.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -23,7 +24,7 @@ namespace Library.Auth.Business.Services
             _config = config;
         }
 
-        public async Task<object> Authenticate(string login, string password)
+        public async Task<TokenResponse> Authenticate(string login, string password)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return null;
@@ -59,7 +60,7 @@ namespace Library.Auth.Business.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return new { token = $"Bearer { tokenHandler.WriteToken(token)}", expiration = tokenDescriptor.Expires };
+            return new TokenResponse(){ Token = $"Bearer { tokenHandler.WriteToken(token)}", Expiration = tokenDescriptor.Expires };
         }
     }
 }

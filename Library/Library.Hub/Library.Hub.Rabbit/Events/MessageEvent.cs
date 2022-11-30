@@ -7,6 +7,7 @@ namespace Library.Hub.Rabbit.Events
     {
         public Guid Id { get; set; }
         public DateTime CreationDate { get; set; }
+        public string[] Users { get; set; }
         public string Message { get; set; }
         public dynamic Item { get; set; }
 
@@ -15,10 +16,11 @@ namespace Library.Hub.Rabbit.Events
 
         }
 
-        public MessageEvent(string message, dynamic item = null)
+        public MessageEvent(string message, dynamic item = null, string[] users = null)
         {
             Id = Guid.NewGuid();
             CreationDate = DateTime.UtcNow;
+            Users = users;
             Message = message;
             Item = item;
         }

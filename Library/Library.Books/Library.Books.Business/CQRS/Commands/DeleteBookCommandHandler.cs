@@ -36,7 +36,7 @@ namespace Library.Books.Business.CQRS.Commands
             dynamic item = new ExpandoObject();
             item.BookId = book.Id;
 
-            var @event = new BookDeletedEvent($"Book {book.Title} deleted", item);
+            var @event = new BookDeletedEvent($"Book {book.Title} deleted", item, new string[] { request.User });
 
             await _eventBus.PublishMessage<BookDeletedEvent>(@event);
 

@@ -1,7 +1,7 @@
 using Library.Books.Business.Events;
-using Library.Books.Business.Handlers;
 using Library.Books.Database;
 using Library.Books.Injection;
+using Library.Hub.Rabbit.Events;
 using Library.Hub.Rabbit.RabbitMq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -84,12 +84,12 @@ namespace Library.Books.Api
             using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             using var eventBus = scope.ServiceProvider.GetService<IEventBus>();
 
-            eventBus.Subscribe<BookUpdatedEvent, EventHandler<BookUpdatedEvent>>();
-            eventBus.Subscribe<BookCreatedEvent, EventHandler<BookCreatedEvent>>();
-            eventBus.Subscribe<BookDeletedEvent, EventHandler<BookDeletedEvent>>();
-            eventBus.Subscribe<AuthorUpdatedEvent, EventHandler<AuthorUpdatedEvent>>();
-            eventBus.Subscribe<AuthorCreatedEvent, EventHandler<AuthorCreatedEvent>>();
-            eventBus.Subscribe<AuthorDeletedEvent, EventHandler<AuthorDeletedEvent>>();
+            eventBus.Subscribe<BookUpdatedEvent, MessageEventHandler>();
+            eventBus.Subscribe<BookCreatedEvent, MessageEventHandler>();
+            eventBus.Subscribe<BookDeletedEvent, MessageEventHandler>();
+            eventBus.Subscribe<AuthorUpdatedEvent, MessageEventHandler>();
+            eventBus.Subscribe<AuthorCreatedEvent, MessageEventHandler>();
+            eventBus.Subscribe<AuthorDeletedEvent, MessageEventHandler>();
         }
     }
 }

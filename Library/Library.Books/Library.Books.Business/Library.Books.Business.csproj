@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -8,12 +8,16 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="MediatR" Version="10.0.1" />
-		<PackageReference Include="Microservices.Hub.Rabbit" Version="2.0.13-alpha" />
+		<PackageReference Include="Microservices.Hub.Rabbit" Version="2.0.15-alpha" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Library.Books.Database\Library.Books.Database.csproj" />
 		<ProjectReference Include="..\Library.Books.Domain\Library.Books.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Handlers\" />
 	</ItemGroup>
 
 </Project>
