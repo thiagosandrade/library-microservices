@@ -26,7 +26,7 @@ namespace Library.Books.Business.CQRS.Commands
 
             await Repository.Create(book);
 
-            var @event = new BookCreatedEvent($"Book {request.Title} created");
+            var @event = new BookCreatedEvent($"Book {request.Title} created", null, new string[] { request.User });
 
             await _eventBus.PublishMessage<BookCreatedEvent>(@event);
 

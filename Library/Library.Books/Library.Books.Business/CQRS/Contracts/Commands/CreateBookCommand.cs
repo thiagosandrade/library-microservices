@@ -17,5 +17,6 @@ namespace Library.Books.Business.CQRS.Contracts.Commands
         public string Status { get; set; }
         public IEnumerable<BookAuthor> Authors { get; set; }
         public IEnumerable<BookCategory> Categories { get; set; }
+        public string User { get; set; }
     }
 }

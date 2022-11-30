@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
 using Library.Books.Business.CQRS.Contracts.Commands;
 using Library.Books.Business.CQRS.Contracts.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -52,6 +55,11 @@ namespace Library.Books.Api.Controllers
             {
                 _logger.LogInformation($"Command received: {command}");
 
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(await HttpContext.GetTokenAsync("access_token"));
+
+                command.User = jwtSecurityToken.Claims.First(claim => claim.Type == "email").Value;
+
                 await _mediator.Send(command);
 
                 return Ok(new OkObjectResult("Command Completed"));
@@ -71,6 +79,11 @@ namespace Library.Books.Api.Controllers
                 _logger.LogInformation($"Command received: {command}");
 
                 await _mediator.Send(command);
+
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(await HttpContext.GetTokenAsync("access_token"));
+
+                command.User = jwtSecurityToken.Claims.First(claim => claim.Type == "email").Value;
 
                 return Ok(new OkObjectResult("Command Completed"));
             }
@@ -92,6 +105,11 @@ namespace Library.Books.Api.Controllers
                 {
                     BookId = id
                 };
+
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(await HttpContext.GetTokenAsync("access_token"));
+
+                command.User = jwtSecurityToken.Claims.First(claim => claim.Type == "email").Value;
 
                 await _mediator.Send(command);
 

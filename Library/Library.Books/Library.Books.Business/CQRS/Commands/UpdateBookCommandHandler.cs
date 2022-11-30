@@ -31,7 +31,7 @@ namespace Library.Books.Business.CQRS.Commands
 
             await Repository.Update(request.Id, checkBook);
 
-            var @event = new BookUpdatedEvent($"Book {request.Title} updated");
+            var @event = new BookUpdatedEvent($"Book {request.Title} updated", null, new string[] { request.User });
 
             await _eventBus.PublishMessage<BookUpdatedEvent>(@event);
 

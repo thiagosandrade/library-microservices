@@ -9,9 +9,11 @@ namespace Library.Books.Business.Events
         {
 
         }
-        public BookCreatedEvent(dynamic message)
+        public BookCreatedEvent(string message, dynamic item = null, string[] users = null)
         {
             Message = message;
+            Item = item;
+            Users = users;
         }
     }
 }

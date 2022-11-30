@@ -2,9 +2,12 @@
 using Library.Shop.Business.CQRS.Contracts.Commands;
 using Library.Shop.Business.CQRS.Contracts.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Library.Shop.Api.Controllers
@@ -39,7 +42,12 @@ namespace Library.Shop.Api.Controllers
         {
             _logger.LogInformation($"Add to cart: {product}");
 
-            await _mediator.Send(new AddProductCommand(product.CartId, product.ProductId, product.Quantity));
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(await HttpContext.GetTokenAsync("access_token"));
+
+            var user = jwtSecurityToken.Claims.First(claim => claim.Type == "email").Value;
+
+            await _mediator.Send(new AddProductCommand(product.CartId, product.ProductId, product.Quantity, user));
 
             return Ok(new OkObjectResult("Command Completed"));
 
@@ -50,7 +58,12 @@ namespace Library.Shop.Api.Controllers
         {
             _logger.LogInformation($"Remove from cart: {product}");
 
-            await _mediator.Send(new RemoveProductCommand(product.CartId, product.ProductId, product.Quantity));
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(await HttpContext.GetTokenAsync("access_token"));
+
+            var user = jwtSecurityToken.Claims.First(claim => claim.Type == "email").Value;
+
+            await _mediator.Send(new RemoveProductCommand(product.CartId, product.ProductId, product.Quantity, user));
 
             return Ok(new OkObjectResult("Command Completed"));
         }

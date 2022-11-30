@@ -1,4 +1,5 @@
 using Library.Hub.Events;
+using Library.Hub.Rabbit.Events;
 using Library.Hub.Rabbit.RabbitMq;
 using Library.Shop.Business.Events;
 using Library.Shop.Business.Handlers;
@@ -82,8 +83,9 @@ namespace Library.Shop.Api
             using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             using var eventBus = scope.ServiceProvider.GetService<IEventBus>();
 
-            eventBus.Subscribe<CartProductAddedEvent, EventHandler<CartProductAddedEvent>>();
-            eventBus.Subscribe<CartProductRemovedEvent, EventHandler<CartProductRemovedEvent>>();
+            eventBus.Subscribe<CartProductAddedEvent, MessageEventHandler>();
+            eventBus.Subscribe<CartProductRemovedEvent, MessageEventHandler>();
+
             eventBus.Subscribe<BookDeletedEvent, BookDeletedEventHandler>();
         }
     }

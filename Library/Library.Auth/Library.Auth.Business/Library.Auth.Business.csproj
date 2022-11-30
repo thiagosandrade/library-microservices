@@ -8,7 +8,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="MediatR" Version="10.0.1" />
-		<PackageReference Include="Microservices.Hub.Rabbit" Version="2.0.13-alpha" />
+		<PackageReference Include="Microservices.Hub.Rabbit" Version="2.0.15-alpha" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.1" />

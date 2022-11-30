@@ -32,7 +32,7 @@ namespace Library.Shop.Business.Handlers
 
                 _logger.LogInformation($"EventMessage: {@event.Message}");
 
-                var @eventCleaned = new CartProductCleanedEvent(message: $"Book removed, cleaning the cart");
+                var @eventCleaned = new CartProductCleanedEvent(message: $"Book removed, cleaning the cart", null, null);
 
                 await _eventBus.PublishMessage<CartProductCleanedEvent>(@eventCleaned);
             });
