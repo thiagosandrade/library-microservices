@@ -7,22 +7,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Dapr.AspNetCore" Version="1.9.0" />
+		<PackageReference Include="Dapr.Client" Version="1.9.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.1" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="RabbitMQ" Version="3.6.2" />
-		<PackageReference Include="RabbitMQ.Client" Version="5.1.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-		<Reference Include="Microsoft.Extensions.Logging.Abstractions" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	</ItemGroup>
 
 	<PropertyGroup>
-		<PackageVersion>2.0.15-alpha</PackageVersion>
-		<PackageId>Microservices.Hub.Rabbit</PackageId>
+		<PackageVersion>1.0.1-alpha</PackageVersion>
+		<PackageId>Microservices.Hub.Infrastructure</PackageId>
 	</PropertyGroup>
 
 </Project>

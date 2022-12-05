@@ -21,10 +21,10 @@ namespace Library.Gateway
                 var ocelotConfigPath = Path.Combine(ic.HostingEnvironment.ContentRootPath, "OcelotConfig");
                 ocelotConfigPath = Path.Combine(ocelotConfigPath, ic.HostingEnvironment.EnvironmentName);
 
-                config
+                config.SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true)
                     .AddJsonFile($"appsettings.{ic.HostingEnvironment.EnvironmentName}.json", true, true)
-                    .AddOcelot(ocelotConfigPath, ic.HostingEnvironment)
-                    .AddEnvironmentVariables();
+                    .AddOcelot(ocelotConfigPath, ic.HostingEnvironment);
             });
     }
 }

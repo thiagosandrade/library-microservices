@@ -14,6 +14,10 @@
       //Ocelot Exposure EntryPoint
       "UpstreamPathTemplate": "/Author/",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "FileCacheOptions": {
         "TtlSeconds": 1
       },
@@ -36,6 +40,10 @@
       ],
       "UpstreamPathTemplate": "/Author/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "FileCacheOptions": {
         "TtlSeconds": 1
       },
@@ -59,6 +67,10 @@
       ],
       "UpstreamPathTemplate": "/book/",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "FileCacheOptions": {
         "TtlSeconds": 1
       },
@@ -81,6 +93,10 @@
       ],
       "UpstreamPathTemplate": "/book/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "FileCacheOptions": {
         "TtlSeconds": 1
       },
@@ -104,6 +120,10 @@
       ],
       "UpstreamPathTemplate": "/category/",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "FileCacheOptions": {
         "TtlSeconds": 60
       }
@@ -119,6 +139,10 @@
       ],
       "UpstreamPathTemplate": "/category/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "FileCacheOptions": {
         "TtlSeconds": 60
       }

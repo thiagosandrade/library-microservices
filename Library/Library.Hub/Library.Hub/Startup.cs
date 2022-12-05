@@ -1,6 +1,5 @@
-using Library.Hub.Rabbit;
-using Library.Hub.Rabbit.Events;
-using Library.Hub.Rabbit.RabbitMq;
+using Library.Hub.Infrastructure.Events;
+using Library.Hub.Infrastructure.Setup;
 using Library.Hub.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,11 +15,13 @@ namespace Library.Hub
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<INotificationHub, NotificationHub>();
+            services.AddScoped<MessageEventHandler>();
 
-            services.AddRabbit();
+            services.AddDaprService();
+
             services.AddSignalRInjection();
 
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc(options => options.EnableEndpointRouting = false).AddDaprForMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -31,11 +32,11 @@ namespace Library.Hub
                 app.UseDeveloperExceptionPage();
             }
 
-            AddRabbitSubscribers(app);
-
             app.WebSocketsConfig();
 
             app.UseRouting();
+
+            app.UseDaprServices();
 
             app.UseEndpoints(routes =>
             {
@@ -45,15 +46,6 @@ namespace Library.Hub
             app.ApplicationServices.GetService<INotificationHub>();
 
             app.UseMvc();
-        }
-
-        private static void AddRabbitSubscribers(IApplicationBuilder app)
-        {
-            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            //eventBus.Subscribe<BookCreatedEvent, BookCreatedEventHandler>();
-            //eventBus.Subscribe<AuthorCreatedEvent, AuthorCreatedEventHandler>();
-
-            eventBus.Subscribe<MessageEvent, MessageEventHandler>();
         }
     }
 }

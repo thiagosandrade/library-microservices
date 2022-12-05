@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Library.Hub.Core.Interfaces;
 using Library.Hub.Core.SignalR.Library.Hub.Core.SignalR;
-using Library.Hub.Rabbit.Events.Interfaces;
+using Library.Hub.Infrastructure.Events.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

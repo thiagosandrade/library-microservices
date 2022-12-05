@@ -1,4 +1,4 @@
-﻿using Library.Hub.Rabbit.Events;
+﻿using Library.Hub.Infrastructure.Events;
 
 namespace Library.Hub.Events
 {

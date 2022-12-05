@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Hub", "Library.Hub\Library.Hub.csproj", "{796661C4-20B3-452C-B94C-78AF43FDBE70}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Hub.Rabbit", "Library.Hub.Rabbit\Library.Hub.Rabbit.csproj", "{561A2CA1-4BD0-4E7B-B42D-BB925617AC64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Hub.Infrastructure", "Library.Hub.Infrastructure\Library.Hub.Infrastructure.csproj", "{561A2CA1-4BD0-4E7B-B42D-BB925617AC64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Hub.SignalR", "Library.Hub.SignalR\Library.Hub.SignalR.csproj", "{F5F3F1E7-62D3-4D94-8551-749B9F6A6B0E}"
 EndProject

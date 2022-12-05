@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Library.Hub.Events;
-using Library.Hub.Rabbit.Events.Interfaces;
-using Library.Hub.Rabbit.RabbitMq;
-using Library.Shop.Business.Events;
+using Library.Hub.Infrastructure.Events;
+using Library.Hub.Infrastructure.Events.Interfaces;
+using Library.Hub.Infrastructure.Handlers;
 using Library.Shop.Database.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -12,30 +12,27 @@ namespace Library.Shop.Business.Handlers
     {
         private readonly ILogger<BookDeletedEventHandler> _logger;
         private readonly ICartRepository _cartRepository;
-        private readonly IEventBus _eventBus;
+        private readonly IDaprHandler _daprHandler;
 
 
-        public BookDeletedEventHandler(ILogger<BookDeletedEventHandler> logger, ICartRepository cartRepository, IEventBus eventBus)
+        public BookDeletedEventHandler(ILogger<BookDeletedEventHandler> logger, ICartRepository cartRepository, IDaprHandler daprHandler)
         {
             _logger = logger;
             _cartRepository = cartRepository;
-            _eventBus = eventBus;
+            _daprHandler = daprHandler;
         }
 
         public async Task Handle(BookDeletedEvent @event)
         {
             _logger.LogInformation($"{nameof(BookDeletedEventHandler)} {@event}");
 
-            await Task.Run(async () =>
-            {
-                await _cartRepository.CleanItemsFromCartWhenBookDeleted((int)@event.Item.BookId);
+            await _cartRepository.CleanItemsFromCartWhenBookDeleted((int)@event.Item.BookId);
 
-                _logger.LogInformation($"EventMessage: {@event.Message}");
+            _logger.LogInformation($"EventMessage: {@event.Message}");
 
-                var @eventCleaned = new CartProductCleanedEvent(message: $"Book removed, cleaning the cart", null, null);
+            var @eventCleaned = new MessageEvent(message: $"Book removed, cleaning the cart", null, null);
 
-                await _eventBus.PublishMessage<CartProductCleanedEvent>(@eventCleaned);
-            });
+            await _daprHandler.PublishMessage<MessageEvent>(@eventCleaned);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Library.Hub.Rabbit.Events.Interfaces
+namespace Library.Hub.Infrastructure.Events.Interfaces
 {
     public interface IMessageEventStore
     {

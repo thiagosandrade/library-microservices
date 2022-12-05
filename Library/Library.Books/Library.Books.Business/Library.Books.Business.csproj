@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -6,9 +6,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="11.0.1" />
-		<PackageReference Include="MediatR" Version="10.0.1" />
-		<PackageReference Include="Microservices.Hub.Rabbit" Version="2.0.15-alpha" />
+		<PackageReference Include="AutoMapper" Version="12.0.0" />
+		<PackageReference Include="MediatR" Version="11.1.0" />
+		<PackageReference Include="Microservices.Hub.Infrastructure" Version="1.0.1-alpha" />
 	</ItemGroup>
 
 	<ItemGroup>

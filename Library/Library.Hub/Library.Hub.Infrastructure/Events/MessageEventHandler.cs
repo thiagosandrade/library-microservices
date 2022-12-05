@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Library.Hub.Rabbit.Events.Interfaces;
+using Library.Hub.Infrastructure.Events.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace Library.Hub.Rabbit.Events
+namespace Library.Hub.Infrastructure.Events
 {
     public class MessageEventHandler : IMessageEventHandler<MessageEvent>
     {

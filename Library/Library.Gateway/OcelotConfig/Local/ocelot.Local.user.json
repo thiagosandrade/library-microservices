@@ -14,6 +14,10 @@
       //Ocelot Exposure EntryPoint
       "UpstreamPathTemplate": "/users",
       "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -35,6 +39,10 @@
       //Ocelot Exposure EntryPoint
       "UpstreamPathTemplate": "/users/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
