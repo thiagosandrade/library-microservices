@@ -3,22 +3,22 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Library.Auth.Business.CQRS.Contracts.Commands;
-using Library.Auth.Business.Events;
 using Library.Auth.Business.Services;
 using Library.Auth.Domain.Models;
-using Library.Hub.Rabbit.RabbitMq;
+using Library.Hub.Infrastructure.Events;
+using Library.Hub.Infrastructure.Handlers;
 using MediatR;
 
 namespace Library.Auth.Business.CQRS.Commands
 {
     public class LoginUserCommandHandler : BaseHandler, IRequestHandler<LoginUserCommand, TokenResponse>
     {
-        private readonly IEventBus _eventBus;
+        private readonly IDaprHandler _daprHandler;
         private readonly IAuthService _authService;
 
-        public LoginUserCommandHandler(IEventBus eventBus, IAuthService authService)
+        public LoginUserCommandHandler(IDaprHandler daprHandler, IAuthService authService)
         {
-            _eventBus = eventBus;
+            _daprHandler = daprHandler;
             _authService = authService;
         }
 
@@ -31,10 +31,9 @@ namespace Library.Auth.Business.CQRS.Commands
 
             if (token != null)
             {
-                var @event = new UserLoggedEvent(message: $"User {request.Login} logged", null, new string[] { jwtSecurityToken.Claims.First(claim => claim.Type == "email").Value });
+                var @event = new MessageEvent(message: $"User {request.Login} logged", null, new string[] { jwtSecurityToken.Claims.First(claim => claim.Type == "email").Value });
             
-
-                await _eventBus.PublishMessage<UserLoggedEvent>(@event);
+                await _daprHandler.PublishMessage<MessageEvent>(@event);
             }
 
             return token;

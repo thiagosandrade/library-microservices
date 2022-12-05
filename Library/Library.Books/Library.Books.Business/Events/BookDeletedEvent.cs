@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Library.Hub.Rabbit.Events;
+using Library.Hub.Infrastructure.Events;
 
 namespace Library.Books.Business.Events
 {

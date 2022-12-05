@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Library.Hub.Rabbit.RabbitMq;
+using Library.Hub.Infrastructure.Events;
+using Library.Hub.Infrastructure.Handlers;
 using Library.Shop.Business.CQRS.Contracts.Commands;
-using Library.Shop.Business.Events;
 using Library.Shop.Database.Interfaces;
 using Library.Shop.Domain.Models;
 using MediatR;
@@ -11,14 +11,14 @@ namespace Library.Shop.Business.CQRS.Commands
 {
     public class RemoveProductCommandHandler : BaseHandler, IRequestHandler<RemoveProductCommand>
     {
-        private readonly IEventBus _eventBus;
+        private readonly IDaprHandler _daprHandler;
 
         private readonly IGenericRepository<Cart> _cartRepository;
 
-        public RemoveProductCommandHandler(IGenericRepository<Cart> cartRepository, IEventBus eventBus)
+        public RemoveProductCommandHandler(IGenericRepository<Cart> cartRepository, IDaprHandler daprHandler)
         {
             _cartRepository = cartRepository;
-            _eventBus = eventBus;
+            _daprHandler = daprHandler;
         }
 
         public async Task<Unit> Handle(RemoveProductCommand request, CancellationToken cancellationToken)
@@ -29,9 +29,9 @@ namespace Library.Shop.Business.CQRS.Commands
 
             await _cartRepository.Update(request.Id, cart);
 
-            var @event = new CartProductRemovedEvent(message: $"Product removed from cart", null, new string[] { request.User });
+            var @event = new MessageEvent(message: $"Product removed from cart", null, new string[] { request.User });
 
-            await _eventBus.PublishMessage<CartProductRemovedEvent>(@event);
+            await _daprHandler.PublishMessage<MessageEvent>(@event);
 
             return Unit.Value;
         }

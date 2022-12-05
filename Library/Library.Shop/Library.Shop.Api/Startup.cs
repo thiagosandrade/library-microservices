@@ -1,8 +1,4 @@
-using Library.Hub.Events;
-using Library.Hub.Rabbit.Events;
-using Library.Hub.Rabbit.RabbitMq;
-using Library.Shop.Business.Events;
-using Library.Shop.Business.Handlers;
+using Library.Hub.Infrastructure.Setup;
 using Library.Shop.Database;
 using Library.Shop.Injection;
 using Microsoft.AspNetCore.Builder;
@@ -32,18 +28,20 @@ namespace Library.Shop.Api
 
             services.AddMvc()
                 .AddNewtonsoftJson(options => {
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
             services.AddAutheticationForAPI(Configuration);
 
+            services.AddDaprService();
+
             services.AddInjections();
 
-            services.AddSwagger();
-            
+            services.AddSwagger("Library.Shop");
+
             services.AddControllers().AddNewtonsoftJson(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
+            }).AddDaprForMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,14 +54,14 @@ namespace Library.Shop.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            AddRabbitSubscribers(app);
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseDaprServices();
 
             app.UseEndpoints(endpoints =>
             {
@@ -76,17 +74,6 @@ namespace Library.Shop.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-        }
-
-        private static void AddRabbitSubscribers(IApplicationBuilder app)
-        {
-            using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            using var eventBus = scope.ServiceProvider.GetService<IEventBus>();
-
-            eventBus.Subscribe<CartProductAddedEvent, MessageEventHandler>();
-            eventBus.Subscribe<CartProductRemovedEvent, MessageEventHandler>();
-
-            eventBus.Subscribe<BookDeletedEvent, BookDeletedEventHandler>();
         }
     }
 }

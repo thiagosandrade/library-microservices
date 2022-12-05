@@ -1,5 +1,7 @@
+using Library.Hub.Infrastructure.Setup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
@@ -11,12 +13,19 @@ namespace Library.Gateway
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
             services.AddOcelot();
+
+            services.AddAutheticationForAPI(Configuration);
 
             services.AddCors(options =>
             {

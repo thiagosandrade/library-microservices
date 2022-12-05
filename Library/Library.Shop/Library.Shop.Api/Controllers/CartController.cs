@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Library.Shop.Api.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Reader, SuperUser")]
+    //[Authorize(Roles = "Reader, SuperUser")]
     [Route("api/[controller]")]
     public class CartController : ControllerBase
     {

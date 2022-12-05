@@ -1,7 +1,7 @@
 ﻿using System;
-using Library.Hub.Rabbit.Events.Interfaces;
+using Library.Hub.Infrastructure.Events.Interfaces;
 
-namespace Library.Hub.Rabbit.Events
+namespace Library.Hub.Infrastructure.Events
 {
     public class MessageEvent : IMessageEvent
     {

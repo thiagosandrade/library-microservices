@@ -1,8 +1,6 @@
-using Library.Auth.Business.Events;
-using Library.Auth.Business.Handlers;
 using Library.Auth.Database;
 using Library.Auth.Injection;
-using Library.Hub.Rabbit.RabbitMq;
+using Library.Hub.Infrastructure.Setup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,14 +33,16 @@ namespace Library.Auth.Api
 
             services.AddAutheticationForAPI(Configuration);
 
+            services.AddDaprService();
+
             services.AddInjections();
 
-            services.AddSwagger();
-
+            services.AddSwagger("Library.Auth");
+            
             services.AddControllers().AddNewtonsoftJson(x =>
             {
                 x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
+            }).AddDaprForMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +55,6 @@ namespace Library.Auth.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            AddRabbitSubscribers(app);
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -64,26 +62,18 @@ namespace Library.Auth.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseDaprServices();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            app.UseCors("MVRCors");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-        }
-
-        private static void AddRabbitSubscribers(IApplicationBuilder app)
-        {
-            using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            using var eventBus = scope.ServiceProvider.GetService<IEventBus>();
-
-            eventBus.Subscribe<UserLoggedEvent, UserLoggedEventHandler>();
         }
     }
 }

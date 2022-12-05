@@ -1,8 +1,6 @@
-using Library.Books.Business.Events;
 using Library.Books.Database;
 using Library.Books.Injection;
-using Library.Hub.Rabbit.Events;
-using Library.Hub.Rabbit.RabbitMq;
+using Library.Hub.Infrastructure.Setup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,14 +33,16 @@ namespace Library.Books.Api
 
             services.AddAutheticationForAPI(Configuration);
 
+            services.AddDaprService();
+
             services.AddInjections();
 
-            services.AddSwagger();
+            services.AddSwagger("Library.Books");
 
             services.AddControllers().AddNewtonsoftJson(x =>
             {
                 x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
+            }).AddDaprForMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +55,6 @@ namespace Library.Books.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            AddRabbitSubscribers(app);
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -64,12 +62,12 @@ namespace Library.Books.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseDaprServices();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            app.UseCors("MVRCors");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -77,19 +75,6 @@ namespace Library.Books.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-        }
-
-        private static void AddRabbitSubscribers(IApplicationBuilder app)
-        {
-            using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            using var eventBus = scope.ServiceProvider.GetService<IEventBus>();
-
-            eventBus.Subscribe<BookUpdatedEvent, MessageEventHandler>();
-            eventBus.Subscribe<BookCreatedEvent, MessageEventHandler>();
-            eventBus.Subscribe<BookDeletedEvent, MessageEventHandler>();
-            eventBus.Subscribe<AuthorUpdatedEvent, MessageEventHandler>();
-            eventBus.Subscribe<AuthorCreatedEvent, MessageEventHandler>();
-            eventBus.Subscribe<AuthorDeletedEvent, MessageEventHandler>();
         }
     }
 }

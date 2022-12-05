@@ -6,17 +6,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="11.0.1" />
-		<PackageReference Include="MediatR" Version="10.0.1" />
-		<PackageReference Include="Microservices.Hub.Rabbit" Version="2.0.15-alpha" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.1" />
+		<PackageReference Include="AutoMapper" Version="12.0.0" />
+		<PackageReference Include="MediatR" Version="11.1.0" />
+		<PackageReference Include="Microservices.Hub.Infrastructure" Version="1.0.1-alpha" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Library.Auth.Database\Library.Auth.Database.csproj" />
 		<ProjectReference Include="..\Library.Auth.Domain\Library.Auth.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Events\" />
+	  <Folder Include="Handlers\" />
 	</ItemGroup>
 
 </Project>

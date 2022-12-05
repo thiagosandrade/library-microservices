@@ -17,10 +17,11 @@ services:
         expose:
             - 19580
         depends_on:
-            - library-auth
             - library-hub
-            - library-book
             - library-shop
+            - library-book
+            - library-auth
+ 
     
     library-shop:
         image: library-shop
@@ -37,6 +38,21 @@ services:
             - "19581:19581"
         expose:
             - 19581
+            
+    library-shop-dapr:
+        image: "daprio/daprd:1.8.4"
+        container_name: library-shop-dapr
+        command: ["./daprd",
+        "-app-id", "library-shop",
+        "-app-port", "19581",
+        "-components-path", "/components",
+        "-log-level", "error"]
+        volumes:
+            - "./components/:/components"
+        depends_on:
+            - library-shop
+        network_mode: "service:library-shop"
+        
                   
     library-book:
         image: library-book
@@ -54,6 +70,20 @@ services:
         expose:
             - 19582
         
+    library-book-dapr:
+        image: "daprio/daprd:1.8.4"
+        container_name: library-book-dapr
+        command: ["./daprd",
+        "-app-id", "library-book",
+        "-app-port", "19582",
+        "-components-path", "/components",
+        "-log-level", "error"]
+        volumes:
+            - "./components/:/components"
+        depends_on:
+            - library-book
+        network_mode: "service:library-book"
+        
     library-hub:
         image: library-hub
         container_name: library-hub
@@ -69,6 +99,20 @@ services:
             - "19583:19583"
         expose:
             - 19583
+            
+    library-hub-dapr:
+        image: "daprio/daprd:1.8.4"
+        container_name: library-hub-dapr
+        command: ["./daprd",
+        "-app-id", "library-hub",
+        "-app-port", "19583",
+        "-components-path", "/components",
+        "-log-level", "error"]
+        volumes:
+            - "./components/:/components"
+        depends_on:
+            - library-hub
+        network_mode: "service:library-hub"
             
     library-auth:
         image: library-auth
@@ -86,6 +130,20 @@ services:
         expose:
             - 19584
             
+    library-auth-dapr:
+        image: "daprio/daprd:1.8.4"
+        container_name: library-auth-dapr
+        command: ["./daprd",
+        "-app-id", "library-auth",
+        "-app-port", "19584",
+        "-components-path", "/components",
+        "-log-level", "error"]
+        volumes:
+            - "./components/:/components"
+        depends_on:
+            - library-auth
+        network_mode: "service:library-auth"
+            
     # library-ui:
         # image: library-ui
         # container_name: library-ui
@@ -93,7 +151,7 @@ services:
             # context: library.ui
             # dockerfile: Dockerfile
             # args:
-                # ENVIRONMENT: 
+                # environment: 
         # ports:
             # - "4200:4200"
         # expose:

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library.Hub.Controllers
 {
-    [Route("api/SignalR")]
+    [Route("api/[controller]")]
     public class SignalRController : Controller
     {
         private readonly INotificationHub _notificationHub;

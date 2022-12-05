@@ -7,14 +7,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.2.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Library.Hub.Core\Library.Hub.Core.csproj" />
-		<ProjectReference Include="..\Library.Hub.Rabbit\Library.Hub.Rabbit.csproj" />
+		<ProjectReference Include="..\Library.Hub.Infrastructure\Library.Hub.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -3,21 +3,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Library.Books.Business.CQRS.Contracts.Commands;
-using Library.Books.Business.Events;
 using Library.Books.Database.Interfaces;
 using Library.Books.Domain.Models;
-using Library.Hub.Rabbit.RabbitMq;
+using Library.Hub.Infrastructure.Events;
+using Library.Hub.Infrastructure.Handlers;
 using MediatR;
 
 namespace Library.Books.Business.CQRS.Commands
 {
     public class UpdateBookCommandHandler : BaseHandler<Book>, IRequestHandler<UpdateBookCommand>
     {
-        private readonly IEventBus _eventBus;
+        private readonly IDaprHandler _daprHandler;
 
-        public UpdateBookCommandHandler(IMapper mapper, IGenericRepository<Book> bookRepository, IEventBus eventBus) : base(mapper, bookRepository)
+        public UpdateBookCommandHandler(IMapper mapper, IGenericRepository<Book> bookRepository,
+            IDaprHandler daprHandler) : base(mapper, bookRepository)
         {
-            _eventBus = eventBus;
+            _daprHandler = daprHandler;
         }
 
         public async Task<Unit> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
@@ -31,9 +32,9 @@ namespace Library.Books.Business.CQRS.Commands
 
             await Repository.Update(request.Id, checkBook);
 
-            var @event = new BookUpdatedEvent($"Book {request.Title} updated", null, new string[] { request.User });
+            var @event = new MessageEvent($"Book {request.Title} updated", null, new string[] { request.User });
 
-            await _eventBus.PublishMessage<BookUpdatedEvent>(@event);
+            await _daprHandler.PublishMessage<MessageEvent>(@event);
 
             return await Task.FromResult(Unit.Value);
         }
