@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using Library.Hub.Infrastructure.Interfaces;
-using Library.Hub.Infrastructure.Logs;
+﻿using Library.Hub.Core.Interfaces;
+using Library.Hub.Logging.Events;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
-namespace Library.Hub.Infrastructure.Handlers
+namespace Library.Hub.Logging.Handlers
 {
     public class LogMessageEventHandler : IMessageEventHandler<LogMessageEvent>
     {

@@ -1,9 +1,10 @@
-﻿using Library.Hub.Infrastructure.Interfaces;
-using Library.Hub.Infrastructure.Logs;
+﻿using Library.Hub.Core.Interfaces;
+using Library.Hub.Logging.Events;
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
+using System.Linq;
 
-namespace Library.Hub.Log
+namespace Library.Hub.Logging
 {
     public class LogHub : ILogHub
     {
@@ -19,14 +20,14 @@ namespace Library.Hub.Log
             _messageEventStore.GetMessageEvents().CollectionChanged += OnCollectionChanged;
         }
 
-        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             _logger.LogInformation("LogHub - Collection changed");
 
             var message = _messageEventStore.GetMessageEvents().Last();
 
             //Log to Elastic
-            if(message.LogLevel.Equals(LogLevel.Information))
+            if (message.LogLevel.Equals(LogLevel.Information))
                 _logger.LogInformation(exception: message.Exception, message: $"{message.BusinessKey} - {message.Message}");
             else if (message.LogLevel.Equals(LogLevel.Warning))
                 _logger.LogWarning(exception: message.Exception, message: $"{message.BusinessKey} - {message.Message}");

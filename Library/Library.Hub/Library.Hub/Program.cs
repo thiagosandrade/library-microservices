@@ -1,4 +1,4 @@
-using Library.Hub.Infrastructure.Setup;
+using Library.Hub.Logging.Setup;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;

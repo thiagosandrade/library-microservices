@@ -1,7 +1,8 @@
 ﻿using Dapr;
 using Library.Hub.Infrastructure.Events;
 using Library.Hub.Infrastructure.Handlers;
-using Library.Hub.Infrastructure.Logs;
+using Library.Hub.Logging.Events;
+using Library.Hub.Logging.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

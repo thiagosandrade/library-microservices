@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Library.Hub.Infrastructure.Interfaces
+namespace Library.Hub.Core.Interfaces
 {
     public interface IMessageEventStore<T> where T : IMessageEvent
     {

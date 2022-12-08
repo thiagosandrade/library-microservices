@@ -22,7 +22,6 @@ services:
             - library-book
             - library-auth
  
-    
     library-shop:
         image: library-shop
         container_name: library-shop

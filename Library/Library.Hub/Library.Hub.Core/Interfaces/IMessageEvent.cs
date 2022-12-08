@@ -1,4 +1,4 @@
-﻿namespace Library.Hub.Infrastructure.Interfaces
+﻿namespace Library.Hub.Core.Interfaces
 {
     public interface IMessageEvent
     {

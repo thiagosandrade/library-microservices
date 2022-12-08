@@ -1,5 +1,5 @@
-﻿using Library.Hub.Infrastructure.Interfaces;
-using Library.Hub.Infrastructure.Logs;
+﻿using Library.Hub.Core.Interfaces;
+using Library.Hub.Logging.Events;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Library.Hub.Infrastructure.Setup
+namespace Library.Hub.Logging.Setup
 {
     public static class LoggingExtensions
     {
@@ -19,10 +19,9 @@ namespace Library.Hub.Infrastructure.Setup
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             if (environment != "Local")
-            {
                 services.AddSingleton(typeof(ILogger<>), typeof(CustomLogger<>));
-                services.AddSingleton<IMessageEventStore<LogMessageEvent>, LogMessageEventStore>();
-            }
+
+            services.AddSingleton<IMessageEventStore<LogMessageEvent>, LogMessageEventStore>();
         }
 
         public static void ConfigureLogging()
@@ -37,7 +36,7 @@ namespace Library.Hub.Infrastructure.Setup
                         $"appsettingsPackage.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json",
                         optional: false, reloadOnChange: true)
                     .Build();
-
+                
                 Log.Logger = new LoggerConfiguration()
                     .Enrich.FromLogContext()
                     .Enrich.WithExceptionDetails()

@@ -1,4 +1,4 @@
-﻿namespace Library.Hub.Log
+﻿namespace Library.Hub.Logging
 {
     public interface ILogHub
     {

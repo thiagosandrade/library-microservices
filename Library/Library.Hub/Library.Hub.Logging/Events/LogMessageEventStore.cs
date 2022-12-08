@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using Library.Hub.Infrastructure.Interfaces;
+using Library.Hub.Core.Interfaces;
 
-namespace Library.Hub.Infrastructure.Logs
+namespace Library.Hub.Logging.Events
 {
     public class LogMessageEventStore : IMessageEventStore<LogMessageEvent>
     {

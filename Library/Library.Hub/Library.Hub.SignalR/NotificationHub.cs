@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Library.Hub.Core.Interfaces;
 using Library.Hub.Core.SignalR.Library.Hub.Core.SignalR;
 using Library.Hub.Infrastructure.Events;
-using Library.Hub.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

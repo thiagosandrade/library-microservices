@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Library.Hub.Infrastructure.Handlers;
-using Library.Hub.Infrastructure.Interfaces;
+using Library.Hub.Core.Interfaces;
 
 namespace Library.Hub.Infrastructure.Setup
 {

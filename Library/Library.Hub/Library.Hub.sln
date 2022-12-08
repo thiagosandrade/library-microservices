@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Hub.SignalR", "Libr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Hub.Core", "Library.Hub.Core\Library.Hub.Core.csproj", "{43150A18-D7A7-4583-BF07-1FCB6E5AB0A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Hub.Log", "Library.Hub.Log\Library.Hub.Log.csproj", "{024CF402-50CE-476A-8633-D728E8B22FD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Hub.Logging", "Library.Hub.Logging\Library.Hub.Logging.csproj", "{024CF402-50CE-476A-8633-D728E8B22FD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

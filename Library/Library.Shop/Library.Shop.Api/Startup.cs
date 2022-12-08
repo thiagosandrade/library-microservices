@@ -1,4 +1,5 @@
 using Library.Hub.Infrastructure.Setup;
+using Library.Hub.Logging.Setup;
 using Library.Shop.Database;
 using Library.Shop.Injection;
 using Microsoft.AspNetCore.Builder;

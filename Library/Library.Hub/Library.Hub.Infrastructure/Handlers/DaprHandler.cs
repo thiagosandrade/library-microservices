@@ -1,5 +1,5 @@
 ﻿using Dapr.Client;
-using Library.Hub.Infrastructure.Interfaces;
+using Library.Hub.Core.Interfaces;
 using System.Threading.Tasks;
 
 namespace Library.Hub.Infrastructure.Handlers

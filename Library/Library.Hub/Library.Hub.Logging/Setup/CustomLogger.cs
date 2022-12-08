@@ -1,13 +1,13 @@
-﻿using Library.Hub.Infrastructure.Interfaces;
-using Library.Hub.Infrastructure.Logs;
+﻿using Library.Hub.Core.Interfaces;
+using Library.Hub.Logging.Events;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Library.Hub.Infrastructure.Setup
+namespace Library.Hub.Logging.Setup
 {
     public class CustomLogger<T> : ILogger<T> where T : class
     {
-        private readonly IDaprHandler _daprHandler;
+        private readonly IDaprHandler _daprHandler = default!;
 
         public CustomLogger(IServiceProvider serviceProvider)
         {
@@ -26,11 +26,11 @@ namespace Library.Hub.Infrastructure.Setup
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception = null, Func<TState, Exception, string> formatter = null)
         {
-            if(_daprHandler!= null)
+            if (_daprHandler != null)
             {
-                _daprHandler.PublishMessage<LogMessageEvent>(new LogMessageEvent()
+                _daprHandler.PublishMessage(new LogMessageEvent()
                 {
-                    LogLevel = logLevel, 
+                    LogLevel = logLevel,
                     Exception = exception,
                     BusinessKey = typeof(T).Name,
                     Message = state.ToString()
@@ -40,7 +40,7 @@ namespace Library.Hub.Infrastructure.Setup
             {
                 Console.WriteLine(exception);
             }
-            
+
         }
     }
 }
