@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using Library.Hub.Infrastructure.Events.Interfaces;
+using Library.Hub.Infrastructure.Interfaces;
 
 namespace Library.Hub.Infrastructure.Events
 {
-    public class MessageEventStore : IMessageEventStore
+    public class MessageEventStore : IMessageEventStore<MessageEvent>
     {
         private ObservableCollection<MessageEvent> MessageEvents { get; }
 

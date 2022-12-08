@@ -37,6 +37,8 @@ namespace Library.Auth.Api
 
             services.AddInjections();
 
+            services.AddCustomLogging();
+
             services.AddSwagger("Library.Auth");
             
             services.AddControllers().AddNewtonsoftJson(x =>

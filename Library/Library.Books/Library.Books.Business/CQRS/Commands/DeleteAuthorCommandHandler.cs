@@ -6,7 +6,7 @@ using Library.Books.Business.CQRS.Contracts.Commands;
 using Library.Books.Database.Interfaces;
 using Library.Books.Domain.Models;
 using Library.Hub.Infrastructure.Events;
-using Library.Hub.Infrastructure.Handlers;
+using Library.Hub.Infrastructure.Interfaces;
 using MediatR;
 
 namespace Library.Books.Business.CQRS.Commands

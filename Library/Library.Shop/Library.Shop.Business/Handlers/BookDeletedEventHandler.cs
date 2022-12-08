@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Library.Hub.Events;
 using Library.Hub.Infrastructure.Events;
-using Library.Hub.Infrastructure.Events.Interfaces;
-using Library.Hub.Infrastructure.Handlers;
+using Library.Hub.Infrastructure.Interfaces;
 using Library.Shop.Database.Interfaces;
 using Microsoft.Extensions.Logging;
 

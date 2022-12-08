@@ -37,6 +37,8 @@ namespace Library.Books.Api
 
             services.AddInjections();
 
+            services.AddCustomLogging();
+
             services.AddSwagger("Library.Books");
 
             services.AddControllers().AddNewtonsoftJson(x =>

@@ -37,6 +37,8 @@ namespace Library.Shop.Api
 
             services.AddInjections();
 
+            services.AddCustomLogging();
+
             services.AddSwagger("Library.Shop");
 
             services.AddControllers().AddNewtonsoftJson(options => {

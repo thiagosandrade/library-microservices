@@ -3,7 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Library.Hub.Core.Interfaces;
 using Library.Hub.Core.SignalR.Library.Hub.Core.SignalR;
-using Library.Hub.Infrastructure.Events.Interfaces;
+using Library.Hub.Infrastructure.Events;
+using Library.Hub.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -12,12 +13,12 @@ namespace Library.Hub.SignalR
 {
     public class NotificationHub : Hub<SignalRHub>, INotificationHub
     {
-        private readonly IMessageEventStore _messageEventStore;
+        private readonly IMessageEventStore<MessageEvent> _messageEventStore;
         private readonly ILogger<NotificationHub> _logger;
 
         private readonly IHubContext<SignalRHub, ISignalRHub> _hubContext;
 
-        public NotificationHub(IMessageEventStore messageEventStore, ILogger<NotificationHub> logger, IHubContext<SignalRHub, ISignalRHub> hubContext)
+        public NotificationHub(IMessageEventStore<MessageEvent> messageEventStore, ILogger<NotificationHub> logger, IHubContext<SignalRHub, ISignalRHub> hubContext)
         {
             _messageEventStore = messageEventStore;
             _logger = logger;

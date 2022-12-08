@@ -15,7 +15,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Library.Books.Business\Library.Books.Business.csproj" />
+		<ProjectReference Include="..\Library.Books.Business\Library.Books.Business.csproj">
+			<IncludeAssets>all</IncludeAssets>
+			<PrivateAssets>analyzers</PrivateAssets>
+		</ProjectReference>
 		<ProjectReference Include="..\Library.Books.Injection\Library.Books.Injection.csproj" />
 	</ItemGroup>
 

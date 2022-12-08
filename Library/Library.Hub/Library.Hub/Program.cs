@@ -1,5 +1,7 @@
+using Library.Hub.Infrastructure.Setup;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Library.Hub
 {
@@ -7,6 +9,8 @@ namespace Library.Hub
     {
         public static void Main(string[] args)
         {
+            LoggingExtensions.ConfigureLogging();
+
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -15,6 +19,6 @@ namespace Library.Hub
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }).UseSerilog();
     }
 }
