@@ -1,8 +1,8 @@
-﻿using Library.Hub.Infrastructure.Events.Interfaces;
-using Library.Hub.Infrastructure.Events;
+﻿using Library.Hub.Infrastructure.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Library.Hub.Infrastructure.Handlers;
+using Library.Hub.Core.Interfaces;
 
 namespace Library.Hub.Infrastructure.Setup
 {
@@ -12,8 +12,8 @@ namespace Library.Hub.Infrastructure.Setup
         {
             services.AddDaprClient();
 
-            services.AddScoped<IDaprHandler, DaprHandler>();
-            services.AddSingleton<IMessageEventStore, MessageEventStore>();
+            services.AddSingleton<IDaprHandler, DaprHandler>();
+            services.AddSingleton<IMessageEventStore<MessageEvent>, MessageEventStore>();
 
             return services;
         }

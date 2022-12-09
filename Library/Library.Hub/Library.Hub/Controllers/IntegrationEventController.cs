@@ -1,7 +1,11 @@
 ﻿using Dapr;
 using Library.Hub.Infrastructure.Events;
+using Library.Hub.Infrastructure.Handlers;
+using Library.Hub.Logging.Events;
+using Library.Hub.Logging.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Library.Hub.Controllers
 {
@@ -20,8 +24,17 @@ namespace Library.Hub.Controllers
         [HttpPost("MessageEvent")]
         public async void MessageEvent(MessageEvent @event, [FromServices] MessageEventHandler handler)
         {
-            _logger.LogInformation($"MessageEvent consumed: {@event}");
+            _logger.LogInformation($"MessageEvent consumed: {JsonConvert.SerializeObject(@event)}");
             
+            await handler.Handle(@event);
+        }
+
+        [Topic("library-pub-sub", "LogMessageEvent")]
+        [HttpPost("LogMessageEvent")]
+        public async void MessageEvent(LogMessageEvent @event, [FromServices] LogMessageEventHandler handler)
+        {
+            _logger.LogInformation($"MessageEvent consumed: {JsonConvert.SerializeObject(@event)}");
+
             await handler.Handle(@event);
         }
     }

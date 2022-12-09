@@ -5,20 +5,27 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="Dapr.AspNetCore" Version="1.9.0" />
 		<PackageReference Include="Dapr.Client" Version="1.9.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="Teronis.MSBuild.Packaging.ProjectBuildInPackage" Version="1.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\Library.Hub.Core\Library.Hub.Core.csproj" PrivateAssets="all" />
 	</ItemGroup>
 
 	<PropertyGroup>
-		<PackageVersion>1.0.1-alpha</PackageVersion>
+		<PackageVersion>1.0.22-alpha</PackageVersion>
 		<PackageId>Microservices.Hub.Infrastructure</PackageId>
 	</PropertyGroup>
 

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Library.Auth.Business.CQRS.Contracts.Commands;
 using Library.Auth.Business.Services;
 using Library.Auth.Domain.Models;
+using Library.Hub.Core.Interfaces;
 using Library.Hub.Infrastructure.Events;
-using Library.Hub.Infrastructure.Handlers;
 using MediatR;
 
 namespace Library.Auth.Business.CQRS.Commands

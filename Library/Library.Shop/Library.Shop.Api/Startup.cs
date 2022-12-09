@@ -1,4 +1,5 @@
 using Library.Hub.Infrastructure.Setup;
+using Library.Hub.Logging.Setup;
 using Library.Shop.Database;
 using Library.Shop.Injection;
 using Microsoft.AspNetCore.Builder;
@@ -36,6 +37,8 @@ namespace Library.Shop.Api
             services.AddDaprService();
 
             services.AddInjections();
+
+            services.AddCustomLogging();
 
             services.AddSwagger("Library.Shop");
 

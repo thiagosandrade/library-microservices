@@ -8,7 +8,11 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="12.0.0" />
 		<PackageReference Include="MediatR" Version="11.1.0" />
-		<PackageReference Include="Microservices.Hub.Infrastructure" Version="1.0.1-alpha" />
+		<PackageReference Include="Microservices.Hub.Infrastructure" Version="1.0.22-alpha" />
+		<PackageReference Include="Microservices.Hub.Logging" Version="1.0.4-alpha">
+			<PrivateAssets>Analyzers</PrivateAssets>
+			<IncludeAssets>All</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>

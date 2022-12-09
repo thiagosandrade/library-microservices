@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Library.Hub.Infrastructure.Events.Interfaces
+namespace Library.Hub.Core.Interfaces
 {
     public interface IMessageEventHandler<in T> where T : IMessageEvent
     {

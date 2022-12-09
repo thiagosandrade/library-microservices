@@ -1,6 +1,7 @@
 using Library.Books.Database;
 using Library.Books.Injection;
 using Library.Hub.Infrastructure.Setup;
+using Library.Hub.Logging.Setup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,8 @@ namespace Library.Books.Api
             services.AddDaprService();
 
             services.AddInjections();
+
+            services.AddCustomLogging();
 
             services.AddSwagger("Library.Books");
 

@@ -1,15 +1,17 @@
 ﻿using System.Threading.Tasks;
-using Library.Hub.Infrastructure.Events.Interfaces;
+using Library.Hub.Core.Interfaces;
+using Library.Hub.Infrastructure.Events;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
-namespace Library.Hub.Infrastructure.Events
+namespace Library.Hub.Infrastructure.Handlers
 {
     public class MessageEventHandler : IMessageEventHandler<MessageEvent>
     {
         private readonly ILogger<MessageEventHandler> _logger;
-        private readonly IMessageEventStore _messageEventStore;
+        private readonly IMessageEventStore<MessageEvent> _messageEventStore;
 
-        public MessageEventHandler(ILogger<MessageEventHandler> logger, IMessageEventStore messageEventStore)
+        public MessageEventHandler(ILogger<MessageEventHandler> logger, IMessageEventStore<MessageEvent> messageEventStore)
         {
             _logger = logger;
             _messageEventStore = messageEventStore;
@@ -17,7 +19,7 @@ namespace Library.Hub.Infrastructure.Events
 
         public Task Handle(MessageEvent @event)
         {
-            _logger.LogInformation("MessageEventHandler {0}", @event);
+            _logger.LogInformation("MessageEventHandler {0}", JsonConvert.SerializeObject(@event));
             return Task.Run(() =>
             {
                 _messageEventStore.AddMessageEvent(@event);

@@ -1,5 +1,5 @@
 ﻿using System;
-using Library.Hub.Infrastructure.Events.Interfaces;
+using Library.Hub.Core.Interfaces;
 
 namespace Library.Hub.Infrastructure.Events
 {

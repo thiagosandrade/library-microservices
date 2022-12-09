@@ -1,5 +1,10 @@
+using Library.Hub.Core.Interfaces;
 using Library.Hub.Infrastructure.Events;
+using Library.Hub.Infrastructure.Handlers;
 using Library.Hub.Infrastructure.Setup;
+using Library.Hub.Logging.Events;
+using Library.Hub.Logging.Handlers;
+using Library.Hub.Logging.Setup;
 using Library.Hub.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +21,9 @@ namespace Library.Hub
         {
             services.AddSingleton<INotificationHub, NotificationHub>();
             services.AddScoped<MessageEventHandler>();
+            services.AddScoped<LogMessageEventHandler>();
+
+            services.AddSingleton<IMessageEventStore<LogMessageEvent>, LogMessageEventStore>();
 
             services.AddDaprService();
 

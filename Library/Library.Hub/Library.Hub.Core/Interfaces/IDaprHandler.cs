@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Library.Hub.Infrastructure.Handlers
+namespace Library.Hub.Core.Interfaces
 {
     public interface IDaprHandler
     {

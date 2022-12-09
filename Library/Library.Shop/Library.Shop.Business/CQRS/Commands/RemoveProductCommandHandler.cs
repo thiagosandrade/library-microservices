@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Library.Hub.Core.Interfaces;
 using Library.Hub.Infrastructure.Events;
-using Library.Hub.Infrastructure.Handlers;
 using Library.Shop.Business.CQRS.Contracts.Commands;
 using Library.Shop.Database.Interfaces;
 using Library.Shop.Domain.Models;
