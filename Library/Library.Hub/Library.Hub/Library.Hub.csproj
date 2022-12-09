@@ -6,6 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Library.Hub.Infrastructure\Library.Hub.Infrastructure.csproj" />
 		<ProjectReference Include="..\Library.Hub.Logging\Library.Hub.Logging.csproj" />
 		<ProjectReference Include="..\Library.Hub.SignalR\Library.Hub.SignalR.csproj" />
 	</ItemGroup>
