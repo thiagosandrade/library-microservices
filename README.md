@@ -1,13 +1,15 @@
 
-![Architecture](https://user-images.githubusercontent.com/20567991/204552288-b02dffde-fa2f-4ac6-ab05-5c197f880ac5.PNG)
+![Architecture]![Architecture](https://user-images.githubusercontent.com/20567991/207581356-24bc25b2-eccb-4ad8-b709-f4df3e5fa3a4.PNG)
+
 
 
 Library-microservices
 
-1 - Only Rabbit-MQ
+1 - Only Basic Services
   - docker-compose up on root
-  - http://localhost:15672/  
-  - username: guest / password: guest
+  - http://localhost:5601/   (Kibana) 
+  - http://localhost:15672/  (RabbitMq)
+    - username: guest / password: guest
 
 2 - Build Server generates everything for prod environment
 
