@@ -34,7 +34,7 @@ namespace Library.Books.Api
 
             services.AddAutheticationForAPI(Configuration);
 
-            services.AddDaprService();
+            services.AddDaprService(Configuration.GetValue<string>("Dapr:httpPort"), Configuration.GetValue<string>("Dapr:grpcPort"));
 
             services.AddInjections();
 
@@ -58,7 +58,7 @@ namespace Library.Books.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -66,11 +66,6 @@ namespace Library.Books.Api
             app.UseAuthorization();
 
             app.UseDaprServices();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

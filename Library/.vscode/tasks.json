@@ -1,0 +1,71 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}",
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "appId": "library-auth",
+            "appPort": 19584,
+            "grpcPort": 60004,
+            "httpPort": 3504,
+            "componentsPath": "./Components",
+            "label": "auth-dapr-debug",
+            "type": "dapr"
+        },
+        {
+            "appId": "library-auth",
+            "label": "auth-daprd-down",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "library-book",
+            "appPort": 19582,
+            "grpcPort": 60002,
+            "httpPort": 3502,
+            "componentsPath": "./Components",
+            "label": "book-dapr-debug",
+            "type": "dapr"
+        },
+        {
+            "appId": "library-book",
+            "label": "book-daprd-down",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "library-shop",
+            "appPort": 19581,
+            "grpcPort": 60001,
+            "httpPort": 3501,
+            "componentsPath": "./Components",
+            "label": "shop-dapr-debug",
+            "type": "dapr"
+        },
+        {
+            "appId": "library-shop",
+            "label": "shop-daprd-down",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "library-hub",
+            "appPort": 19583,
+            "grpcPort": 60003,
+            "httpPort": 3503,
+            "componentsPath": "./Components",
+            "label": "hub-dapr-debug",
+            "type": "dapr"
+        },
+        {
+            "appId": "library-hub",
+            "label": "hub-daprd-down",
+            "type": "daprd-down"
+        }
+    ]
+}

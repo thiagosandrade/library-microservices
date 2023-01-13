@@ -27,6 +27,22 @@ namespace Library.Auth.Api
                 opt.UseLazyLoadingProxies()
                     .UseInMemoryDatabase("Library.Auth"));
 
+            var identityServerSettings = Configuration.GetSection(nameof(IdentityServerSettings)).Get<IdentityServerSettings>();
+
+            services
+                .AddIdentityServer(options =>
+                {
+                    options.Events.RaiseErrorEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseErrorEvents = true;
+                    options.Events.RaiseSuccessEvents = true;
+                })
+                .AddInMemoryApiScopes(identityServerSettings.ApiScopes)
+                .AddInMemoryApiResources(identityServerSettings.ApiResources)
+                .AddInMemoryClients(identityServerSettings.Clients)
+                .AddInMemoryIdentityResources(identityServerSettings.IdentityResources)
+                .AddDeveloperSigningCredential();
+
             services.AddMvc()
                 .AddNewtonsoftJson(options => {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -34,7 +50,7 @@ namespace Library.Auth.Api
 
             services.AddAutheticationForAPI(Configuration);
 
-            services.AddDaprService();
+            services.AddDaprService(Configuration.GetValue<string>("Dapr:httpPort"), Configuration.GetValue<string>("Dapr:grpcPort"));
 
             services.AddInjections();
 
@@ -58,19 +74,15 @@ namespace Library.Auth.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseDaprServices();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

@@ -1,7 +1,9 @@
 using Library.Hub.Logging.Setup;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System.IO;
 
 namespace Library.Hub
 {
@@ -18,7 +20,15 @@ namespace Library.Hub
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureAppConfiguration(ConfigConfiguration);
                     webBuilder.UseStartup<Startup>();
                 }).UseSerilog();
+
+        private static void ConfigConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder config)
+        {
+            config.SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{ctx.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+        }
     }
 }

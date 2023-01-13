@@ -9,9 +9,9 @@ namespace Library.Hub.Infrastructure.Handlers
         private readonly DaprClient _daprClient;
         private readonly string PUBSUB_NAME = "library-pub-sub";
 
-        public DaprHandler() 
+        public DaprHandler(string httpUri, string grpcUri) 
         {
-            _daprClient = new DaprClientBuilder().Build();
+            _daprClient = new DaprClientBuilder().UseHttpEndpoint(httpUri).UseGrpcEndpoint(grpcUri).Build();
         }
 
         public async Task PublishMessage<T>(T message)

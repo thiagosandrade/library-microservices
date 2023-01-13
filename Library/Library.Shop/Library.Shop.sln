@@ -23,12 +23,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Shop.Database", "Li
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Shop.Injection", "Library.Shop.Injection\Library.Shop.Injection.csproj", "{006680F1-7377-48D5-B185-F0FBDB8EE5D3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NukeBuild", "..\..\build\NukeBuild.csproj", "{48D8A4B7-1B55-4408-BEAA-CF28D00C9752}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48D8A4B7-1B55-4408-BEAA-CF28D00C9752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48D8A4B7-1B55-4408-BEAA-CF28D00C9752}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D945C623-B5DC-4940-B587-1CD5D56AC1EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D945C623-B5DC-4940-B587-1CD5D56AC1EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D945C623-B5DC-4940-B587-1CD5D56AC1EC}.Release|Any CPU.ActiveCfg = Release|Any CPU

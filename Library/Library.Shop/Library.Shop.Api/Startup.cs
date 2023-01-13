@@ -34,7 +34,7 @@ namespace Library.Shop.Api
 
             services.AddAutheticationForAPI(Configuration);
 
-            services.AddDaprService();
+            services.AddDaprService(Configuration.GetValue<string>("Dapr:httpPort"), Configuration.GetValue<string>("Dapr:grpcPort"));
 
             services.AddInjections();
 
@@ -57,7 +57,7 @@ namespace Library.Shop.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -65,11 +65,6 @@ namespace Library.Shop.Api
             app.UseAuthorization();
 
             app.UseDaprServices();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

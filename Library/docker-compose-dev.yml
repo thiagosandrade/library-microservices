@@ -35,19 +35,28 @@ services:
             ASPNETCORE_ENVIRONMENT: "Development"
         ports:
             - "19581:19581"
+            - "50001:50001"
+            - "3501:3501"
         expose:
             - 19581
+            - 50001
+            - 3501
             
     library-shop-dapr:
         image: "daprio/daprd:1.8.4"
         container_name: library-shop-dapr
         command: ["./daprd",
-        "-app-id", "library-shop",
-        "-app-port", "19581",
-        "-components-path", "/components",
-        "-log-level", "error"]
+            "-app-id", "library-shop",
+            "-app-port", "19581",
+            "-metrics-port", "9091",
+            "-dapr-grpc-port", "50001",
+            "-dapr-http-port", "3501",
+            "-components-path", "./components",
+            "-config",  "./configuration/config.yaml",
+            "-log-level", "error"]
         volumes:
             - "./components/:/components"
+            - "./configuration/:/configuration"
         depends_on:
             - library-shop
         network_mode: "service:library-shop"
@@ -66,19 +75,28 @@ services:
             ASPNETCORE_ENVIRONMENT: "Development"
         ports:
             - "19582:19582"
+            - "50002:50002"
+            - "3502:3502"
         expose:
             - 19582
+            - 50002
+            - 3502
         
     library-book-dapr:
         image: "daprio/daprd:1.8.4"
         container_name: library-book-dapr
         command: ["./daprd",
-        "-app-id", "library-book",
-        "-app-port", "19582",
-        "-components-path", "/components",
-        "-log-level", "error"]
+            "-app-id", "library-book",
+            "-app-port", "19582",
+            "-metrics-port", "9092",
+            "-dapr-grpc-port", "50002",
+            "-dapr-http-port", "3502",
+            "-components-path", "./components",
+            "-config",  "./configuration/config.yaml",
+            "-log-level", "error"]
         volumes:
             - "./components/:/components"
+            - "./configuration/:/configuration"
         depends_on:
             - library-book
         network_mode: "service:library-book"
@@ -96,19 +114,28 @@ services:
             ASPNETCORE_ENVIRONMENT: "Development"
         ports:
             - "19583:19583"
+            - "50003:50003"
+            - "3503:3503"
         expose:
             - 19583
+            - 50003
+            - 3503
             
     library-hub-dapr:
         image: "daprio/daprd:1.8.4"
         container_name: library-hub-dapr
         command: ["./daprd",
-        "-app-id", "library-hub",
-        "-app-port", "19583",
-        "-components-path", "/components",
-        "-log-level", "error"]
+            "-app-id", "library-hub",
+            "-app-port", "19583",
+            "-metrics-port", "9093",
+            "-dapr-grpc-port", "50003",
+            "-dapr-http-port", "3503",
+            "-components-path", "./components",
+            "-config",  "./configuration/config.yaml",
+            "-log-level", "error"]
         volumes:
             - "./components/:/components"
+            - "./configuration/:/configuration"
         depends_on:
             - library-hub
         network_mode: "service:library-hub"
@@ -126,19 +153,28 @@ services:
             ASPNETCORE_ENVIRONMENT: "Development"
         ports:
             - "19584:19584"
+            - "50004:50004"
+            - "3504:3504"
         expose:
             - 19584
+            - 50004
+            - 3504
             
     library-auth-dapr:
         image: "daprio/daprd:1.8.4"
         container_name: library-auth-dapr
         command: ["./daprd",
-        "-app-id", "library-auth",
-        "-app-port", "19584",
-        "-components-path", "/components",
-        "-log-level", "error"]
+            "-app-id", "library-auth",
+            "-app-port", "19584",
+            "-metrics-port", "9094",
+            "-dapr-grpc-port", "50004",
+            "-dapr-http-port", "3504",
+            "-components-path", "./components",
+            "-config",  "./configuration/config.yaml",
+            "-log-level", "error"]
         volumes:
             - "./components/:/components"
+            - "./configuration/:/configuration"
         depends_on:
             - library-auth
         network_mode: "service:library-auth"

@@ -1,0 +1,124 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Auth with Dapr",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "auth-dapr-debug",
+            "program": "${workspaceFolder}/Library.Auth/Library.Auth.Api/bin/Debug/net6.0/Library.Auth.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Library.Auth/Library.Auth.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Local"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Library.Auth/Views"
+            },
+            "postDebugTask": "auth-daprd-down"
+        },
+        {
+            "name": "Book with Dapr",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "book-dapr-debug",
+            "program": "${workspaceFolder}/Library.Books/Library.Books.Api/bin/Debug/net6.0/Library.Books.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Library.Books/Library.Books.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Local"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Library.Books/Views"
+            },
+            "postDebugTask": "book-daprd-down"
+        },
+        {
+            "name": "Hub with Dapr",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "hub-dapr-debug",
+            "program": "${workspaceFolder}/Library.Hub/Library.Hub/bin/Debug/net6.0/Library.Hub.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Library.Hub/Library.Hub",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Local"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Library.Hub/Views"
+            },
+            "postDebugTask": "hub-daprd-down"
+        },
+        {
+            "name": "Shop with Dapr",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "shop-dapr-debug",
+            "program": "${workspaceFolder}/Library.Shop/Library.Shop.Api/bin/Debug/net6.0/Library.Shop.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Library.Shop/Library.Shop.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Local"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Library.Shop/Views"
+            },
+            "postDebugTask": "shop-daprd-down"
+        },
+        {
+            "name": "Gateway",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/Library.Gateway/bin/Debug/net6.0/Library.Gateway.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Library.Gateway",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Local"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Library.Gateway/Views"
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug solution",
+            "configurations": [
+                "Auth with Dapr",
+                "Book with Dapr",
+                "Shop with Dapr",
+                "Hub with Dapr",
+                "Gateway"
+            ],
+            "preLaunchTask": "build"
+        }
+    ]
+}
