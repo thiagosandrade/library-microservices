@@ -4,6 +4,16 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		
+		<!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+		<!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+		<!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+		<IncludeSymbols>true</IncludeSymbols>
+		<!--<SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -25,7 +35,7 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<PackageVersion>1.0.22-alpha</PackageVersion>
+		<PackageVersion>1.0.24-alpha</PackageVersion>
 		<PackageId>Microservices.Hub.Infrastructure</PackageId>
 	</PropertyGroup>
 

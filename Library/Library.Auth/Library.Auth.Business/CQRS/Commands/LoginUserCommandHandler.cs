@@ -8,6 +8,8 @@ using Library.Auth.Domain.Models;
 using Library.Hub.Core.Interfaces;
 using Library.Hub.Infrastructure.Events;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Library.Auth.Business.CQRS.Commands
 {
@@ -15,11 +17,13 @@ namespace Library.Auth.Business.CQRS.Commands
     {
         private readonly IDaprHandler _daprHandler;
         private readonly IAuthService _authService;
+        private readonly ILogger<LoginUserCommandHandler> _logger;
 
-        public LoginUserCommandHandler(IDaprHandler daprHandler, IAuthService authService)
+        public LoginUserCommandHandler(IDaprHandler daprHandler, IAuthService authService, ILogger<LoginUserCommandHandler> logger)
         {
             _daprHandler = daprHandler;
             _authService = authService;
+            _logger = logger;
         }
 
         public async Task<TokenResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
@@ -32,7 +36,9 @@ namespace Library.Auth.Business.CQRS.Commands
             if (token != null)
             {
                 var @event = new MessageEvent(message: $"User {request.Login} logged", null, new string[] { jwtSecurityToken.Claims.First(claim => claim.Type == "email").Value });
-            
+
+                _logger.LogInformation($"MessageEvent to publish: {JsonConvert.SerializeObject(@event)}");
+
                 await _daprHandler.PublishMessage<MessageEvent>(@event);
             }
 

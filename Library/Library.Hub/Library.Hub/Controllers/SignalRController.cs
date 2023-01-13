@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Library.Hub.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class SignalRController : Controller
     {
         private readonly INotificationHub _notificationHub;

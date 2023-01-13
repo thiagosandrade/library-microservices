@@ -8,11 +8,11 @@ namespace Library.Hub.Infrastructure.Setup
 {
     public static class DaprExtensions
     {
-        public static IServiceCollection AddDaprService(this IServiceCollection services)
+        public static IServiceCollection AddDaprService(this IServiceCollection services, string httpUri = "http://localhost:3500", string grpcUri = "http://localhost:50000")
         {
             services.AddDaprClient();
 
-            services.AddSingleton<IDaprHandler, DaprHandler>();
+            services.AddSingleton<IDaprHandler>(x => new DaprHandler(httpUri, grpcUri));
             services.AddSingleton<IMessageEventStore<MessageEvent>, MessageEventStore>();
 
             return services;
@@ -28,11 +28,11 @@ namespace Library.Hub.Infrastructure.Setup
         public static IApplicationBuilder UseDaprServices(this IApplicationBuilder app)
         {
             app.UseCloudEvents();
-            
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapSubscribeHandler();
+                endpoints.MapControllers();
             });
 
             return app;

@@ -1,3 +1,6 @@
+#Root folder from application
+cd..
+
 #Stop server Applications
 docker-compose down
 
@@ -13,3 +16,4 @@ docker-compose down
 
 #Back to the original location
 cd..
+cd Scripts
