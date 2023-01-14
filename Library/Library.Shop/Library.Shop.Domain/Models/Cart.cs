@@ -18,7 +18,7 @@ namespace Library.Shop.Domain.Models
 
         public DateTime CreatedDate { get; private set; }
 
-        public virtual List<CartProduct> Items { get; private set; }
+        public virtual IList<CartProduct> Items { get; private set; }
         
         public void AddItem(int productId, int quantity)
         {
@@ -34,8 +34,7 @@ namespace Library.Shop.Domain.Models
         {
             var product = Items.FirstOrDefault(x => x.ProductId.Equals(productId));
 
-            if(product != null)
-                product.RemoveQuantity(quantity);
+            product?.RemoveQuantity(quantity);
 
             if (product.Quantity == 0)
                 Items.Remove(product);
