@@ -1,8 +1,11 @@
+using HealthChecks.UI.Client;
+
 using Library.Hub.Infrastructure.Setup;
 using Library.Hub.Logging.Setup;
 using Library.Shop.Database;
 using Library.Shop.Injection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +45,10 @@ namespace Library.Shop.Api
 
             services.AddSwagger("Library.Shop");
 
+
+            services.AddHealthChecks()
+                .AddSqlServer(Configuration["ConnectionStrings:Context"]);
+
             services.AddControllers().AddNewtonsoftJson(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             }).AddDaprForMvc();
@@ -72,6 +79,15 @@ namespace Library.Shop.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
+            app.UseHealthChecks("/health", new HealthCheckOptions
+            {
+                Predicate = _ => true
+            })
+                .UseHealthChecks("/healthz", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
         }
     }
 }
